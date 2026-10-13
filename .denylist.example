@@ -1,0 +1,4 @@
+# One term per line, case-insensitive. Copy to .denylist (gitignored) and fill in:
+# customer names, colleague names, ticket-key prefixes, internal hosts and code names.
+# A line /pattern/flags is a regular expression, e.g. /\bABC-\d+/ for ticket keys.
+example-customer

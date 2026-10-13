@@ -1,0 +1,3 @@
+#!/usr/bin/env sh
+# Blocks a push when sources or build output contain a .denylist term.
+npm run --silent build >/dev/null && npm run --silent check:privacy
