@@ -461,9 +461,9 @@ and reviews). AI appears only as a disciplined tool: one How I work item
 "AI-assisted development" (DE "KI-gestützte Entwicklung") at Element Logic,
 never a product name such as Claude Code (he uses several tools). Never claim
 he set up or led how his team works with AI, and no AI section, workspace,
-agent or migration-guide items. The ASRS gateway: **together with
-a colleague he was responsible for the internal engineering and the API
-definition**; never "lead developer" or "led". **No tech lead**: he does not
+agent or migration-guide items. The platform gateway: **shared
+responsibility for its engineering and API** (DE "mitverantwortlich"),
+not "together with a colleague"; never "lead developer" or "led". **No tech lead**: he does not
 want that responsibility, so the site names senior engineer roles only. **Stations describe areas of work and
 his role in them**, not single tasks, ticket-like items or version numbers:
 the reader should get the topics he worked on and what part he played. **Job
