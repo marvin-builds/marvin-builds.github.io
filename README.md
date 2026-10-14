@@ -124,8 +124,10 @@ decision are reviewed and approved by me.
 
 ## Rights
 
-The photographs, portraits and texts are © Marvin Mai and may not be reused
-without permission. Mona Sans is licensed under the SIL Open Font License.
+The source code is released under the [MIT License](LICENSE). The
+photographs, portraits and texts are not: they are © Marvin Mai and may not be
+reused without permission. Mona Sans is licensed under the SIL Open Font
+License.
 
 ## Contact
 
