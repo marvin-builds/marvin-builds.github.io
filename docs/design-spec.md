@@ -161,8 +161,21 @@ continues its light:
   bars over the halo (2026-10-14: the glow made the text harder to read).
 - **The page below:** year numerals, skill counts and station markers in
   `--ember`; a lit position's years in `--accent`; the skill aside on an
-  `--a-panel` pane (≥ 768px); the clearing (slot B) rises from `--bg` through
+  `--a-panel` pane (≥ 768px). Beside the stations (≥ 1100px) it is painted
+  with a 22px spread shadow; stacked above them (768–1099px) it takes real
+  padding (22px inline, pulled back onto the grid by a negative margin) and
+  margins (12px above, 28px below), so it never touches the headline or the
+  first station on short landscape screens; the clearing (slot B) rises from `--bg` through
   `--a-seam`; slot C rises out of `--a-pool`.
+- **Photo fades, kept short** (owner, 2026-10-15: the long fades veiled the
+  middle and bottom photographs; applied to day first, then to night). Slots B
+  and C use the same masks in both tones and both schemes. Slot B: mask
+  `0 → .06 @3% → .2 @7% → .45 @12% → .75 @17% → .94 @21% → 1 @25%`, full to
+  90%, then `→ 0` (still eased, so the first rows draw no line). Slot C: mask
+  `0 → .3 @8% → .7 @18% → 1 @28%`; in daylight it rises over `--a-pool`, which
+  is reached at 28%. The footer veil is `--bg` at 76% from mid height and 86%
+  at the bottom (was 88% / 95%); the colophon keeps about its old contrast in
+  daylight and stays above 4.6:1 at night.
 
 ### Contrast (WCAG 2.x, computed from the tokens)
 
@@ -182,9 +195,11 @@ continues its light:
 tokens:
 
 1. The hero photograph is a full-bleed plane; the name and role sit in it
-   behind a local haze. Under the horizon the plane falls to 55% within 14px,
-   26% at 56px and dissolves over the next ~250px, so the lede, side column
-   and question sit on its faint tail, never on its full strength.
+   behind a local haze. Under the horizon the plane falls to 74% within 14px,
+   45% at 56px and dissolves over the next ~250px (25% / 9% at fade × .4 / .7),
+   so the lede, side column and question sit on its tail, never on its full
+   strength. These are the dark-scheme values (2026-10-14: lightened from
+   .55/.26/.12/.04, which read too dark into Experience).
 2. Dark scheme: the haze is a radial pool of `--bg` (88% → 0) behind the name
    and role only (phones: a left-to-right linear haze). Light scheme: no haze;
    the hero text sits on bars of `--a-halo` (above). There is no full-photo wash.
@@ -377,8 +392,8 @@ html[data-culture="personal"] .hero { --rh: 640; --cx: 1200; --kx: 1210; --ky: 5
    `hz + fade`; the plane (photo, `--grade`, `--leak`) and the haze.
    - **Full bleed, vertical fades only** (the language of B and C; no side
      fades): mask `transparent 0 → .22 at the header line (64px) → .7 at
-     top + stage × .2 → opaque from top + stage × .45 until hz − 20px → .55 at
-     hz + 14px → .26 at hz + 56px → .12 at hz + fade × .4 → .04 at hz + fade × .7 →
+     top + stage × .2 → opaque from top + stage × .45 until hz − 20px → .74 at
+     hz + 14px → .45 at hz + 56px → .25 at hz + fade × .4 → .09 at hz + fade × .7 →
      transparent at the bottom`. The sky rises out of the page under the header;
      under the horizon the picture lets go quickly, then dissolves softly.
    - **Crop**: the photograph is drawn at the **shared photo scale `--ps`**
@@ -563,7 +578,7 @@ the page centre. Measured rendered image size, identical in A, B and C:
 | Slot | Where | Professional (dusk footbridge) | Personal (upland meadow) |
 |---|---|---|---|
 | **A** | full-bleed plane behind the hero (§6); row `--rh` on the horizon, cyclist / column 1200 on the centre | **sky, both lamp globes and the cyclist's head and shoulders**, the rest of him cut by the fade | **bright sky, the treeline low in the frame**, the distant hill |
-| **B** | clearing between Experience and How I work, no text; `clamp(320px, 56svh, 600px)` in both cultures (professional was 40svh: at the shared scale that showed only 256 rows, too few for the whole cyclist); source row `--rb` on its bottom edge, column `--bx` on the centre | **the cyclist on the crest with the warm glow**, the small lamps and the converging railings, the big globes fading in at the top: `--rb 728`, `--bx 932` (wide) / `1240`, `1185` (square); mask with a long eased rise at the top (`0 → .04 @5% → .14 @11% → .32 @18% → .56 @25% → .8 @32% → .95 @38% → 1 @43%`), so no edge shows above the globes, then `86% → 0` | **the gnarled trees and the mid-meadow**, the crowns fading at the top: `--rb 1104`, `--bx 1104` |
+| **B** | clearing between Experience and How I work, no text; `clamp(320px, 56svh, 600px)` in both cultures (professional was 40svh: at the shared scale that showed only 256 rows, too few for the whole cyclist); source row `--rb` on its bottom edge, column `--bx` on the centre | **the cyclist on the crest with the warm glow**, the small lamps and the converging railings, the big globes fading in at the top: `--rb 728`, `--bx 932` (wide) / `1240`, `1185` (square); mask: the short eased fade shared by both tones and schemes (see §2, photo fades), so no edge shows above the globes | **the gnarled trees and the mid-meadow**, the crowns fading at the top: `--rb 1104`, `--bx 1104` |
 | **C** | ground under Contact; footer overlays its bottom; `--gh`; the photograph's bottom edge on its bottom, centred (the scale reference) | **the puddle reflection**: the lowest 28% of the wide file (≥ 1:1) or of the square | **the wind-blown grass close-up**: the lowest 34% of the meadow |
 
 **Pinned crops** (`img.crop`, all at `--ps`):
@@ -769,7 +784,10 @@ breaks any residual steps.
     (`--accent` when lit). The open end is "2024–" followed by a small
     "today" / "heute" label (.9375rem, raised .35em), never "–now". The role
     (`wght 560`, 20–26px, `--ink`) is now the strongest element of the row.
-  - Column width measured by JS to the widest year + 4px.
+  - Column width measured by JS to the widest year + 4px, at every width, and
+    stored relative to the numerals (`calc(var(--yf) * ratio)`), so it grows
+    with them during a live resize instead of lagging behind the debounce
+    (the title briefly overlapped the years otherwise; fixed 2026-10-14).
 - **Expand in place** (unchanged mechanics): `<button aria-expanded>` in an `h3`;
   `grid-template-rows 0fr → 1fr`. Body: 3–5 items, each **task on top**
   (`.9375rem`, `--ink-2`) and the **outcome on its own line in `--ink`**,

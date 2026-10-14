@@ -318,9 +318,9 @@ html[data-culture="personal"] .hero { --rh: 640; --cx: 1200; }
 .band { position: absolute; inset: 0 0 auto 0; z-index: -1; height: calc(var(--hz) + var(--fade)); overflow: hidden; pointer-events: none; }
 .band .plane {
   -webkit-mask-image: linear-gradient(180deg, transparent 0, rgba(0,0,0,var(--m-hdr, .22)) var(--hdr), rgba(0,0,0,var(--m-rise, .7)) calc(var(--top) + var(--stage) * .2), #000 calc(var(--top) + var(--stage) * var(--m-full, .45)), #000 calc(var(--hz) - 20px),
-    rgba(0,0,0,var(--m-b1, .55)) calc(var(--hz) + 14px), rgba(0,0,0,var(--m-b2, .26)) calc(var(--hz) + 56px), rgba(0,0,0,var(--m-b3, .12)) calc(var(--hz) + var(--fade) * .4), rgba(0,0,0,var(--m-b4, .04)) calc(var(--hz) + var(--fade) * .7), transparent 100%);
+    rgba(0,0,0,var(--m-b1, .74)) calc(var(--hz) + 14px), rgba(0,0,0,var(--m-b2, .45)) calc(var(--hz) + 56px), rgba(0,0,0,var(--m-b3, .25)) calc(var(--hz) + var(--fade) * .4), rgba(0,0,0,var(--m-b4, .09)) calc(var(--hz) + var(--fade) * .7), transparent 100%);
           mask-image: linear-gradient(180deg, transparent 0, rgba(0,0,0,var(--m-hdr, .22)) var(--hdr), rgba(0,0,0,var(--m-rise, .7)) calc(var(--top) + var(--stage) * .2), #000 calc(var(--top) + var(--stage) * var(--m-full, .45)), #000 calc(var(--hz) - 20px),
-    rgba(0,0,0,var(--m-b1, .55)) calc(var(--hz) + 14px), rgba(0,0,0,var(--m-b2, .26)) calc(var(--hz) + 56px), rgba(0,0,0,var(--m-b3, .12)) calc(var(--hz) + var(--fade) * .4), rgba(0,0,0,var(--m-b4, .04)) calc(var(--hz) + var(--fade) * .7), transparent 100%); }
+    rgba(0,0,0,var(--m-b1, .74)) calc(var(--hz) + 14px), rgba(0,0,0,var(--m-b2, .45)) calc(var(--hz) + 56px), rgba(0,0,0,var(--m-b3, .25)) calc(var(--hz) + var(--fade) * .4), rgba(0,0,0,var(--m-b4, .09)) calc(var(--hz) + var(--fade) * .7), transparent 100%); }
 /* source row --rh lands on the horizon at every width; the image always covers the plane's top (rh x ps > hz) */
 .band .crop { height: calc(var(--psh) * var(--ps)); width: calc(var(--psw) * var(--ps)); top: calc(var(--hz) - var(--rh) * var(--ps)); left: var(--ix); object-fit: cover; }
 @media (max-width: 767px) {
@@ -558,9 +558,11 @@ html[data-answered="true"] #experience { padding-top: clamp(24px, 3svh, 40px); }
 
 /* ---------- Clearing (slot B): one detail of the photograph, wide and text-free ---------- */
 .clearing { position: relative; height: clamp(320px, 56svh, 600px); overflow-x: clip; }   /* the credit can never widen the page */
+/* both tones, both schemes: the photograph rises out of the page on a short eased curve (its first rows draw no line,
+   no edge shows above the globes) and keeps most of the slot at full strength */
 .clearing .plane {
-  -webkit-mask-image: linear-gradient(180deg, transparent 0, #000 26%, #000 70%, transparent 100%);
-          mask-image: linear-gradient(180deg, transparent 0, #000 26%, #000 70%, transparent 100%); }
+  -webkit-mask-image: linear-gradient(180deg, transparent 0, rgba(0,0,0,.06) 3%, rgba(0,0,0,.2) 7%, rgba(0,0,0,.45) 12%, rgba(0,0,0,.75) 17%, rgba(0,0,0,.94) 21%, #000 25%, #000 90%, transparent 100%);
+          mask-image: linear-gradient(180deg, transparent 0, rgba(0,0,0,.06) 3%, rgba(0,0,0,.2) 7%, rgba(0,0,0,.45) 12%, rgba(0,0,0,.75) 17%, rgba(0,0,0,.94) 21%, #000 25%, #000 90%, transparent 100%); }
 /* explicit crops at the shared scale --ps: each slot pins one source row to one edge and one column to the centre */
 .plane .crop { position: absolute; max-width: none; height: calc(var(--psh) * var(--ps)); width: calc(var(--psw) * var(--ps)); object-fit: cover; }
 /* B: source row --rb sits on the slot's bottom edge, column --bx on the page centre (cover-clamped) */
@@ -573,10 +575,6 @@ html[data-answered="true"] #experience { padding-top: clamp(24px, 3svh, 40px); }
 html:not([data-culture="personal"]) .clearing { --rb: 728; --bx: 932; --kx: 1134; --ky: 469; }
 @media (max-aspect-ratio: 1/1) { html:not([data-culture="personal"]) .clearing { --rb: 1240; --bx: 1185; --kx: 1558; --ky: 706; } }
 @media (max-width: 767px) and (max-aspect-ratio: 1/1) { html:not([data-culture="personal"]) .clearing { --kx: 1384; --ky: 970; } }
-/* professional B: a long, eased rise out of the page at the top (no visible edge above the globes), a short fade below */
-html:not([data-culture="personal"]) .clearing .plane {
-  -webkit-mask-image: linear-gradient(180deg, transparent 0, rgba(0,0,0,.04) 5%, rgba(0,0,0,.14) 11%, rgba(0,0,0,.32) 18%, rgba(0,0,0,.56) 25%, rgba(0,0,0,.8) 32%, rgba(0,0,0,.95) 38%, #000 43%, #000 86%, transparent 100%);
-          mask-image: linear-gradient(180deg, transparent 0, rgba(0,0,0,.04) 5%, rgba(0,0,0,.14) 11%, rgba(0,0,0,.32) 18%, rgba(0,0,0,.56) 25%, rgba(0,0,0,.8) 32%, rgba(0,0,0,.95) 38%, #000 43%, #000 86%, transparent 100%); }
 /* personal B: the gnarled trees and the mid-meadow, almost no sky; ends where C's grass begins */
 /* credit anchors: from 940px in landscape, right of the lone tree's trunk on the right (words over the meadow); narrower or up to 4:3, where that
    tree leaves the crop, above the crown of the small tree left of the gnarled pair */
@@ -607,7 +605,7 @@ html[data-culture="personal"] .clearing { --rb: 1104; --bx: 1104; --kx: 1515; --
 .reach .ext { margin-left: .3em; font-size: .85em; display: inline-block; text-decoration: none; }
 .copy { font-size: .9375rem; color: var(--ink-2); text-decoration: underline; text-underline-offset: .22em; min-height: 44px; }
 .ground { position: relative; height: var(--gh); margin: clamp(24px, 6svh, 64px) calc(-1 * var(--gutter)) 0; }
-.ground .plane { -webkit-mask-image: linear-gradient(180deg, transparent 0, #000 42%); mask-image: linear-gradient(180deg, transparent 0, #000 42%); }
+.ground .plane { -webkit-mask-image: linear-gradient(180deg, transparent 0, rgba(0,0,0,.3) 8%, rgba(0,0,0,.7) 18%, #000 28%); mask-image: linear-gradient(180deg, transparent 0, rgba(0,0,0,.3) 8%, rgba(0,0,0,.7) 18%, #000 28%); }
 /* C = the ground only, the reference for --ps: the photograph's bottom edge on the slot's bottom, centred;
    the lowest 28 % (professional: the puddle reflection) / 34 % (personal: the grass) fills the slot */
 .ground .crop { bottom: 0; left: calc(50% - var(--psw) * var(--ps) / 2); }
@@ -615,7 +613,7 @@ html[data-culture="personal"] .clearing { --rb: 1104; --bx: 1104; --kx: 1515; --
 footer {
   position: absolute; left: 0; right: 0; bottom: 0; z-index: 2; padding: 64px var(--gutter) 24px;
   display: flex; flex-wrap: wrap; gap: 4px 28px; justify-content: space-between; align-items: baseline; font-size: .875rem;
-  background: linear-gradient(180deg, transparent, color-mix(in oklab, var(--bg) 88%, transparent) 46%, color-mix(in oklab, var(--bg) 95%, transparent));
+  background: linear-gradient(180deg, transparent, color-mix(in oklab, var(--bg) 76%, transparent) 50%, color-mix(in oklab, var(--bg) 86%, transparent));
 }
 footer p { margin: 0; max-width: 78ch; }
 footer a { display: inline-block; padding: 6px 0; }
@@ -762,26 +760,22 @@ html:not(.dark) .next a, html:not(.dark) .reach a, html:not(.dark) .reach button
 html:not(.dark) .sec-h { color: var(--ink); }
 /* a lighter pane of sky / sunlight for the technologies aside, so Experience is not one plane
    (painted with a spread shadow: no layout change) */
-@media (min-width: 768px) {
+@media (min-width: 1100px) {
   html:not(.dark) .skills { background: var(--a-panel); box-shadow: 0 0 0 22px var(--a-panel); }
+}
+/* stacked (tablet, phone landscape): the pane takes real space, so it keeps clear of the
+   headline and the first station even when svh is small; the text stays on the grid */
+@media (min-width: 768px) and (max-width: 1099px) {
+  html:not(.dark) .skills { background: var(--a-panel); padding: 6px 22px 2px; margin: 12px -22px 28px; }
 }
 
 /* the clearing: the page takes the photograph's own top colour before the photo fades in, so no seam,
    and deepens to the field colour at the bottom */
 html:not(.dark) .clearing { background: linear-gradient(180deg in oklab, var(--bg) 0, color-mix(in oklab, var(--bg) 70%, var(--a-seam)) 9%,
   color-mix(in oklab, var(--bg) 25%, var(--a-seam)) 18%, var(--a-seam) 28%, var(--a-seam) 45%, var(--bg-2) 92%); }
-/* casual: the photograph's sky band rises out of the page on an eased curve, so its first rows draw no line */
-html:not(.dark)[data-culture="personal"] .clearing .plane {
-  -webkit-mask-image: linear-gradient(180deg, transparent 0, rgba(0,0,0,.03) 6%, rgba(0,0,0,.1) 12%, rgba(0,0,0,.24) 18%, rgba(0,0,0,.48) 25%, rgba(0,0,0,.76) 32%, #000 40%, #000 70%, transparent 100%);
-          mask-image: linear-gradient(180deg, transparent 0, rgba(0,0,0,.03) 6%, rgba(0,0,0,.1) 12%, rgba(0,0,0,.24) 18%, rgba(0,0,0,.48) 25%, rgba(0,0,0,.76) 32%, #000 40%, #000 70%, transparent 100%);
-}
 html:not(.dark) #how, html:not(.dark) #projects, html:not(.dark) #contact { --bg: var(--bg-2); background: var(--bg); }
-/* slot C: the puddle rises out of a mid-tone over a long distance, not out of the pale page */
-html:not(.dark) .ground { background: linear-gradient(180deg, transparent 0, var(--a-pool) 55%); }
-html:not(.dark) .ground .plane {
-  -webkit-mask-image: linear-gradient(180deg, transparent 0, rgba(0,0,0,.2) 18%, rgba(0,0,0,.6) 38%, #000 58%);
-          mask-image: linear-gradient(180deg, transparent 0, rgba(0,0,0,.2) 18%, rgba(0,0,0,.6) 38%, #000 58%);
-}
+/* slot C: the puddle rises out of a mid-tone over a short distance, not out of the pale page */
+html:not(.dark) .ground { background: linear-gradient(180deg, transparent 0, var(--a-pool) 28%); }
 </style>
 </head>
 <body>
@@ -1165,10 +1159,12 @@ addEventListener('DOMContentLoaded', () => {
     measureYears();
   }
   function measureYears() {
+    // measured at every width (unused below 768px), so widening past 768px never meets a stale column
     const st = $('#stations'); st.style.removeProperty('--yw');
-    if (innerWidth < 768) return;
     const w = Math.max(...$$('.st-years', st).map(e => { const r = document.createRange(); r.selectNodeContents(e); return r.getBoundingClientRect().width; }));
-    if (w > 0) st.style.setProperty('--yw', Math.ceil(w + 4) + 'px');
+    // kept as a multiple of the numerals' size, so the column grows with them while a resize is still running
+    const f = parseFloat(getComputedStyle($('.st-years', st)).fontSize);
+    if (w > 0 && f > 0) st.style.setProperty('--yw', `calc(var(--yf) * ${((w + 4) / f).toFixed(3)})`);
   }
   addEventListener('resize', () => { clearTimeout(measureYears.t); measureYears.t = setTimeout(measureYears, 120); });
   function apply(c) { delete html.dataset.hover; html.dataset.culture = c; html.dataset.answered = 'true'; store.set('mm-culture', c); sync(); measureBrand(); }
