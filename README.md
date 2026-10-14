@@ -1,43 +1,129 @@
-# Astro Starter Kit: Minimal
+# personal-site
+
+The personal website of **Marvin Mai**, software engineer (Kotlin, Java,
+Spring). It introduces me to future employers and colleagues: where I have
+worked, what I built there and how I like to work.
+
+> **Status:** in development. The design is settled and lives as a clickable
+> mock in [`docs/design/mock.html`](docs/design/mock.html); the Astro
+> implementation follows the [design spec](docs/design-spec.md).
+
+## The idea
+
+The site asks one question before it introduces me: **"How should I introduce
+myself? Formally or casually?"**
+
+- **Formally** sets the page in a cool, restrained register: a dusk footbridge,
+  narrow tall type, a concise CV tone.
+- **Casually** switches to a warm, green register: a sunlit upland meadow, wide
+  open type, a more personal voice.
+
+The choice changes colours, photographs, typography **and** the wording of
+every text. It can be changed at any time; the page then re-renders through a
+diagonal wipe. Light and dark follow the system setting, so there are four
+palettes in total. All atmosphere photographs are my own.
+
+## Features
+
+- **Two tones, two languages:** every text exists in German and English, each
+  in a formal and a casual version. Both tones ship in the HTML, so switching
+  is instant and works without JavaScript.
+- **Experience timeline:** one card per position that expands in place, with
+  work areas, one-line outcomes and the technologies used.
+- **Skill map:** pick a technology to highlight every position that used it.
+- **Command palette:** <kbd>⌘K</kbd> / <kbd>Ctrl K</kbd> to jump to a
+  section, switch tone or language, or copy the e-mail address.
+- **Light as interaction:** the cursor is a soft lamp over the page; on the
+  welcome screen it takes on the colour of the answer you are about to pick.
+- **Calm motion:** scroll reveals and parallax, all switched off under
+  `prefers-reduced-motion`.
+- **Privacy-friendly:** no cookies, no tracking banner. Visits are counted with
+  cookieless [GoatCounter](https://www.goatcounter.com/); the e-mail address is
+  assembled on demand and never appears in the HTML.
+- **Accessible:** WCAG AA contrast in all four palettes, full keyboard
+  operation, semantic HTML that works without JavaScript.
+
+## Tech stack
+
+| Area | Choice |
+|---|---|
+| Framework | [Astro](https://astro.build) (static output), TypeScript strict |
+| Styling | Plain CSS with custom properties; one variable font ([Mona Sans](https://github.com/github/mona-sans), SIL OFL) |
+| Motion | View Transitions API, CSS scroll-driven animations, GSAP + Lenis (optional enhancement) |
+| Tests | [Vitest](https://vitest.dev) for logic, [Playwright](https://playwright.dev) for behaviour |
+| Hosting | GitHub Pages, deployed by GitHub Actions |
+
+## Getting started
+
+Requires Node.js 22.12 or newer.
 
 ```sh
-npm create astro@latest -- --template minimal
+npm install
+npm run dev        # dev server at http://localhost:4321
 ```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+| Command | What it does |
+|---|---|
+| `npm run dev` | Start the dev server |
+| `npm run build` | Build the static site into `dist/` |
+| `npm run preview` | Serve the built site locally |
+| `npm test` | Run the unit tests (Vitest) |
+| `npm run test:e2e` | Run the browser tests (Playwright) |
+| `npm run check` | Type-check the project (`astro check`) |
+| `npm run check:privacy` | Scan sources and build output against the local denylist |
 
-## 🚀 Project Structure
+To view the design mock, serve `docs/design/` with any static server, for
+example `python3 -m http.server 8137 -d docs/design`, and open
+`http://localhost:8137/mock.html`. The atmosphere photographs it references are
+not part of the repository; the production images live in
+`src/assets/photos/`.
 
-Inside of your Astro project, you'll see the following folders and files:
+## Privacy guard
+
+The texts on this site are written fresh and anonymised: no customer or
+colleague names, ticket keys, internal links or contract details. A safety net
+makes sure nothing slips through:
+
+1. Copy [`.denylist.example`](.denylist.example) to `.denylist` (gitignored)
+   and list the terms that must never be published, one per line. A line of
+   the form `/pattern/flags` is a regular expression.
+2. `npm run check:privacy` scans `src/`, `public/` and `dist/` and fails on any
+   hit.
+3. Enable the pre-push hook once with `git config core.hooksPath .githooks`; it
+   builds the site and runs the check before every push.
+
+The denylist itself never enters the repository.
+
+## Project structure
 
 ```text
-/
-├── public/
+.
+├── docs/
+│   ├── design-spec.md      the binding design: tokens, layout, motion, copy rules
+│   └── design/mock.html    clickable reference mock
+├── public/                 static files served as-is (favicon)
+├── scripts/
+│   └── check-privacy.mjs   denylist scanner used by the pre-push hook
 ├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
+│   ├── assets/photos/      portraits and atmosphere photographs (metadata stripped)
+│   └── pages/              Astro routes
+├── tests/unit/             Vitest tests
+└── .githooks/pre-push      build + privacy check before every push
 ```
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+## How it is built
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+This site is developed test-first and with AI assistance: I work with
+[Claude Code](https://claude.com/claude-code) as a pair programmer, and
+commits made together carry a `Co-Authored-By` trailer. Design, copy and every
+decision are reviewed and approved by me.
 
-Any static assets, like images, can be placed in the `public/` directory.
+## Rights
 
-## 🧞 Commands
+The photographs, portraits and texts are © Marvin Mai and may not be reused
+without permission. Mona Sans is licensed under the SIL Open Font License.
 
-All commands are run from the root of the project, from a terminal:
+## Contact
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+- GitHub: [@marvinmai](https://github.com/marvinmai)
+- E-mail: via the contact section of the site
