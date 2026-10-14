@@ -756,7 +756,7 @@ breaks any residual steps.
 
 - **Head:** section heading only ("Experience" / "Where I've worked").
 - **Three stations**, separated by a 1px `--line` hairline:
-  Element Logic 2024– *today* Software Developer (Warehouse automation);
+  Element Logic 2024– *today* Software Engineer (R&D, intralogistics);
   Dürr Systems 2018–2021 Development Engineer MES & IIoT (Manufacturing IT);
   Dürr Systems 2015–2018 Dual student, Mechatronics (Industrial
   communication) with the line **"B.Eng. Mechatronics, DHBW Stuttgart, 2018"**
