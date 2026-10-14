@@ -29,3 +29,13 @@ pnpm-debug.log*
 # playwright
 test-results/
 playwright-report/
+
+# local copies of the photos for design mocks
+docs/design/photos/
+# design screenshots (regenerate with Playwright)
+docs/design/**/*.png
+
+# design exploration (proposals, judging, research) stays local
+docs/design/proposals/
+docs/design/judging/
+docs/design/round-2/
