@@ -6,7 +6,9 @@ worked, what I built there and how I like to work.
 
 > **Status:** in development. The design is settled and lives as a clickable
 > mock in [`docs/design/mock.html`](docs/design/mock.html); the Astro
-> implementation follows the [design spec](docs/design-spec.md).
+> implementation follows the [design spec](docs/design-spec.md). Until it is
+> done, [marvinmai.github.io](https://marvinmai.github.io) shows a short
+> holding page.
 
 ## The idea
 
@@ -20,8 +22,8 @@ myself? Formally or casually?"**
 
 The choice changes colours, photographs, typography **and** the wording of
 every text. It can be changed at any time; the page then re-renders through a
-diagonal wipe. Light and dark follow the system setting, so there are four
-palettes in total. All atmosphere photographs are my own.
+diagonal wipe. Light and dark follow the system setting until a day/night
+switch in the header overrides it, so there are four palettes in total. All atmosphere photographs are my own.
 
 ## Features
 
@@ -98,6 +100,7 @@ The denylist itself never enters the repository.
 
 ```text
 .
+├── .github/workflows/      deploy to GitHub Pages on every push to main
 ├── docs/
 │   ├── design-spec.md      the binding design: tokens, layout, motion, copy rules
 │   └── design/mock.html    clickable reference mock
@@ -108,6 +111,7 @@ The denylist itself never enters the repository.
 │   ├── assets/photos/      portraits and atmosphere photographs (metadata stripped)
 │   └── pages/              Astro routes
 ├── tests/unit/             Vitest tests
+├── tests/e2e/              Playwright tests
 └── .githooks/pre-push      build + privacy check before every push
 ```
 
