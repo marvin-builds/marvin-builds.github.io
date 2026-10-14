@@ -4,5 +4,5 @@ export default defineConfig({
   testDir: 'tests/e2e',
   use: { baseURL: 'http://localhost:4321' },
   projects: [{ name: 'chromium', use: { ...devices['Desktop Chrome'] } }],
-  webServer: { command: 'npm run build && npm run preview', url: 'http://localhost:4321', reuseExistingServer: true },
+  webServer: { command: 'npm run build && npm run preview -- --ignore-lock', url: 'http://localhost:4321', reuseExistingServer: true },
 });
