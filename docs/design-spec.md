@@ -469,10 +469,11 @@ his role in them**, not single tasks, ticket-like items or version numbers:
 the reader should get the topics he worked on and what part he played. **Job
 titles:** both positions carry one functional title, "Software Engineer" (DE
 "Softwareentwickler"); the contract title follows small (`.875rem`, `--ink-2`)
-under the employer line, "Official title: …" / "Offizielle Bezeichnung: …"
-(Element Logic: Project Engineer Software Development; Dürr Systems:
-Development Engineer MES & IIoT), so the site matches references and
-certificates. **No "bold claim + grey sentence" in the
+under the employer line, "Official title: …" / "Offizielle Bezeichnung: …",
+only where it differs (Dürr Systems: Development Engineer MES & IIoT), so the
+site matches references and certificates. Element Logic's reference already
+calls him "Software Engineer", so that station has no extra line (owner,
+2026-10-14). **No "bold claim + grey sentence" in the
 hero, the stations or anywhere else except How I work** (§12).
 
 ### The hero question (gate)
@@ -757,7 +758,8 @@ breaks any residual steps.
 - **Head:** section heading only ("Experience" / "Where I've worked").
 - **Three stations**, separated by a 1px `--line` hairline:
   Element Logic 2024– *today* Software Engineer (R&D, intralogistics);
-  Dürr Systems 2018–2021 Development Engineer MES & IIoT (Manufacturing IT);
+  Dürr Systems 2018–2021 (last day 30 April 2021; months, where shown: 04/2021)
+  Development Engineer MES & IIoT (Manufacturing IT);
   Dürr Systems 2015–2018 Dual student, Mechatronics (Industrial
   communication) with the line **"B.Eng. Mechatronics, DHBW Stuttgart, 2018"**
   under its org line. There is no separate degree row.
