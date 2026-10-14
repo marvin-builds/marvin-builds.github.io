@@ -1,16 +1,74 @@
 ---
+// Holding page until the site from docs/design-spec.md is built.
+// It uses the formal palette (spec §2) and stays out of search results.
 ---
 
 <html lang="en">
 	<head>
 		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="robots" content="noindex" />
+		<meta name="description" content="Marvin Mai, software engineer (Kotlin, Java, Spring)." />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
+		<title>Marvin Mai</title>
 	</head>
 	<body>
-		<h1>Astro</h1>
+		<main>
+			<h1>Marvin Mai</h1>
+			<p class="role">Software engineer · Kotlin, Java, Spring</p>
+			<p>This site is being built. <span lang="de">Diese Seite entsteht gerade.</span></p>
+			<p><a href="https://github.com/marvinmai">GitHub</a></p>
+		</main>
 	</body>
 </html>
+
+<style is:global>
+	:root {
+		--bg: #f1e6d2;
+		--ink: #0a1f33;
+		--ink-2: #2d4558;
+		--accent: #0a4f86;
+		color-scheme: light dark;
+	}
+	@media (prefers-color-scheme: dark) {
+		:root {
+			--bg: #08111c;
+			--ink: #e3eaf0;
+			--ink-2: #9fb0c0;
+			--accent: #8fc0ea;
+		}
+	}
+	body {
+		margin: 0;
+		min-height: 100svh;
+		display: grid;
+		place-items: center;
+		background: var(--bg);
+		color: var(--ink-2);
+		font: 1.0625rem/1.6 system-ui, sans-serif;
+	}
+	main {
+		padding: 2rem 1rem;
+		max-width: 34rem;
+	}
+	h1 {
+		margin: 0;
+		color: var(--ink);
+		font-size: clamp(2.25rem, 7vw, 3.5rem);
+		font-weight: 600;
+		line-height: 1.1;
+		letter-spacing: -0.01em;
+	}
+	.role {
+		margin-top: 0.5rem;
+		color: var(--ink);
+	}
+	span[lang='de'] {
+		display: block;
+	}
+	a {
+		color: var(--accent);
+		text-underline-offset: 0.2em;
+	}
+</style>
