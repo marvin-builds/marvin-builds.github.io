@@ -2,6 +2,7 @@
 // Page shell: the boot script runs before first paint (spec §18), the font is self-hosted and preloaded (spec §3).
 import monaSans from '@fontsource-variable/mona-sans/files/mona-sans-latin-wdth-normal.woff2?url';
 import '../styles/global.css';
+import { SITE } from '../site';
 import { paletteCss } from '../styles/tokens';
 
 interface Props {
@@ -20,7 +21,6 @@ const fontFace = `@font-face { font-family: 'Mona Sans'; font-style: normal; fon
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
     <meta name="description" content={description} />
-    <meta name="robots" content="noindex" />
     <link rel="canonical" href={Astro.site} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="icon" href="/favicon.ico" />
@@ -40,6 +40,7 @@ const fontFace = `@font-face { font-family: 'Mona Sans'; font-style: normal; fon
         if (matchMedia('(prefers-reduced-motion: reduce)').matches) h.classList.add('rm'); else h.classList.add('intro');
       })();
     </script>
+    <script is:inline async data-goatcounter={SITE.goatcounter} src="https://gc.zgo.at/count.js"></script>
     <style is:inline set:html={fontFace + '\n' + paletteCss()}></style>
   </head>
   <body>

@@ -15,8 +15,10 @@ const answered = (page: Page, culture: 'professional' | 'personal', lang = 'en')
   );
 
 const errors: string[] = [];
-test.beforeEach(({ page }) => {
+test.beforeEach(async ({ page }) => {
   errors.length = 0;
+  // never count test runs; the analytics test installs its own stub
+  await page.route('**/gc.zgo.at/**', (r) => r.fulfill({ contentType: 'text/javascript', body: '' }));
   page.on('pageerror', (e) => errors.push(e.message));
   page.on('console', (m) => m.type() === 'error' && errors.push(m.text()));
 });
@@ -58,6 +60,22 @@ test.describe('first visit', () => {
     await expect(p.locator('html')).toHaveAttribute('lang', 'de');
     await expect(p.getByText('Wie soll ich mich vorstellen?')).toBeVisible();
     await ctx.close();
+  });
+});
+
+test.describe('analytics', () => {
+  test('counts the chosen tone as an event, once per answer', async ({ page }) => {
+    await page.route('**/gc.zgo.at/**', (r) =>
+      r.fulfill({ contentType: 'text/javascript', body: 'window.__gc = []; window.goatcounter = { count: (o) => window.__gc.push(o) };' }));
+    await page.goto('/');
+    await page.getByRole('button', { name: 'Casually' }).click();
+    await expect(page.locator('html')).toHaveAttribute('data-culture', 'personal');
+    await page.locator('#culture-ctl [data-set-culture="professional"]').click();
+    await expect(page.locator('html')).toHaveAttribute('data-culture', 'professional');
+    expect(await page.evaluate(() => (window as unknown as { __gc: { path: string; event: boolean }[] }).__gc)).toEqual([
+      expect.objectContaining({ path: 'tone-personal', event: true }),
+      expect.objectContaining({ path: 'tone-professional', event: true }),
+    ]);
   });
 });
 
@@ -168,6 +186,14 @@ test.describe('answered, formal', () => {
   test('contact links and header controls are easy to hit', async ({ page }) => {
     for (const el of await page.locator('.reach a, .reach button').all()) expect((await el.boundingBox())!.height).toBeGreaterThanOrEqual(44);
     for (const el of await page.locator('.site-header button, .site-header .nav a').all()) expect((await el.boundingBox())!.height).toBeGreaterThanOrEqual(24);
+  });
+
+  test('can be found by search engines', async ({ page }) => {
+    await expect(page.locator('meta[name="robots"]')).toHaveCount(0);
+  });
+
+  test('loads the GoatCounter script for the site', async ({ page }) => {
+    await expect(page.locator('script[data-goatcounter]')).toHaveAttribute('data-goatcounter', 'https://marvin-builds.goatcounter.com/count');
   });
 
   test('serves optimised photographs', async ({ page }) => {

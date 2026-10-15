@@ -113,7 +113,14 @@ function measureYears() {
 let tYears = 0;
 addEventListener('resize', () => { clearTimeout(tYears); tYears = window.setTimeout(measureYears, 120); });
 
+/* the chosen tone is counted as an anonymous GoatCounter event (named in the footer colophon) */
+const countTone = (c: Culture) =>
+  (window as Window & { goatcounter?: { count?: (o: { path: string; title: string; event: boolean }) => void } }).goatcounter?.count?.({
+    path: `tone-${c}`, title: `Tone: ${c}`, event: true,
+  });
+
 function apply(c: Culture) {
+  countTone(c);
   delete html.dataset.hover;
   html.dataset.culture = c;
   html.dataset.answered = 'true';
