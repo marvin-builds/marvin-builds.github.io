@@ -1,4 +1,6 @@
 import { expect, test, type Page } from '@playwright/test';
+import { assembleAddress } from '../../src/lib/email';
+import { SITE } from '../../src/site';
 
 const answered = (page: Page, culture: 'professional' | 'personal', lang = 'en') =>
   page.addInitScript(
@@ -137,7 +139,7 @@ test.describe('answered, formal', () => {
   test('reveals the e-mail address only on demand', async ({ page }) => {
     expect(await page.content()).not.toMatch(/[\w.+-]+@[\w-]+\.[a-z]{2,}/i);
     await page.getByRole('button', { name: 'Show e-mail address' }).click();
-    await expect(page.locator('#mail-link')).toHaveAttribute('href', /^mailto:.+@.+\..+/);
+    await expect(page.locator('#mail-link')).toHaveAttribute('href', `mailto:${assembleAddress(SITE.emailParts)}`);
     await expect(page.locator('#mail-link')).toBeFocused();
   });
 

@@ -1,7 +1,6 @@
 ---
 // Contact, slot C and the footer (spec §14). The e-mail address is assembled on click, never in the HTML.
 import { getEntry } from 'astro:content';
-import { encodeAddress } from '../lib/email';
 import { SITE } from '../site';
 import Plane from './Plane.astro';
 import T from './T.astro';
@@ -18,7 +17,7 @@ const strings = {
   <p class="contact-lead"><T t={contact.lead} /></p>
   <ul class="reach">
     <li id="mail-line">
-      <button type="button" class="line" id="reveal-mail" data-parts={JSON.stringify(encodeAddress(SITE.email))} data-strings={JSON.stringify(strings)}
+      <button type="button" class="line" id="reveal-mail" data-parts={JSON.stringify(SITE.emailParts)} data-strings={JSON.stringify(strings)}
         ><T t={contact.reveal_label} /></button
       >
     </li>
