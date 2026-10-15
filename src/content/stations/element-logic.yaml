@@ -9,8 +9,8 @@ area:
   en: "R&D, intralogistics"
   de: "R&D, Intralogistik"
 gist:
-  en: "Backend development in research and development from day one, in a team that builds standard building blocks for linking external systems and also works on parts of the company's new software platform. Pair programming was a big part of the daily work, and English the working language with the partner teams in Norway."
-  de: "Backend-Entwicklung im Bereich Research & Development von Beginn an, in einem Team, das Standardbausteine baut, über die Fremdsysteme angebunden werden, und außerdem an Teilen der neuen Software-Plattform des Unternehmens arbeitet. Pair Programming gehörte fest zum Arbeitsalltag, und mit den Partnerteams in Norwegen arbeitete ich auf Englisch."
+  en: "Backend development in research and development, in a team that builds standard building blocks for linking external systems and parts of the company's new software platform. Test-driven, often in pair programming, with English as the daily working language. Also support and on-call duty."
+  de: "Backend-Entwicklung im Bereich Research & Development, in einem Team, das Standardbausteine für die Anbindung von Fremdsystemen und Teile der neuen Software-Plattform des Unternehmens baut. Testgetrieben, oft im Pair Programming, mit Englisch als täglicher Arbeitssprache. Dazu Support und Rufbereitschaft."
 work:
   - title:
       en: "Connecting automated storage systems"
@@ -22,26 +22,20 @@ work:
       en: "A gateway for the new platform"
       de: "Ein Gateway für die neue Plattform"
     text:
-      en: "Design and development of the gateway that connects automated storage systems to the new platform, including a simulation and the link to configuration management, with shared responsibility for its engineering and API. Also new features for the platform services around master data and inventory, agreed with product management and the teams that work with them."
-      de: "Entwurf und Entwicklung des Gateways, über das automatische Lagersysteme an die neue Plattform angeschlossen werden, samt Simulation und Verbindung zur Konfigurationsverwaltung; mitverantwortlich für Engineering und API. Dazu neue Funktionen für die Plattformdienste rund um Stammdaten und Lagerbestände, die ich mit dem Produktmanagement und den Teams abgestimmt habe, die damit arbeiten."
+      en: "Design and development of the gateway that connects automated storage systems to the new platform, including a simulation, with shared responsibility for its engineering and API."
+      de: "Entwurf und Entwicklung des Gateways, über das automatische Lagersysteme an die neue Plattform angeschlossen werden, samt Simulation; mitverantwortlich für Engineering und API."
   - title:
       en: "Standard components for host systems"
       de: "Standardkomponenten für Host-Systeme"
     text:
-      en: "Developing the standard components that connect customers' host systems, including a test-first rewrite of the HTTP connection in Kotlin."
-      de: "Entwicklung der Standardkomponenten, über die Host-Systeme von Kunden angebunden werden, darunter ein testgetriebener Rewrite der HTTP-Anbindung in Kotlin."
+      en: "Developing the standard components that connect customers' host systems, including a rewrite of the host interface service in Kotlin."
+      de: "Entwicklung der Standardkomponenten, über die Host-Systeme von Kunden angebunden werden, darunter ein Rewrite des Host-Interface-Service in Kotlin."
   - title:
       en: "Customer projects in the early phase"
       de: "Kundenprojekte in der Anfangszeit"
     text:
-      en: "Customer-specific solutions and interfaces such as pick-by-light, put-to-light and host connections, database migrations across several major versions, commissioning and go-lives on site, and technical support while a customer moved to a new ERP system."
-      de: "Kundenspezifische Lösungen und Schnittstellen wie Pick-by-Light, Put-to-Light und Host-Anbindungen, Datenbankmigrationen über mehrere Hauptversionen hinweg, Inbetriebnahmen und Go-lives vor Ort sowie technische Unterstützung beim Wechsel eines Kunden auf ein neues ERP-System."
-  - title:
-      en: "Support and operations"
-      de: "Support und Betrieb"
-    text:
-      en: "Finding and fixing bugs in the components our team looked after, for customers as well as during production incidents, plus maintenance and service weeks and on-call duty."
-      de: "Fehlersuche und -behebung in der Software unseres Teams, für Kunden ebenso wie bei Ausfällen im Betrieb; dazu Wartungs- und Servicewochen und Rufbereitschaft."
+      en: "Customer-specific interfaces such as pick-by-light and host connections, database migrations across major versions, and go-lives on site."
+      de: "Kundenspezifische Schnittstellen wie Pick-by-Light und Host-Anbindungen, Datenbankmigrationen über mehrere Hauptversionen hinweg und Go-lives vor Ort."
 tech:
   - "Kotlin"
   - "Java"
