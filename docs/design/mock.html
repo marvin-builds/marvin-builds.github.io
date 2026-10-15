@@ -244,7 +244,9 @@ html[data-culture="neutral"] .plane .leak { opacity: 0; }
 }
 .site-header::after {
   content: ''; position: absolute; inset: 0 0 -44px 0; z-index: -1; pointer-events: none; opacity: 0; transition: opacity 320ms var(--ease);
-  background: linear-gradient(180deg, var(--bg), color-mix(in oklab, var(--bg) 92%, transparent) 50%, transparent);
+  /* fully opaque over the bar itself, so nothing scrolling beneath (text, the skill pane) ghosts through behind the
+     controls; the soft fade happens below the bar */
+  background: linear-gradient(180deg, var(--bg) 0, var(--bg) var(--hdr), color-mix(in oklab, var(--bg) 78%, transparent) calc(var(--hdr) + 12px), color-mix(in oklab, var(--bg) 35%, transparent) calc(var(--hdr) + 28px), transparent);
 }
 html.scrolled .site-header::after { opacity: 1; }
 /* the brand appears only once the hero name has scrolled away; never a second, tiny copy of it */
@@ -408,6 +410,8 @@ html[data-culture="neutral"] .credit { display: none; }
   font-size: clamp(1.1875rem, 1rem + .5vw, 1.4375rem); line-height: 1.42; letter-spacing: -.004em; max-width: 34ch; text-wrap: pretty; }
 .side { grid-column: 6 / span 4; grid-row: 2; position: relative; z-index: 2; padding-top: .3em; }
 .now { margin: 0; color: var(--ink-2); font-size: 1rem; max-width: 40ch; }
+/* night: over the lit sky behind the cyclist the soft ink fell under 4.5:1; halfway to --ink keeps it the quieter line */
+html.dark .now { color: color-mix(in oklab, var(--ink-2) 50%, var(--ink)); }
 
 /* the question */
 .gate { margin: clamp(16px, 2.6svh, 26px) 0 0; }
@@ -578,7 +582,7 @@ html:not([data-culture="personal"]) .clearing { --rb: 728; --bx: 932; --kx: 1134
 /* personal B: the gnarled trees and the mid-meadow, almost no sky; ends where C's grass begins */
 /* credit anchors: from 940px in landscape, right of the lone tree's trunk on the right (words over the meadow); narrower or up to 4:3, where that
    tree leaves the crop, above the crown of the small tree left of the gnarled pair */
-html[data-culture="personal"] .clearing { --rb: 1104; --bx: 1104; --kx: 1515; --ky: 880; }
+html[data-culture="personal"] .clearing { --rb: 1104; --bx: 1104; --kx: 1500; --ky: 880; }
 @media (max-width: 939px), (max-aspect-ratio: 4/3) { html[data-culture="personal"] .clearing { --kx: 969; --ky: 662; } }
 
 /* ---------- How I work: 2 x 2, hairlines, no numbering ---------- */
@@ -698,6 +702,11 @@ html:not(.dark) .hero {
 }
 /* no band of mist: the bars behind the text carry it, so the photograph stays clear */
 html:not(.dark) .band .haze { background: none; }
+/* formal: a thin pool of the pale sky behind the name only (a lamp globe or the railing can pass beneath it at some
+   widths); same geometry as the night pool, far weaker, so the photograph still reads clearly */
+html:not(.dark):not([data-culture="personal"]) .band .haze {
+  background: radial-gradient(min(64vw, 1040px) calc(var(--stage) * .78) at calc(var(--gutter) + min(20vw, 330px)) calc(var(--top) + var(--stage) * .42) in oklab,
+    color-mix(in oklab, var(--a-halo) var(--pool, 62%), transparent) 0%, color-mix(in oklab, var(--a-halo) calc(var(--pool, 62%) * .8), transparent) 45%, transparent 100%); }
 /* formal: the sunset glow at the horizon at full strength, so the warm page band below has something to continue */
 html:not(.dark) .band .leak { opacity: 1; }
 html:not(.dark)[data-culture="personal"] .band .leak { opacity: .6; }
@@ -724,6 +733,12 @@ html:not(.dark)[data-answered="true"] .hero :is(.lede, .now) { margin-left: -.32
 html:not(.dark)[data-answered="true"] .hero .next { margin-left: -.32em; }
 html:not(.dark)[data-answered="true"] .hero .next a { min-height: 0; }
 html:not(.dark) .now { color: var(--ink); }
+/* casual daylight: the credit sits on the busy meadow, so it gets a bar like the hero text (formal's calm sky needs none) */
+html:not(.dark)[data-culture="personal"] .clearing .credit .ct {
+  background: color-mix(in oklab, var(--a-halo) 86%, transparent); padding: .14em .5em; margin-inline: -.5em; }
+/* formal night: the pale words sit on the lit sky between the globes, so they get a bar of the night itself */
+html.dark:not([data-culture="personal"]) .clearing .credit .ct {
+  background: color-mix(in oklab, var(--bg) 72%, transparent); padding: .14em .5em; margin-inline: -.5em; }
 
 /* header: over the deep sky the words are pale, like a caption set into the photograph; once scrolled, ink again.
    every word is the full pale ink (the current language / culture is marked by its underline, not by a lighter tone) */
@@ -732,7 +747,12 @@ html:not(.dark):not(.scrolled)[data-answered="true"][data-culture="personal"] .s
 html:not(.dark) .site-header::before { background: none; }
 /* formal: the sky's own navy behind the pale words (never white), held through the whole header row */
 html:not(.dark):not(.scrolled)[data-answered="true"]:not([data-culture="personal"]) .site-header::before {
-  background: linear-gradient(180deg, rgba(8, 45, 80, .34), rgba(8, 45, 80, .26) 50%, rgba(8, 45, 80, .13) 72%, rgba(8, 45, 80, .04) 88%, transparent);
+  background: linear-gradient(180deg, rgba(8, 45, 80, .46), rgba(8, 45, 80, .36) 50%, rgba(8, 45, 80, .17) 72%, rgba(8, 45, 80, .05) 88%, transparent);
+}
+/* tablets in portrait: the square file puts brighter sky under the controls on the right */
+@media (min-width: 768px) and (max-aspect-ratio: 1/1) {
+  html:not(.dark):not(.scrolled)[data-answered="true"]:not([data-culture="personal"]) .site-header::before {
+    background: linear-gradient(180deg, rgba(8, 45, 80, .54), rgba(8, 45, 80, .43) 50%, rgba(8, 45, 80, .2) 72%, rgba(8, 45, 80, .06) 88%, transparent); }
 }
 
 @media (max-width: 767px) {

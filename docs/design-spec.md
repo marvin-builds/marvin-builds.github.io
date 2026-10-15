@@ -146,18 +146,23 @@ reference). The photograph carries the hero at full strength and the page
 continues its light:
 
 - **Formal:** the deep blue sky behind the header (pale header words over a
-  soft navy wash until scrolled), then from the fade under the hero the pale
+  soft navy wash until scrolled: `rgba(8,45,80)` at .46 → .36 @50% → .17 @72%
+  → .05 @88% → 0; tablets in portrait .54 → .43 → .20 → .06, because the
+  square file puts brighter sky under the controls), then from the fade under the hero the pale
   warm light the cyclist rides towards (`--bg`), peach (`--bg-2`) for How I
   work and Contact. **Casual:** the bright sky, then sunlit straw.
 - **Hero mask:** the plane is whole from the header (`--m-hdr: 1`) and fades
   slowly under the horizon (`--m-b1..4`: .94/.74/.36/.10; phones
-  .92/.62/.26/.06). No haze; full-strength leak in formal (.6 casual); a
+  .92/.62/.26/.06). No haze band; full-strength leak in formal (.6 casual); a
   soft-light lift behind the formal name and a multiply polariser on the casual
-  upper sky.
+  upper sky. Formal also keeps a thin pool of `--a-halo` behind the name only
+  (the night pool's geometry, centred at stage × .42, 62% → 50% at 45% → 0),
+  because a lamp globe or the railing passes beneath the name at some widths
+  (tablets, 1024 × 768, 2560 px); with it the name stays ≥ 4.2:1.
 - **Text over the photograph sits on bars**, like a selection: the role line,
   lede, now-line and the two hero links each get `--a-halo` at 86% behind every
   line (`box-decoration-break: clone`, padding .1em .32em, pulled left by .32em
-  so the text stays on the grid). No text-shadow glow, no pools. The owner chose
+  so the text stays on the grid). No text-shadow glow. The owner chose
   bars over the halo (2026-10-14: the glow made the text harder to read).
 - **The page below:** year numerals, skill counts and station markers in
   `--ember`; a lit position's years in `--accent`; the skill aside on an
@@ -192,7 +197,12 @@ continues its light:
 | ink-2 / text bar over black (worst case) | 6.20 | – | 6.09 | – |
 
 **Text over photographs** is guaranteed by layout plus a rendered audit, not by
-tokens:
+tokens. The audit (2026-10-15) renders every text on or near a photograph in
+all four palettes at 360–2560px, removes the text, and measures the
+background behind the glyphs only (3px around each glyph pixel), 2nd
+percentile; 4.5:1 for body text, 3:1 for the name. At night the now-line uses
+`--ink-2` mixed halfway with `--ink`, since plain `--ink-2` fell to 3.8:1 over
+the lit sky behind the cyclist.
 
 1. The hero photograph is a full-bleed plane; the name and role sit in it
    behind a local haze. Under the horizon the plane falls to 74% within 14px,
@@ -205,6 +215,12 @@ tokens:
    the hero text sits on bars of `--a-halo` (above). There is no full-photo wash.
 3. The credit sits on the picture in `--ink`, without a halo: its anchors keep
    it on calm sky or meadow, where it reads without one (owner, 2026-10-14).
+   Exception, casual daylight: the dark green words blended into the busy
+   meadow and were easy to miss (owner, 2026-10-15), so there they sit on a
+   bar like the hero text (`--a-halo` at 86%, padding .14em .5em, pulled out
+   by .5em so the words keep their anchor). Formal night gets the same bar in
+   `--bg` at 72%: the pale words sat on the lit sky between the globes at
+   3.1:1. The other two palettes measure ≥ 5.7:1 without one.
 4. Slots B and C carry no text except the footer, which has its own `--bg`
    gradient.
 
@@ -302,7 +318,9 @@ No horizontal overflow at 360 in German in any culture (tested).
 - Fixed, 64px, **no bar and no border**. Legibility comes from a local gradient
   scrim of `--bg` (80% → 0, extending 36px below). Once the hero name has
   scrolled under the header (`.name` bottom < 72px → `html.scrolled`), a denser
-  scrim fades in (320ms).
+  scrim fades in (320ms): solid `--bg` over the full 64px, so nothing scrolling
+  beneath (text, the skill pane) ghosts through behind the controls, then 78%
+  at +12px, 35% at +28px and gone at +44px.
 - **Brand only after the name has gone.** "Marvin Mai" (`wght 620`, width 100%
   in both cultures, never condensed) is absolutely placed at the gutter and
   fades in with `html.scrolled`; the nav leads at the gutter and slides right by
@@ -643,7 +661,7 @@ second, middle photo section"). The hero carries no credit.
     two lines ("Photography:" / "Marvin Mai", the name joined by a no-break
     space) after a 14px hairline, so it fits right of the post from 568px;
   - personal, from 940px and wider than 4:3: right of the **lone tree's trunk** on the right
-    (1515/880, about 20px clear of the bark at 1440), words running right over
+    (1500/880, a few px clear of the bark at 1280–1920; was 1515, about 20px off, which read as detached on a laptop, owner 2026-10-15), words running right over
     the meadow;
   - personal, below 940px or up to 4:3 (the lone tree leaves the crop or sits
     at its right edge; owner found the overflow on a tablet in portrait): above the crown of
@@ -960,8 +978,8 @@ on 1024×768, 630/643 on 390×844 EN/DE, 639/664 on 360×740, 770 on 1920×1080;
 no horizontal overflow) and the rendered contrast audit below over every
 scroll position, unanswered + both cultures × light/dark × EN/DE × 1440/390:
 **4,880 runs, 0 failures**, lowest 3.24 (role line over the treeline, large
-text). That audit ran while the credit still had a halo; re-run it for the
-credit without one in Phase 4.
+text). That audit ran while the credit still had a halo; the glyph-based
+audit of 2026-10-15 (§2, contrast) covers the credit as it is now.
 `light.cjs`: lamp gain at identical offsets over the stations vs the
 technology panel, ratio 1.000–1.001 in light and dark; idle fade-out starts at
 2.8s and is gone by 3.5s, the next move re-lights it at the pointer (no drift);
