@@ -324,6 +324,9 @@ html[data-culture="personal"] .hero { --rh: 640; --cx: 1200; }
           mask-image: linear-gradient(180deg, transparent 0, rgba(0,0,0,var(--m-hdr, .22)) var(--hdr), rgba(0,0,0,var(--m-rise, .7)) calc(var(--top) + var(--stage) * .2), #000 calc(var(--top) + var(--stage) * var(--m-full, .45)), #000 calc(var(--hz) - 20px),
     rgba(0,0,0,var(--m-b1, .74)) calc(var(--hz) + 14px), rgba(0,0,0,var(--m-b2, .45)) calc(var(--hz) + 56px), rgba(0,0,0,var(--m-b3, .25)) calc(var(--hz) + var(--fade) * .4), rgba(0,0,0,var(--m-b4, .09)) calc(var(--hz) + var(--fade) * .7), transparent 100%); }
 /* source row --rh lands on the horizon at every width; the image always covers the plane's top (rh x ps > hz) */
+/* the photograph stops 8px above the plane's masked edge: mask and photo are separate compositor layers, and during
+   Android's overscroll stretch they round differently, so a photo row could poke out below the mask as a bright hairline */
+.band .img { bottom: 8px; overflow: clip; }
 .band .crop { height: calc(var(--psh) * var(--ps)); width: calc(var(--psw) * var(--ps)); top: calc(var(--hz) - var(--rh) * var(--ps)); left: var(--ix); object-fit: cover; }
 @media (max-width: 767px) {
   html[data-culture="personal"] .hero { --cx: 1850; }

@@ -172,6 +172,12 @@ continues its light:
   margins (12px above, 28px below), so it never touches the headline or the
   first station on short landscape screens; the clearing (slot B) rises from `--bg` through
   `--a-seam`; slot C rises out of `--a-pool`.
+- **The hero photograph stops 8px above its masked edge** (`.band .img {
+  bottom: 8px; overflow: clip }`): mask and photograph are separate compositor
+  layers (parallax), and during Android's overscroll stretch they round
+  differently, so a photo row poked out below the mask as a bright hairline
+  across the hero (owner, Galaxy Tab S7+, 2026-10-15; ending the mask 4px
+  early did not help).
 - **Photo fades, kept short** (owner, 2026-10-15: the long fades veiled the
   middle and bottom photographs; applied to day first, then to night). Slots B
   and C use the same masks in both tones and both schemes. Slot B: mask
