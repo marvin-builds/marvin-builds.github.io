@@ -12,8 +12,8 @@ area:
   en: "Manufacturing IT"
   de: "Fertigungs-IT"
 gist:
-  en: "Software development for manufacturing IT in a multinational Scrum team, a large part of it based in Eastern Europe: a data warehouse and reporting system for production and plant data, and the web tools around it."
-  de: "Softwareentwicklung für die Fertigungs-IT in einem internationalen Scrum-Team, das zu einem großen Teil in Osteuropa saß: ein Data-Warehouse- und Berichtssystem für Produktions- und Anlagendaten und die Web-Werkzeuge dazu."
+  en: "Software development for manufacturing IT in a multinational Scrum team with English as the working language: a data warehouse and reporting system for production and plant data, and the web tools around it."
+  de: "Softwareentwicklung für die Fertigungs-IT in einem internationalen Scrum-Team mit Englisch als Arbeitssprache: ein Data-Warehouse- und Berichtssystem für Produktions- und Anlagendaten und die Web-Werkzeuge dazu."
 work:
   - title:
       en: "Production and plant data"
