@@ -1,0 +1,13 @@
+---
+// Slot B (spec §7, §8): a wide detail of the photograph, no text but the photo credit pinned to one feature.
+import { getEntry } from 'astro:content';
+import Plane from './Plane.astro';
+
+const footer = (await getEntry('footer', 'footer'))!.data;
+const nb = (s: string) => s.replace('Marvin Mai', 'Marvin Mai');
+---
+
+<div class="clearing">
+  <Plane slot="B" />
+  <p class="credit" id="credit-b"><span class="ct"><span lang="en">{nb(footer.credit.en)}</span><span lang="de">{nb(footer.credit.de)}</span></span></p>
+</div>

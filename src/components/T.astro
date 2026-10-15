@@ -1,0 +1,23 @@
+---
+// One text in both languages; CSS shows the one that matches html[lang]. With `tone`, both tones as well.
+import type { Localized, Toned } from '../lib/schemas';
+
+interface Props {
+  t: Localized | Toned;
+}
+const { t } = Astro.props;
+const toned = 'pro' in t;
+---
+
+{
+  toned ? (
+    <>
+      <span class="t-pro"><span lang="en">{t.pro.en}</span><span lang="de">{t.pro.de}</span></span>
+      <span class="t-per"><span lang="en">{t.per.en}</span><span lang="de">{t.per.de}</span></span>
+    </>
+  ) : (
+    <>
+      <span lang="en">{t.en}</span><span lang="de">{t.de}</span>
+    </>
+  )
+}

@@ -1,0 +1,40 @@
+---
+// Contact, slot C and the footer (spec §14). The e-mail address is assembled on click, never in the HTML.
+import { getEntry } from 'astro:content';
+import { encodeAddress } from '../lib/email';
+import { SITE } from '../site';
+import Plane from './Plane.astro';
+import T from './T.astro';
+
+const contact = (await getEntry('contact', 'contact'))!.data;
+const footer = (await getEntry('footer', 'footer'))!.data;
+const strings = {
+  copy: contact.copy_label, copied: contact.copied_label, status: contact.copied_status, fallback: contact.copy_fallback,
+};
+---
+
+<section id="contact" aria-labelledby="h-contact" tabindex="-1">
+  <h2 class="sec-h reveal" id="h-contact"><T t={contact.heading} /></h2>
+  <p class="contact-lead"><T t={contact.lead} /></p>
+  <ul class="reach">
+    <li id="mail-line">
+      <button type="button" class="line" id="reveal-mail" data-parts={JSON.stringify(encodeAddress(SITE.email))} data-strings={JSON.stringify(strings)}
+        ><T t={contact.reveal_label} /></button
+      >
+    </li>
+    <li>
+      <a href={SITE.github} rel="me noopener" target="_blank"
+        ><span class="u">github.com/marvin-builds</span><span class="ext" aria-hidden="true">↗</span><span class="sr-only"> <T t={contact.new_tab} /></span></a
+      >
+    </li>
+  </ul>
+  <p class="sr-only" id="mail-status" aria-live="polite"></p>
+
+  <div class="ground">
+    <Plane slot="C" />
+    <footer>
+      <p><T t={footer.colophon} /></p>
+      <p><a class="ul" href={SITE.repo} rel="noopener" target="_blank"><T t={footer.source_link} /><span aria-hidden="true"> ↗</span></a></p>
+    </footer>
+  </div>
+</section>

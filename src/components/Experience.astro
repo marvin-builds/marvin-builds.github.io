@@ -1,0 +1,86 @@
+---
+// Experience (spec §11): three stations that expand in place, and the technology filter.
+import { getCollection } from 'astro:content';
+import { UI } from '../i18n/ui';
+import { buildSkillIndex, skillKey, yearSpan } from '../lib/experience';
+import { SITE } from '../site';
+import T from './T.astro';
+
+const entries = await getCollection('stations');
+const stations = SITE.stations.map((id) => entries.find((e) => e.id === id)!.data);
+const skills = buildSkillIndex(stations);
+const label = (t: string | { en: string; de: string }) => (typeof t === 'string' ? { en: t, de: t } : t);
+---
+
+<section id="experience" aria-labelledby="h-exp" tabindex="-1">
+  <div class="exp-grid">
+    <div class="head">
+      <h2 class="sec-h reveal" id="h-exp"><T t={UI.experience.heading} /></h2>
+    </div>
+    <details class="skills" id="skills" open>
+      <summary><span class="u"><T t={UI.experience.filter} /></span><span class="on" id="skills-on"></span></summary>
+      <div class="panel" role="group" aria-labelledby="skills-h">
+        <h3 id="skills-h"><T t={UI.experience.technologies} /></h3>
+        <p class="lead"><T t={UI.experience.lead} /></p>
+        <p class="skill-list" id="skill-list">
+          {
+            skills.map((s) => (
+              <button type="button" data-skill={s.key} data-label-en={s.label.en} data-label-de={s.label.de} aria-pressed="false">
+                {s.label.en === s.label.de ? s.label.en : <T t={s.label} />}
+                {s.stations.length > 1 && <span class="n">×{s.stations.length}</span>}
+              </button>
+            ))
+          }
+        </p>
+        <p class="out" id="skill-out" aria-live="polite"></p>
+      </div>
+    </details>
+    <ol class="stations" id="stations">
+      {
+        stations.map((s, i) => {
+          const y = yearSpan(s);
+          return (
+            <li class:list={['station', { open: i === 0 }]} data-id={s.id} data-org={s.org} data-from={s.from} data-to={s.to ?? ''}
+              data-skills={s.tech.map(skillKey).join(' ')}>
+              <h3 class="st-h">
+                <button type="button" class="st-head" aria-expanded={i === 0 ? 'true' : 'false'} aria-controls={`st-${s.id}`}>
+                  <span class="st-years">
+                    {y.from}–{y.to ?? <span class="today"><T t={UI.experience.today} /></span>}
+                  </span>
+                  <span class="st-title">
+                    <span class="st-role"><T t={s.role} /></span>
+                    <span class="st-org">{s.org} · <T t={s.area} /></span>
+                    {s.official && <span class="st-official"><T t={{ en: UI.experience.official.en + s.official.en, de: UI.experience.official.de + s.official.de }} /></span>}
+                    {s.edu && <span class="st-edu"><T t={s.edu} /></span>}
+                  </span>
+                  <span class="st-sign" aria-hidden="true"></span>
+                </button>
+              </h3>
+              <p class="st-gist"><T t={s.gist} /></p>
+              <div class="st-body" id={`st-${s.id}`}>
+                <div>
+                  <ul class="st-work">
+                    {s.work.map((w) => (
+                      <li>
+                        <span lang="en"><span class="task">{w.title.en}</span><span class="o">{w.text.en}</span></span>
+                        <span lang="de"><span class="task">{w.title.de}</span><span class="o">{w.text.de}</span></span>
+                      </li>
+                    ))}
+                  </ul>
+                  <p class="st-tech">
+                    {s.tech.map((t, k) => (
+                      <>
+                        <span data-k={skillKey(t)}>{label(t).en === label(t).de ? label(t).en : <T t={label(t)} />}</span>
+                        {k < s.tech.length - 1 && ', '}
+                      </>
+                    ))}
+                  </p>
+                </div>
+              </div>
+            </li>
+          );
+        })
+      }
+    </ol>
+  </div>
+</section>

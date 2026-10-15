@@ -1,0 +1,55 @@
+---
+// Slot A and the opening view (spec §6): name and role in the sky, then lede | now-line + question | portrait.
+import { Picture } from 'astro:assets';
+import { getEntry } from 'astro:content';
+import personal from '../assets/photos/personal.jpg';
+import professional from '../assets/photos/professional.jpg';
+import { UI } from '../i18n/ui';
+import { SITE } from '../site';
+import Plane from './Plane.astro';
+import T from './T.astro';
+
+const hero = (await getEntry('hero', 'hero'))!.data;
+const portraitSizes = '(max-width: 767px) 92px, clamp(104px, min(15vw, 26vh), 232px)';
+---
+
+<section class="hero" aria-labelledby="hero-name">
+  <div class="band" aria-hidden="true">
+    <Plane slot="A" />
+    <div class="haze"></div>
+  </div>
+
+  <div class="ident">
+    <h1 class="name" id="hero-name"><span class="ln"><span>Marvin</span></span><span class="ln"><span>Mai</span></span></h1>
+    <p class="role"><T t={hero.role_line} /><span class="dot" aria-hidden="true"> · </span><span class="stack">{hero.stack}</span></p>
+  </div>
+
+  <p class="lede"><T t={hero.lede} /></p>
+
+  <div class="side">
+    <p class="now"><T t={hero.now_line} /></p>
+    <div class="gate" id="gate" role="group" aria-labelledby="gate-q">
+      <p class="gate-q" id="gate-q"><T t={hero.gate.question} /></p>
+      <div class="gate-opts">
+        <button type="button" class="pick" data-pick="professional"><T t={hero.gate.formal} /></button>
+        <span class="or" aria-hidden="true"><T t={UI.or} /></span>
+        <button type="button" class="pick" data-pick="personal"><T t={hero.gate.casual} /></button>
+      </div>
+    </div>
+    <p class="next">
+      <a href="#contact"><span class="u"><T t={hero.onward} /></span></a>
+      <a class="gh" href={SITE.github} rel="me noopener" target="_blank"
+        ><span class="u">github.com/marvin-builds</span><span class="ext" aria-hidden="true">&nbsp;↗</span><span class="sr-only"
+          ><span lang="en"> (opens in a new tab)</span><span lang="de"> (öffnet in neuem Tab)</span></span
+        ></a
+      >
+    </p>
+  </div>
+
+  <figure class="portrait">
+    <Picture class="pp t-pro" src={professional} formats={['avif', 'webp']} widths={[184, 232, 464]} sizes={portraitSizes}
+      alt={UI.portrait.pro.en} data-alt-en={UI.portrait.pro.en} data-alt-de={UI.portrait.pro.de} loading="eager" />
+    <Picture class="pe t-per" src={personal} formats={['avif', 'webp']} widths={[184, 232, 464]} sizes={portraitSizes}
+      alt={UI.portrait.per.en} data-alt-en={UI.portrait.per.en} data-alt-de={UI.portrait.per.de} loading="lazy" />
+  </figure>
+</section>
