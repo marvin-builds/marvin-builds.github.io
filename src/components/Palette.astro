@@ -1,0 +1,10 @@
+---
+import { UI } from '../i18n/ui';
+import T from './T.astro';
+---
+
+<dialog class="palette" id="palette" aria-labelledby="pal-label" data-lenis-prevent>
+  <p class="sr-only" id="pal-label"><T t={UI.palette.label} /></p>
+  <input id="pal-q" type="text" role="combobox" aria-expanded="true" aria-controls="pal-list" aria-autocomplete="list" autocomplete="off" spellcheck="false" />
+  <ul id="pal-list" role="listbox"></ul>
+</dialog>

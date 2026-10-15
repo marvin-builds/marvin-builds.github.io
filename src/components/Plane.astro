@@ -1,0 +1,56 @@
+---
+// One atmosphere slot's plane (spec §7): the culture's photograph at the shared scale --ps, plus grade and leak.
+// All three slots use the same responsive files, so the browser fetches each one once.
+import { getImage } from 'astro:assets';
+import personal from '../assets/photos/atmosphere-personal.jpg';
+import square from '../assets/photos/atmosphere-professional.jpg';
+import wide from '../assets/photos/atmosphere-professional-wide.jpg';
+
+interface Props {
+  slot: 'A' | 'B' | 'C';
+}
+const { slot } = Astro.props;
+const eager = slot === 'A';
+
+// the rendered width is the photograph at --ps: the plane height --gh over the share of the file it shows,
+// times the file's aspect ratio, and never narrower than the page (spec §7)
+const gh = 'clamp(320px, 56vh, 640px)';
+const sizes = (k: number) => `max(calc(${gh} * ${k.toFixed(3)}), 100vw)`;
+const widths = [960, 1440, 1920, 2400];
+const set = async (src: ImageMetadata, format: 'avif' | 'webp') =>
+  (await getImage({ src, format, widths: widths.filter((w) => w <= src.width) })).srcSet.attribute;
+
+const pro = {
+  wideAvif: await set(wide, 'avif'), wideWebp: await set(wide, 'webp'),
+  squareAvif: await set(square, 'avif'), squareWebp: await set(square, 'webp'),
+  fallback: (await getImage({ src: square, format: 'webp', width: 1440 })).src,
+};
+const per = {
+  avif: await set(personal, 'avif'), webp: await set(personal, 'webp'),
+  fallback: (await getImage({ src: personal, format: 'webp', width: 1440 })).src,
+};
+const wideSizes = sizes(1 / 0.28 * (1920 / 1280));
+const squareSizes = sizes(1 / 0.28);
+const perSizes = sizes(1 / 0.34 * (2400 / 1600));
+const loading = eager ? 'eager' : 'lazy';
+const wideMedia = '(min-aspect-ratio: 1/1)';
+---
+
+<div class="plane" data-slot={slot} aria-hidden="true">
+  <div class="img">
+    <picture class="photo ph-pro">
+      <source media={wideMedia} type="image/avif" srcset={pro.wideAvif} sizes={wideSizes} width="1920" height="1280" />
+      <source media={wideMedia} type="image/webp" srcset={pro.wideWebp} sizes={wideSizes} width="1920" height="1280" />
+      <source type="image/avif" srcset={pro.squareAvif} sizes={squareSizes} />
+      <source type="image/webp" srcset={pro.squareWebp} sizes={squareSizes} />
+      <img class="crop" src={pro.fallback} width="2400" height="2400" alt="" loading={loading} decoding="async" fetchpriority={eager ? 'high' : undefined} />
+    </picture>
+    <picture class="photo ph-per">
+      <source type="image/avif" srcset={per.avif} sizes={perSizes} />
+      <source type="image/webp" srcset={per.webp} sizes={perSizes} />
+      <img class="crop" src={per.fallback} width="2400" height="1600" alt="" loading="lazy" decoding="async" />
+    </picture>
+  </div>
+  <div class="grade"></div>
+  <div class="leak"></div>
+</div>

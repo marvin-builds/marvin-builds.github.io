@@ -1,0 +1,21 @@
+---
+// How I work (spec §12): the only place with claim + explanation, one formal tone in both cultures.
+import { getEntry } from 'astro:content';
+import T from './T.astro';
+
+const how = (await getEntry('how', 'how-i-work'))!.data;
+---
+
+<section id="how" aria-labelledby="h-how" tabindex="-1">
+  <h2 class="sec-h reveal" id="h-how"><T t={how.heading} /></h2>
+  <ul class="how">
+    {
+      how.items.map((item) => (
+        <li class="reveal">
+          <span lang="en"><span class="k">{item.claim.en}</span><span class="r">{item.text.en}</span></span>
+          <span lang="de"><span class="k">{item.claim.de}</span><span class="r">{item.text.de}</span></span>
+        </li>
+      ))
+    }
+  </ul>
+</section>

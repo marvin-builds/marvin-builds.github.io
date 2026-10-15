@@ -1,0 +1,49 @@
+---
+// Page shell: the boot script runs before first paint (spec §18), the font is self-hosted and preloaded (spec §3).
+import monaSans from '@fontsource-variable/mona-sans/files/mona-sans-latin-wdth-normal.woff2?url';
+import '../styles/global.css';
+import { SITE } from '../site';
+import { paletteCss } from '../styles/tokens';
+
+interface Props {
+  title: string;
+  description: string;
+}
+const { title, description } = Astro.props;
+const fontFace = `@font-face { font-family: 'Mona Sans'; font-style: normal; font-display: swap; font-weight: 200 900;
+  font-stretch: 75% 125%; src: url(${monaSans}) format('woff2-variations'); }`;
+---
+
+<!doctype html>
+<html lang="en" data-culture="professional" data-answered="true">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={Astro.site} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" />
+    <link rel="preload" href={monaSans} as="font" type="font/woff2" crossorigin />
+    <script is:inline>
+      /* Boot before first paint: restore the answer, the language and the scheme (all storage in try/catch). */
+      (function () {
+        var h = document.documentElement, g = function (k) { try { return localStorage.getItem(k); } catch (e) { return null; } };
+        h.classList.add('js'); /* without JS the whole page shows in the formal tone */
+        var c = g('mm-culture');
+        if (c === 'professional' || c === 'personal') { h.dataset.culture = c; h.dataset.answered = 'true'; }
+        else { h.dataset.culture = 'neutral'; h.dataset.answered = 'false'; }
+        var l = g('mm-lang'); if (l !== 'de' && l !== 'en') l = (navigator.language || '').toLowerCase().indexOf('de') === 0 ? 'de' : 'en';
+        h.lang = l;
+        var s = g('mm-scheme'); if (s === 'light' || s === 'dark') h.dataset.scheme = s;
+        if (s === 'dark' || (s !== 'light' && matchMedia('(prefers-color-scheme: dark)').matches)) h.classList.add('dark');
+        if (matchMedia('(prefers-reduced-motion: reduce)').matches) h.classList.add('rm'); else h.classList.add('intro');
+      })();
+    </script>
+    <script is:inline async data-goatcounter={SITE.goatcounter} src="https://gc.zgo.at/count.js"></script>
+    <style is:inline set:html={fontFace + '\n' + paletteCss()}></style>
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>

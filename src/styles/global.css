@@ -1,0 +1,701 @@
+/* Site styles, ported from docs/design/mock.html (design spec round 2). The colour palettes are generated from
+   src/styles/tokens.ts; this file holds everything else. */
+@property --p { syntax: '<percentage>'; inherits: false; initial-value: 0%; }
+@property --glow { syntax: '<color>'; inherits: false; initial-value: #fff4e4; }
+
+@font-face {
+  font-family: 'Mona Sans Fallback'; src: local('Arial');
+  size-adjust: 97%; ascent-override: 92%; descent-override: 24%; line-gap-override: 0%;
+}
+
+/* =====================================================================
+   1. TOKENS (besides the palettes): grid, timing, type register, shared stage constants
+   ===================================================================== */
+:root {
+  --gutter: clamp(16px, 3.9vw, 60px);
+  --col-gap: clamp(12px, 1.7vw, 28px);
+  --hdr: 64px;
+  --ease: cubic-bezier(.2, .7, .2, 1);
+  --ease-out: cubic-bezier(.16, 1, .3, 1);
+  --ease-wipe: cubic-bezier(.65, 0, .35, 1);
+  --t-fast: 160ms;
+  --t-wipe: 1050ms;
+  /* type register: narrow, tall, dense */
+  --d-wdth: 75%;  --d-wght: 620; --d-track: -.028em; --d-size: clamp(4.4rem, min(12.6vw, 20svh), 12.5rem);
+  --h-wdth: 78%;  --h-wght: 560; --h-size: clamp(2.5rem, 6vw, 5.75rem);
+  --t-wdth: 96%;  --t-wght: 430;
+  --c-wdth: 112%;
+  /* shared stage constants: identical in both cultures, so the horizon, photo, portrait and lede never jump in the wipe */
+  --dP: clamp(4.4rem, min(12.6vw, 20svh), 12.5rem);
+  --r-size: clamp(1.125rem, .7rem + 1.9vw, 2.5rem);
+}
+:root[data-culture="personal"] {
+  /* wide, light, open */
+  --d-wdth: 125%; --d-wght: 330; --d-track: -.022em; --d-size: clamp(3.6rem, min(10.6vw, 16.8svh), 10.5rem);
+  --h-wdth: 122%; --h-wght: 360; --h-size: clamp(2.2rem, 5vw, 4.75rem);
+  --t-wdth: 106%; --t-wght: 400;
+  --c-wdth: 125%;
+}
+
+/* =====================================================================
+   2. BASE
+   ===================================================================== */
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; scroll-padding-top: calc(var(--hdr) + 16px); }
+html.lenis, html.lenis body { height: auto; }
+body {
+  margin: 0; background: var(--bg); color: var(--ink);
+  font-family: 'Mona Sans', 'Mona Sans Fallback', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  font-size: clamp(1.0625rem, .98rem + .3vw, 1.1875rem); line-height: 1.55;
+  font-stretch: var(--t-wdth); font-weight: var(--t-wght);
+  font-kerning: normal; -webkit-font-smoothing: antialiased; overflow-x: clip;
+}
+::selection { background: var(--sel-bg); color: var(--sel-ink); }
+img { display: block; max-width: 100%; }
+button { font: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; letter-spacing: inherit; }
+a { color: inherit; text-decoration-thickness: 1px; text-underline-offset: .22em; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; border-radius: 1px; }
+.sr-only { position: absolute !important; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.skip { position: absolute; left: var(--gutter); top: -100px; z-index: 100; background: var(--bg); color: var(--ink); padding: 10px 14px; }
+.skip:focus { top: 12px; }
+
+/* language + tone variants */
+html[lang="en"] [lang="de"]:not(html), html[lang="de"] [lang="en"]:not(html) { display: none !important; }
+html:not([data-culture="personal"]) .t-per { display: none !important; }
+html[data-culture="personal"] .t-pro { display: none !important; }
+
+.ul { text-decoration: underline; text-decoration-color: color-mix(in oklab, currentColor 45%, transparent); transition: text-underline-offset var(--t-fast) var(--ease), text-decoration-color var(--t-fast) var(--ease); }
+.ul:hover { text-underline-offset: .32em; text-decoration-color: currentColor; }
+
+/* =====================================================================
+   3. FIXED LAYERS: the light field (cursor = lamp) and static grain
+   ===================================================================== */
+/* one layer, above all content (below the grain), the same blend everywhere: the lamp never changes strength at a
+   section or element border. It is lit only while a fine pointer moves: after ~2.8s of stillness, or when the pointer
+   leaves the window, it fades out where it is; the next movement fades it in at the pointer. */
+.light {
+  position: fixed; inset: 0; z-index: 50; pointer-events: none;
+  --lx: 30vw; --ly: 30vh;
+  /* interpolated in oklab with several eased stops: no visible banding rings */
+  /* --glow is the lamp's colour: the culture's --lamp, or (unanswered, hovering an answer) a light tint of the culture
+     that answer leads to. It is a registered colour, so every change of it (hover, answer, wipe) eases instead of jumping. */
+  --glow: var(--lamp); --tint-pro: #86b8ec; --tint-per: #cdd98a;
+  background:
+    radial-gradient(36vmax 36vmax at var(--lx) var(--ly) in oklab,
+      color-mix(in oklab, var(--glow) 40%, transparent) 0%, color-mix(in oklab, var(--glow) 30%, transparent) 16%,
+      color-mix(in oklab, var(--glow) 19%, transparent) 32%, color-mix(in oklab, var(--glow) 10%, transparent) 48%,
+      color-mix(in oklab, var(--glow) 4%, transparent) 62%, transparent 76%),
+    radial-gradient(70vmax 60vmax at var(--lx) var(--ly) in oklab,
+      color-mix(in oklab, var(--glow) 14%, transparent) 0%, color-mix(in oklab, var(--glow) 8%, transparent) 30%,
+      color-mix(in oklab, var(--glow) 3%, transparent) 55%, transparent 78%);
+  mix-blend-mode: soft-light; --lamp-o: .85; opacity: 0;
+  transition: opacity 700ms cubic-bezier(0, 0, .58, 1), --glow 600ms var(--ease);   /* fade-out: ease-out */
+}
+.light.on { opacity: var(--lamp-o); transition-duration: 420ms, 600ms; }
+html[data-culture="neutral"] .light { --lamp-o: .3; }
+/* light page: soft-light hardly shifts a pale bluish page, so the tint is laid on as a plain, faint wash */
+html[data-culture="neutral"][data-hover] .light { --lamp-o: .42; mix-blend-mode: normal; }
+html[data-culture="neutral"][data-hover="professional"] .light { --glow: var(--tint-pro); }
+html[data-culture="neutral"][data-hover="personal"] .light { --glow: var(--tint-per); }
+html.dark .light { --tint-pro: #8fc0ea; --tint-per: #acd37f; }
+html.dark[data-culture="neutral"][data-hover] .light { --lamp-o: .32; mix-blend-mode: screen; }
+html.dark .light { mix-blend-mode: screen; --lamp-o: .18; }
+html.rm .light { display: none; }   /* reduced motion and touch: no lamp (touch never sets .on) */
+.grain {
+  position: fixed; inset: -50%; z-index: 60; pointer-events: none; opacity: .07; mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .5  0 0 0 0 .5  0 0 0 0 .5  0 0 0 1.6 -.3'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+}
+html.dark .grain { opacity: .05; }
+
+/* =====================================================================
+   4. ATMOSPHERE PLANES (slots A, B, C): never a box, always dissolving
+   ===================================================================== */
+/* ONE photograph per culture, seen through three windows: slots A, B and C render it at the SAME scale (--ps, source px
+   -> CSS px), so they read as one continuous picture. The reference is slot C: its plane (--gh high) shows the lowest
+   28 % (professional) / 34 % (personal) of the file. The scale follows the viewport height only; the second term is a
+   cover floor (never narrower than the page). The professional file is the wide one on wide viewports, the square one
+   on portrait-shaped viewports, in all three slots. Each slot then only chooses which rows and which column it shows. */
+:root { --gh: clamp(320px, 56svh, 640px); --psw: 1920; --psh: 1280; --pk: .28;
+  --ps: max(calc(var(--gh) / var(--pk) / var(--psh)), calc(100vw / var(--psw))); }
+@media (max-aspect-ratio: 1/1) { :root { --psw: 2400; --psh: 2400; } }
+:root[data-culture="personal"] { --psw: 2400; --psh: 1600; --pk: .34; }
+.plane { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
+.plane .img { position: absolute; inset: 0; will-change: transform; }
+.plane picture { display: contents; }
+.plane img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.plane .grade { position: absolute; inset: 0; background: var(--grade); }
+.plane .leak { position: absolute; inset: 0; background: radial-gradient(60% 60% at var(--leak-pos), var(--leak), transparent 70%); mix-blend-mode: screen; }
+html[data-culture="personal"] .plane .ph-pro,
+html:not([data-culture="personal"]) .plane .ph-per { display: none; }
+/* unanswered: the scene waits in black and white; answering adds the colour */
+html[data-culture="neutral"] .plane .img, html[data-culture="neutral"] .portrait img { filter: grayscale(1) contrast(.96); }
+html[data-culture="neutral"] .plane .leak { opacity: 0; }
+
+/* =====================================================================
+   5. HEADER (floats, no bar)
+   ===================================================================== */
+.site-header {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 40; height: var(--hdr);
+  display: flex; align-items: center; gap: clamp(16px, 2.6vw, 44px); padding: 0 var(--gutter);
+  font-size: .9375rem; font-stretch: 100%;
+}
+.site-header::before {
+  content: ''; position: absolute; inset: 0 0 -36px 0; z-index: -1; pointer-events: none;
+  background: linear-gradient(180deg, color-mix(in oklab, var(--bg) 80%, transparent), color-mix(in oklab, var(--bg) 40%, transparent) 55%, transparent);
+}
+.site-header::after {
+  content: ''; position: absolute; inset: 0 0 -44px 0; z-index: -1; pointer-events: none; opacity: 0; transition: opacity 320ms var(--ease);
+  /* fully opaque over the bar itself, so nothing scrolling beneath (text, the skill pane) ghosts through behind the
+     controls; the soft fade happens below the bar */
+  background: linear-gradient(180deg, var(--bg) 0, var(--bg) var(--hdr), color-mix(in oklab, var(--bg) 78%, transparent) calc(var(--hdr) + 12px), color-mix(in oklab, var(--bg) 35%, transparent) calc(var(--hdr) + 28px), transparent);
+}
+html.scrolled .site-header::after { opacity: 1; }
+/* the brand appears only once the hero name has scrolled away; never a second, tiny copy of it */
+.brand { font-weight: 620; text-decoration: none; white-space: nowrap; font-stretch: 100%; letter-spacing: -.005em; padding: 10px 0;
+  opacity: 0; visibility: hidden; transition: opacity 320ms var(--ease), visibility 0s 320ms; }
+html.scrolled .brand { opacity: 1; visibility: visible; transition: opacity 320ms var(--ease), visibility 0s; }
+.brand { position: absolute; left: var(--gutter); }
+/* the nav leads at the gutter; when the brand fades in, the nav slides over to make room */
+.nav { display: flex; gap: clamp(14px, 1.8vw, 26px); transition: translate 320ms var(--ease); }
+html.scrolled .nav { translate: var(--bw, 0px) 0; }
+.nav a { text-decoration: none; color: var(--ink); padding: 10px 2px; }
+.nav a:hover { text-decoration: underline; text-underline-offset: .32em; }
+.tools { display: flex; align-items: center; gap: clamp(14px, 2vw, 30px); margin-left: auto; }
+.toggle { display: inline-flex; gap: 4px; align-items: baseline; }
+.toggle button { padding: 10px 4px; color: var(--ink-2); transition: color var(--t-fast) var(--ease); }
+.toggle button[aria-pressed="true"] { color: var(--ink); text-decoration: underline; text-decoration-thickness: 1.5px; text-underline-offset: .4em; }
+.toggle button:hover { color: var(--ink); }
+.culture-ctl { display: none; }
+html[data-answered="true"] .culture-ctl { display: inline-flex; }
+/* day / night: built like the culture control (words, the pressed one underlined in --ink), each word followed by
+   its sign; the underline runs under the word only */
+.scheme-ctl .ic { display: inline-block; width: 14px; height: 14px; margin-left: 5px; vertical-align: -2px; }
+#open-palette { display: inline-flex; align-items: center; gap: 6px; padding: 10px 2px; min-height: 44px; color: var(--ink-2); transition: color var(--t-fast) var(--ease); }
+#open-palette:hover { color: var(--ink); }
+#open-palette kbd { font: inherit; font-variant-numeric: tabular-nums; letter-spacing: .02em; }
+#open-palette .glyph { display: none; width: 18px; height: 18px; }
+@media (pointer: coarse) { #open-palette kbd { display: none; } #open-palette .glyph { display: block; } }
+@media (max-width: 767px) {
+  .nav { display: none; }
+  .tools { gap: 18px; }
+  .site-header { font-size: .9375rem; }
+  /* one switch per concern: each toggle shows only the option you can switch to */
+  .toggle button[aria-pressed="true"] { display: none; }
+  .toggle button { color: var(--ink); padding-inline: 4px; }
+  .culture-ctl button::before { content: '\2192\00a0'; color: var(--ink-2); }
+  #open-palette kbd { display: none; } #open-palette .glyph { display: block; }
+  #open-palette { color: var(--ink); padding-inline: 6px; }
+}
+
+/* =====================================================================
+   6. HERO: one stage, the same structure for every state
+   name + role in the sky, the horizon line, then lede | now + question | portrait on the ground
+   ===================================================================== */
+.hero {
+  --top: clamp(84px, 11svh, 116px);
+  /* the stage is reserved by the formal name size and the role line, in both cultures: the horizon never moves */
+  --stage: calc(var(--dP) * 1.68 + var(--r-size) * 1.2 + 14px);
+  --hz: calc(var(--top) + var(--stage) + 24px);        /* the horizon: photograph and type meet here */
+  --fade: clamp(200px, 32svh, 320px);                  /* how far below the horizon the photograph dissolves */
+  /* slot-A crop at the shared scale --ps: source row --rh (the photograph's horizon) is pinned to the page horizon --hz,
+     source column --cx to the page centre (cover-clamped), so a narrower window crops equally from both sides. */
+  --rh: 470; --cx: 932;   /* professional: the cyclist (the bridge's symmetry axis) on the page centre at every width */
+  --ix: clamp(calc(100% - var(--psw) * var(--ps)), calc(50% - var(--cx) * var(--ps)), 0px);   /* image left edge */
+  position: relative; isolation: isolate;
+  padding: var(--top) var(--gutter) clamp(64px, 11svh, 120px);
+  display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--col-gap);
+  grid-template-rows: var(--stage) auto; row-gap: 72px; align-content: start;
+  /* the ground under the horizon is the deeper surface, so the warm horizon glow reads, not fog */
+  background: linear-gradient(180deg, var(--bg) 0, var(--bg) calc(var(--hz) - 120px), var(--bg-2) calc(var(--hz) + 10px), var(--bg) calc(var(--hz) + 260px));
+}
+html[data-answered="true"] .hero { padding-bottom: clamp(28px, 4.5svh, 48px); }
+/* personal: a bright soft sky over the whole width, the treeline with the old trees and the distant hill low in the frame,
+   the straw meadow running on under the text (B then shows the trees and mid-meadow up close, C the grass) */
+html[data-culture="personal"] .hero { --rh: 640; --cx: 1200; }
+@media (max-aspect-ratio: 1/1) {
+  /* portrait-shaped viewports use the square bridge photograph: both globes, the railings, the cyclist on the axis */
+  html:not([data-culture="personal"]) .hero { --rh: 880; --cx: 1185; }
+}
+/* slot A: a full-bleed plane behind the hero, the same language as B and C (vertical fades only, no box, no side fades):
+   it rises out of the page under the header, is whole from the name down to the horizon, then dissolves softly into the page */
+.band { position: absolute; inset: 0 0 auto 0; z-index: -1; height: calc(var(--hz) + var(--fade)); overflow: hidden; pointer-events: none; }
+.band .plane {
+  -webkit-mask-image: linear-gradient(180deg, transparent 0, rgba(0,0,0,var(--m-hdr, .22)) var(--hdr), rgba(0,0,0,var(--m-rise, .7)) calc(var(--top) + var(--stage) * .2), #000 calc(var(--top) + var(--stage) * var(--m-full, .45)), #000 calc(var(--hz) - 20px),
+    rgba(0,0,0,var(--m-b1, .74)) calc(var(--hz) + 14px), rgba(0,0,0,var(--m-b2, .45)) calc(var(--hz) + 56px), rgba(0,0,0,var(--m-b3, .25)) calc(var(--hz) + var(--fade) * .4), rgba(0,0,0,var(--m-b4, .09)) calc(var(--hz) + var(--fade) * .7), transparent 100%);
+          mask-image: linear-gradient(180deg, transparent 0, rgba(0,0,0,var(--m-hdr, .22)) var(--hdr), rgba(0,0,0,var(--m-rise, .7)) calc(var(--top) + var(--stage) * .2), #000 calc(var(--top) + var(--stage) * var(--m-full, .45)), #000 calc(var(--hz) - 20px),
+    rgba(0,0,0,var(--m-b1, .74)) calc(var(--hz) + 14px), rgba(0,0,0,var(--m-b2, .45)) calc(var(--hz) + 56px), rgba(0,0,0,var(--m-b3, .25)) calc(var(--hz) + var(--fade) * .4), rgba(0,0,0,var(--m-b4, .09)) calc(var(--hz) + var(--fade) * .7), transparent 100%); }
+/* source row --rh lands on the horizon at every width; the image always covers the plane's top (rh x ps > hz) */
+/* the photograph stops 8px above the plane's masked edge: mask and photo are separate compositor layers, and during
+   Android's overscroll stretch they round differently, so a photo row could poke out below the mask as a bright hairline */
+.band .img { bottom: 8px; overflow: clip; }
+.band .crop { height: calc(var(--psh) * var(--ps)); width: calc(var(--psw) * var(--ps)); top: calc(var(--hz) - var(--rh) * var(--ps)); left: var(--ix); object-fit: cover; }
+@media (max-width: 767px) {
+  html[data-culture="personal"] .hero { --cx: 1850; }
+}
+/* phones, square bridge: at the shared scale the cyclist is large, so only his head and shoulders rise above the horizon */
+@media (max-width: 767px) and (max-aspect-ratio: 1/1) { html:not([data-culture="personal"]) .hero { --rh: 820; } }
+/* a pool of air behind the name and role only (sized to the stage, not the page) */
+.band .haze { position: absolute; inset: 0;
+  background: radial-gradient(min(64vw, 1040px) calc(var(--stage) * .78) at calc(var(--gutter) + min(20vw, 330px)) calc(var(--top) + var(--stage) * .62) in oklab,
+    color-mix(in oklab, var(--bg) 88%, transparent) 0%, color-mix(in oklab, var(--bg) 80%, transparent) 40%, color-mix(in oklab, var(--bg) 42%, transparent) 72%, transparent 100%); }
+@media (max-width: 767px) { .band .haze { background: linear-gradient(90deg, color-mix(in oklab, var(--bg) 88%, transparent) 0, color-mix(in oklab, var(--bg) 74%, transparent) 55%, transparent 90%); } }
+
+/* identity: name and role, bottom-aligned on the stage, so only the name's size changes between cultures */
+.ident { grid-column: 1 / span 9; grid-row: 1; align-self: end; position: relative; z-index: 3; }
+.name {
+  margin: 0 0 0 -.04em;
+  font-size: var(--d-size); line-height: .84; font-weight: var(--d-wght); font-stretch: var(--d-wdth); letter-spacing: var(--d-track);
+  color: var(--ink); white-space: nowrap;
+}
+.name .ln { display: block; overflow: clip; padding-bottom: .1em; margin-bottom: -.1em; }
+.name .ln > span { display: block; }
+.name .ln + .ln { padding-left: .52em; }
+.role {
+  margin: 14px 0 0; font-size: var(--r-size); line-height: 1.2; letter-spacing: -.012em;
+  font-stretch: var(--h-wdth); font-weight: var(--h-wght); color: var(--ink); white-space: nowrap;
+}
+.role .stack { color: var(--ink-2); }
+
+/* the photographer's mark lives in the middle photograph (slot B), pinned to one feature of it through the same crop
+   maths, a few px clear of that feature, with a short hairline leading to it; never mid-scene. It sits outside the
+   plane's fade mask, so it stays fully legible where the photograph dissolves. Forms: a 26px line running right, then
+   the words (default); .. running left (--dir: left); or the words above and a plumb line dropping onto the feature. */
+.clearing .credit {
+  position: absolute; z-index: 3; margin: 0; width: 0; height: 0;
+  left: calc(var(--bix) + var(--kx) * var(--ps)); top: calc(100% - (var(--rb) - var(--ky)) * var(--ps));
+  /* --ink, not --ink-2: over the mid-tone meadow and railings the softer ink read washed out */
+  font-size: .75rem; line-height: 1.3; letter-spacing: .01em; color: var(--ink); white-space: nowrap;
+}
+.credit::before { content: ''; position: absolute; left: 4px; top: 0; width: 26px; height: 1px; background: currentColor; opacity: .7; }
+.credit .ct { position: absolute; left: 38px; top: 0; translate: 0 -52%; }
+@media (min-width: 768px) and (max-aspect-ratio: 1/1) {
+  /* formal, tablets (square file): the words run left, ending just before the right big globe */
+  html:not([data-culture="personal"]) .credit::before { left: auto; right: 4px; }
+  html:not([data-culture="personal"]) .credit .ct { left: auto; right: 38px; }
+}
+@media (max-width: 767px) and (min-aspect-ratio: 1/1) {
+  /* formal, phones held sideways (wide file): too little room right of the lamp post for one line, so the words wrap
+     onto two lines after a shorter hairline */
+  html:not([data-culture="personal"]) .credit::before { width: 14px; }
+  html:not([data-culture="personal"]) .credit .ct { left: 24px; white-space: normal; width: min-content; }
+}
+/* drop form: the words above the feature, a plumb line onto it */
+@media (max-width: 767px) and (max-aspect-ratio: 1/1) {
+  /* formal, phones: above the right small globe, high enough to clear the cyclist's head; words end 14px past the line */
+  html:not([data-culture="personal"]) .credit { --kl: 130px; }
+  html:not([data-culture="personal"]) .credit .ct { left: auto; right: -14px; }
+}
+@media (max-width: 939px), (max-aspect-ratio: 4/3) {
+  /* casual, below 940px or up to 4:3 (the lone tree then sits at the right edge): above the small tree's crown; words start 14px before the line */
+  html[data-culture="personal"] .credit { --kl: 24px; }
+  html[data-culture="personal"] .credit .ct { left: -14px; }
+}
+@media (max-width: 939px), (max-aspect-ratio: 4/3) {
+  html[data-culture="personal"] .credit::before { left: 0; top: auto; bottom: 4px; width: 1px; height: var(--kl); }
+  html[data-culture="personal"] .credit .ct { top: auto; bottom: calc(var(--kl) + 8px); translate: none; }
+}
+@media (max-width: 767px) and (max-aspect-ratio: 1/1) {
+  html:not([data-culture="personal"]) .credit::before { left: 0; top: auto; bottom: 4px; width: 1px; height: var(--kl); }
+  html:not([data-culture="personal"]) .credit .ct { top: auto; bottom: calc(var(--kl) + 8px); translate: none; }
+}
+html[data-culture="neutral"] .credit { display: none; }
+
+/* portrait: a modest print in the text grid, top-aligned with the lede, off the photograph */
+.portrait {
+  --pw: clamp(104px, min(15vw, 26svh), 232px);
+  grid-column: 10 / -1; grid-row: 2; justify-self: end; align-self: start; margin: 0; position: relative; z-index: 2;
+  width: var(--pw); aspect-ratio: 4 / 5; overflow: hidden; background: var(--bg-2);
+}
+.portrait img { width: 100%; height: 100%; object-fit: cover; }
+.portrait .pp { object-position: 50% 24%; }
+.portrait .pe { object-position: 48% 34%; }
+
+.lede { grid-column: 1 / span 5; grid-row: 2; position: relative; z-index: 2; margin: 0;
+  font-size: clamp(1.1875rem, 1rem + .5vw, 1.4375rem); line-height: 1.42; letter-spacing: -.004em; max-width: 34ch; text-wrap: pretty; }
+.side { grid-column: 6 / span 4; grid-row: 2; position: relative; z-index: 2; padding-top: .3em; }
+.now { margin: 0; color: var(--ink-2); font-size: 1rem; max-width: 40ch; }
+/* night: over the lit sky behind the cyclist the soft ink fell under 4.5:1; halfway to --ink keeps it the quieter line */
+html.dark .now { color: color-mix(in oklab, var(--ink-2) 50%, var(--ink)); }
+
+/* the question */
+.gate { margin: clamp(16px, 2.6svh, 26px) 0 0; }
+.gate-q { margin: 0 0 4px; font-size: 1.0625rem; color: var(--ink-2); }
+.gate-opts { display: flex; align-items: baseline; gap: 10px 14px; flex-wrap: wrap; }
+.gate-opts .or { color: var(--ink-2); font-size: 1rem; }
+.pick {
+  font-size: clamp(1.5rem, 1.1rem + 1vw, 2.125rem); line-height: 1.1; letter-spacing: -.01em; padding: 4px 2px 6px; color: var(--ink);
+  background: linear-gradient(currentColor, currentColor) 0 calc(100% - 2px) / 100% 1.5px no-repeat;
+  transition: background-size var(--t-fast) var(--ease), translate 260ms var(--ease-out);
+}
+.pick:hover, .pick:focus-visible { background-size: 100% 3px; }
+/* each answer is set in the register it leads to */
+.pick[data-pick="professional"] { font-stretch: 75%; font-weight: 660; }
+.pick[data-pick="personal"] { font-stretch: 125%; font-weight: 380; }
+html[data-answered="true"] .gate { display: none; }
+/* answered: the question's place becomes a small way onward */
+.next { display: none; margin: clamp(16px, 2.6svh, 26px) 0 0; font-size: .9375rem; gap: 4px 22px; flex-wrap: wrap; align-items: baseline; }
+html[data-answered="true"] .next { display: flex; }
+.next a { display: inline-flex; align-items: center; min-height: 32px; text-decoration: none; }
+.next a .u { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: .28em; text-decoration-color: color-mix(in oklab, currentColor 45%, transparent); }
+.next a:hover .u { text-decoration-color: currentColor; }
+.next .gh { color: var(--ink-2); }
+.next .gh:hover { color: var(--ink); }
+
+@media (min-width: 768px) and (max-width: 1099px) {
+  .lede { font-size: 1.125rem; }
+}
+@media (max-width: 767px) {
+  .hero { --top: 84px; --stage: calc(var(--dP) * 1.68 + var(--r-size) * 2.4 + 12px); padding-bottom: 56px;
+    grid-template-columns: minmax(0, 1fr) auto; column-gap: 16px; row-gap: 64px; }
+  html[data-answered="true"] .hero { padding-bottom: 32px; }
+  .ident { grid-column: 1 / -1; }
+  .name .ln + .ln { padding-left: 0; }
+  .role { margin-top: 10px; }
+  .role .stack { display: block; color: var(--ink); }
+  .role .dot { display: none; }
+  .lede { grid-column: 1; max-width: none; font-size: 1.125rem; }
+  .portrait { grid-column: 2; --pw: 92px; }
+  .side { grid-column: 1 / -1; grid-row: 3; margin-top: -40px; }
+}
+
+/* unanswered (JS only): a neutral first screen with nothing but the name, the role line and the question, in the
+   formal register on a plain page, plus the language switch. No navigation, search, photograph, portrait or sections;
+   answering reveals the rest. */
+html.js[data-answered="false"] .nav,
+html.js[data-answered="false"] #open-palette,
+html.js[data-answered="false"] main > section:not(.hero),
+html.js[data-answered="false"] main > .clearing,
+html.js[data-answered="false"] .hero .band,
+html.js[data-answered="false"] .hero .lede,
+html.js[data-answered="false"] .hero .now,
+html.js[data-answered="false"] .hero .portrait { display: none; }
+/* the name and role keep exactly the place they have after answering (same padding, stage and horizon); only the
+   question leaves the grid: centred in the first screen, or, where that would touch the name or role line
+   (narrow windows, long German role line; measured by placeGate()), centred below the horizon instead */
+html.js[data-answered="false"] .hero { min-height: max(100svh, calc(var(--hz) + 220px)); background: var(--bg); }
+html.js[data-answered="false"] .side {
+  position: absolute; grid-area: auto; left: 50%; top: 50svh; translate: -50% -50%; margin: 0; padding: 0;
+  width: max-content; max-width: calc(100vw - 2 * var(--gutter)); text-align: center;
+}
+html.js[data-answered="false"].gate-low .side { top: calc(var(--hz) + clamp(24px, 6svh, 64px)); translate: -50% 0; }
+html.js[data-answered="false"] .gate { margin-top: 0; }
+html.js[data-answered="false"] .site-header::before { display: none; }   /* no band over the plain page */
+html.js[data-answered="false"] .gate-opts { justify-content: center; }
+
+/* =====================================================================
+   7. SECTIONS
+   ===================================================================== */
+main { position: relative; z-index: 2; }
+section { position: relative; }
+.sec-h { margin: 0; font-size: var(--h-size); line-height: .92; font-weight: var(--h-wght); font-stretch: var(--h-wdth); letter-spacing: -.022em; text-wrap: balance; }
+
+/* ---------- Experience ---------- */
+#experience { padding: clamp(40px, 6svh, 80px) var(--gutter) clamp(60px, 10svh, 120px); }
+html[data-answered="true"] #experience { padding-top: clamp(24px, 3svh, 40px); }
+.exp-grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--col-gap); align-items: start; }
+.exp-grid .head { grid-column: 1 / span 8; grid-row: 1; margin-bottom: clamp(20px, 3.5svh, 44px); }
+.stations { grid-column: 1 / span 8; grid-row: 3; list-style: none; margin: 0; padding: 0; position: relative; }
+/* the filter's top lines up with the first station's years */
+.skills { grid-column: 10 / span 3; grid-row: 3; position: sticky; top: calc(var(--hdr) + 28px); padding-top: clamp(18px, 2.6svh, 30px); }
+.skills > summary { display: none; }
+@media (max-width: 1099px) {
+  .exp-grid .head, .stations { grid-column: 1 / -1; }
+  .skills { grid-column: 1 / -1; grid-row: 2; position: static; padding-top: 0; margin-bottom: 8px; }
+  .skills > summary { display: flex; align-items: center; gap: 10px; min-height: 44px; cursor: pointer; list-style: none; color: var(--ink); width: max-content; }
+  .skills > summary::-webkit-details-marker { display: none; }
+  .skills > summary::after { content: ''; width: 9px; height: 9px; border-right: 1.5px solid currentColor; border-bottom: 1.5px solid currentColor; rotate: 45deg; translate: 0 -3px; transition: rotate 260ms var(--ease-out); }
+  .skills[open] > summary::after { rotate: 225deg; translate: 0 2px; }
+  .skills > summary .u { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: .28em; text-decoration-color: var(--line); }
+  .skills > summary .on { color: var(--accent); }
+  .skills h3 { display: none; }
+  .skills .panel { padding: 6px 0 18px; }
+}
+.station { position: relative; padding: clamp(18px, 2.6svh, 30px) 0 clamp(20px, 3svh, 34px); transition: opacity 320ms var(--ease); }
+.station + .station { border-top: 1px solid var(--line); }
+/* lit by the technology filter: an accent rule on the left */
+.station::after { content: ''; position: absolute; left: calc(-.55 * var(--gutter)); top: clamp(18px, 2.6svh, 30px); bottom: clamp(20px, 3svh, 34px); width: 2px; background: var(--accent); transform: scaleY(0); transform-origin: top; transition: transform 420ms var(--ease-out); }
+.station.lit::after { transform: scaleY(1); }
+.station.dim { opacity: .62; }
+.st-h { margin: 0; font: inherit; }
+.stations { --yf: max(1.5rem, calc(var(--h-size) * .55)); --yw: calc(var(--yf) * 3.6); }
+.st-head { display: grid; grid-template-columns: var(--yw) minmax(0, 1fr) 28px; column-gap: var(--col-gap); align-items: baseline; width: 100%; text-align: left; }
+.st-years { font-size: var(--yf); line-height: 1; font-weight: 380; font-stretch: var(--h-wdth); font-variant-numeric: tabular-nums lining-nums; letter-spacing: -.02em; white-space: nowrap; color: var(--ink-2); transition: color 320ms var(--ease); }
+.st-years .today { font-size: .9375rem; letter-spacing: .01em; font-weight: 450; margin-left: .25em; vertical-align: .35em; }
+.st-title { display: block; }
+.st-role { display: block; font-size: clamp(1.25rem, 1.05rem + .6vw, 1.625rem); line-height: 1.2; font-weight: 560; letter-spacing: -.01em; }
+.st-org { display: block; color: var(--ink-2); margin-top: 4px; font-size: 1rem; }
+.st-edu { display: block; color: var(--ink-2); margin-top: 2px; font-size: 1rem; }
+/* the contract title, small under the functional one: it matches references and certificates */
+.st-official { display: block; color: var(--ink-2); margin-top: 2px; font-size: .875rem; }
+.st-sign { align-self: center; width: 16px; height: 16px; position: relative; justify-self: end; }
+.st-sign::before, .st-sign::after { content: ''; position: absolute; left: 0; right: 0; top: 50%; height: 1.5px; background: currentColor; }
+.st-sign::after { transform: rotate(90deg); transition: transform 360ms var(--ease-out); }
+.station.open .st-sign::after { transform: rotate(0deg); }
+.st-head:hover .st-role { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: .22em; }
+.st-gist { margin: 10px 0 0; color: var(--ink-2); max-width: 52ch; }
+.st-gist, .st-body { margin-left: calc(var(--yw) + var(--col-gap)); }
+.st-body { display: grid; grid-template-rows: 0fr; visibility: hidden; transition: grid-template-rows 420ms var(--ease-out), visibility 0s 420ms; }
+.station.open .st-body { grid-template-rows: 1fr; visibility: visible; transition: grid-template-rows 480ms var(--ease-out), visibility 0s; }
+.st-body > div { overflow: hidden; min-height: 0; }
+.st-work { list-style: none; margin: 0; padding: 22px 0 0; display: grid; gap: 16px; max-width: 56ch; }
+.st-work li { padding-left: 18px; position: relative; }
+.st-work li::before { content: ''; position: absolute; left: 0; top: .78em; width: 8px; height: 1px; background: var(--ink-2); }
+/* task on top, small and quiet; the outcome is the line you read */
+.st-work .task { display: block; color: var(--ink-2); font-size: .9375rem; }
+.st-work .o { display: block; color: var(--ink); }
+.st-tech { margin: 18px 0 4px; color: var(--ink-2); font-size: .9375rem; max-width: 60ch; }
+.st-tech .hit { color: var(--accent); text-decoration: underline; text-underline-offset: .22em; text-decoration-thickness: 1.5px; }
+.station.lit .st-years { color: var(--accent); }
+@media (max-width: 767px) {
+  .st-head { grid-template-columns: 1fr 20px; row-gap: 4px; }
+  .st-years { grid-column: 1 / -1; }
+  .st-sign { grid-column: 2; grid-row: 2; }
+  .st-gist, .st-body { margin-left: 0; }
+}
+.skills h3 { margin: 0 0 6px; font-size: 1rem; font-weight: 600; }
+.skills .lead { margin: 0 0 12px; color: var(--ink-2); font-size: .9375rem; }
+.skill-list { margin: 0; font-size: 1rem; line-height: 1.5; display: flex; flex-wrap: wrap; gap: 2px 16px; }
+.skill-list button { color: var(--ink); padding: 6px 0; min-height: 36px;
+  text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: .3em; text-decoration-color: var(--line);
+  transition: color var(--t-fast) var(--ease), text-decoration-color var(--t-fast) var(--ease); }
+.skill-list button:hover { text-decoration-color: currentColor; }
+.skill-list button[aria-pressed="true"] { color: var(--accent); text-decoration-color: currentColor; text-decoration-thickness: 2px; }
+.skill-list .n { color: var(--ink-2); font-size: .8125rem; margin-left: .3em; font-variant-numeric: tabular-nums; }
+.skills .out { margin: 14px 0 0; min-height: 3.2em; font-size: .9375rem; }
+.skills .out button { color: var(--ink-2); text-decoration: underline; text-underline-offset: .22em; margin-left: 6px; padding: 4px 0; }
+
+/* ---------- Clearing (slot B): one detail of the photograph, wide and text-free ---------- */
+.clearing { position: relative; height: clamp(320px, 56svh, 600px); overflow-x: clip; }   /* the credit can never widen the page */
+/* both tones, both schemes: the photograph rises out of the page on a short eased curve (its first rows draw no line,
+   no edge shows above the globes) and keeps most of the slot at full strength */
+.clearing .plane {
+  -webkit-mask-image: linear-gradient(180deg, transparent 0, rgba(0,0,0,.06) 3%, rgba(0,0,0,.2) 7%, rgba(0,0,0,.45) 12%, rgba(0,0,0,.75) 17%, rgba(0,0,0,.94) 21%, #000 25%, #000 90%, transparent 100%);
+          mask-image: linear-gradient(180deg, transparent 0, rgba(0,0,0,.06) 3%, rgba(0,0,0,.2) 7%, rgba(0,0,0,.45) 12%, rgba(0,0,0,.75) 17%, rgba(0,0,0,.94) 21%, #000 25%, #000 90%, transparent 100%); }
+/* explicit crops at the shared scale --ps: each slot pins one source row to one edge and one column to the centre */
+.plane .crop { position: absolute; max-width: none; height: calc(var(--psh) * var(--ps)); width: calc(var(--psw) * var(--ps)); object-fit: cover; }
+/* B: source row --rb sits on the slot's bottom edge, column --bx on the page centre (cover-clamped) */
+.clearing { --bix: clamp(calc(100% - var(--psw) * var(--ps)), calc(50% - var(--bx) * var(--ps)), 0px); }
+.clearing .crop { top: calc(100% - var(--rb) * var(--ps)); left: var(--bix); }
+/* professional B: the cyclist himself, body and bike on the crest with the warm glow, the small lamps and the converging
+   railings, the big globes just fading in at the top (A above shows only his head and shoulders under the sky) */
+/* credit anchors (source px): wide, right of the right lamp post above the railing; square file on tablets, just left
+   of the right big globe (words run left); phones, above the right small globe (the big one is outside the crop) */
+html:not([data-culture="personal"]) .clearing { --rb: 728; --bx: 932; --kx: 1134; --ky: 469; }
+@media (max-aspect-ratio: 1/1) { html:not([data-culture="personal"]) .clearing { --rb: 1240; --bx: 1185; --kx: 1558; --ky: 706; } }
+@media (max-width: 767px) and (max-aspect-ratio: 1/1) { html:not([data-culture="personal"]) .clearing { --kx: 1384; --ky: 970; } }
+/* personal B: the gnarled trees and the mid-meadow, almost no sky; ends where C's grass begins */
+/* credit anchors: from 940px in landscape, right of the lone tree's trunk on the right (words over the meadow); narrower or up to 4:3, where that
+   tree leaves the crop, above the crown of the small tree left of the gnarled pair */
+html[data-culture="personal"] .clearing { --rb: 1104; --bx: 1104; --kx: 1500; --ky: 880; }
+@media (max-width: 939px), (max-aspect-ratio: 4/3) { html[data-culture="personal"] .clearing { --kx: 969; --ky: 662; } }
+
+/* ---------- How I work: 2 x 2, hairlines, no numbering ---------- */
+#how { padding: clamp(40px, 6svh, 80px) var(--gutter) 96px; }
+#how .sec-h { margin-bottom: clamp(32px, 5svh, 64px); max-width: 14ch; }
+.how { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: minmax(0, 1fr); }
+.how li { padding: 22px 0 30px; border-top: 1px solid var(--line); }
+.how .k { display: block; font-size: calc(var(--h-size) * .4); line-height: 1.15; font-weight: var(--h-wght); font-stretch: var(--h-wdth); letter-spacing: -.012em; text-wrap: balance; max-width: 24ch; }
+.how .r { display: block; margin-top: 10px; color: var(--ink-2); max-width: 46ch; text-wrap: pretty; }
+@media (min-width: 1100px) { .how { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: calc(var(--col-gap) * 3); }
+  .how li:last-child:nth-child(odd) { grid-column: 1 / -1; } }
+
+#projects { padding: 0 var(--gutter) 120px; }
+
+/* ---------- Contact: modest, in proportion ---------- */
+#contact { padding: clamp(32px, 6svh, 72px) var(--gutter) 0; }
+.contact-lead { margin: 20px 0 22px; max-width: 42ch; font-size: clamp(1.1875rem, 1rem + .5vw, 1.4375rem); line-height: 1.42; text-wrap: pretty; }
+.reach { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; align-items: center; gap: 4px 36px; font-size: clamp(1.0625rem, 1rem + .25vw, 1.25rem); }
+.reach li { display: flex; align-items: center; gap: 14px; min-height: 44px; }
+.reach a, .reach button.line { display: inline-flex; align-items: center; min-height: 44px; font-weight: 540; text-decoration: none; }
+.reach .u, .reach button.line { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: .3em; text-decoration-color: color-mix(in oklab, currentColor 40%, transparent);
+  transition: text-decoration-color var(--t-fast) var(--ease), text-underline-offset var(--t-fast) var(--ease); }
+.reach a:hover .u, .reach button.line:hover { text-decoration-color: currentColor; text-underline-offset: .36em; }
+.reach .ext { margin-left: .3em; font-size: .85em; display: inline-block; text-decoration: none; }
+.copy { font-size: .9375rem; color: var(--ink-2); text-decoration: underline; text-underline-offset: .22em; min-height: 44px; }
+.ground { position: relative; height: var(--gh); margin: clamp(24px, 6svh, 64px) calc(-1 * var(--gutter)) 0; }
+.ground .plane { -webkit-mask-image: linear-gradient(180deg, transparent 0, rgba(0,0,0,.3) 8%, rgba(0,0,0,.7) 18%, #000 28%); mask-image: linear-gradient(180deg, transparent 0, rgba(0,0,0,.3) 8%, rgba(0,0,0,.7) 18%, #000 28%); }
+/* C = the ground only, the reference for --ps: the photograph's bottom edge on the slot's bottom, centred;
+   the lowest 28 % (professional: the puddle reflection) / 34 % (personal: the grass) fills the slot */
+.ground .crop { bottom: 0; left: calc(50% - var(--psw) * var(--ps) / 2); }
+footer {
+  position: absolute; left: 0; right: 0; bottom: 0; z-index: 2; padding: 64px var(--gutter) 24px;
+  display: flex; flex-wrap: wrap; gap: 4px 28px; justify-content: space-between; align-items: baseline; font-size: .875rem;
+  background: linear-gradient(180deg, transparent, color-mix(in oklab, var(--bg) 76%, transparent) 50%, color-mix(in oklab, var(--bg) 86%, transparent));
+}
+footer p { margin: 0; max-width: 78ch; }
+footer a { display: inline-block; padding: 6px 0; }
+
+/* =====================================================================
+   8. COMMAND PALETTE (solid tinted surface, no glass)
+   ===================================================================== */
+dialog.palette {
+  width: min(560px, calc(100vw - 32px)); margin: 14vh auto auto; padding: 0; border: 0; color: var(--ink);
+  background: var(--bg-2); box-shadow: 0 40px 120px -20px rgba(0, 0, 0, .35), 0 0 0 1px var(--line);
+}
+dialog.palette::backdrop { background: color-mix(in oklab, var(--bg) 55%, transparent); }
+.palette input { width: 100%; font: inherit; font-size: 1.125rem; color: var(--ink); background: transparent; border: 0; border-bottom: 1px solid var(--line); padding: 18px 20px; outline: none; }
+.palette input::placeholder { color: var(--ink-2); opacity: 1; }
+.palette ul { list-style: none; margin: 0; padding: 0; }
+.palette #pal-list { padding: 6px 0 10px; max-height: 52vh; overflow: auto; }
+.palette .grp + .grp { margin-top: 4px; }
+.palette .gh { display: block; padding: 12px 20px 4px; color: var(--ink-2); font-size: .75rem; letter-spacing: .06em; text-transform: uppercase; }
+.palette [role="option"] { padding: 9px 20px; cursor: pointer; box-shadow: inset 2px 0 0 transparent; transition: box-shadow var(--t-fast) var(--ease), background-color var(--t-fast) var(--ease); }
+/* selection: a 2px accent rail and a whisper of tint, no filled bar */
+.palette [role="option"][aria-selected="true"] { box-shadow: inset 2px 0 0 var(--accent); background: color-mix(in oklab, var(--accent) 5%, transparent); }
+.palette .none { padding: 12px 20px; color: var(--ink-2); }
+
+/* =====================================================================
+   9. VIEW TRANSITIONS: feathered diagonal wipe, left to right
+   ===================================================================== */
+html.vt-wipe::view-transition-old(root) { animation: none; }
+html.vt-wipe::view-transition-new(root) {
+  animation: mm-wipe var(--t-wipe) var(--ease-wipe) both; mix-blend-mode: normal;
+  -webkit-mask-image: linear-gradient(118deg, #000 calc(var(--p) - 2.5%), transparent var(--p));
+          mask-image: linear-gradient(118deg, #000 calc(var(--p) - 2.5%), transparent var(--p));
+}
+@keyframes mm-wipe { from { --p: 0%; } to { --p: 103%; } }
+/* first answer: only the chosen word travels to its header twin; the rest of the question fades where it stands.
+   The images keep their natural size (no bitmap scaling): the big word fades out early, the small one fades in on arrival. */
+html.vt-gate .gate { view-transition-name: gate-rest; }
+::view-transition-old(gate-rest) { animation: mm-out 200ms var(--ease) both; }
+::view-transition-group(pick) { animation-duration: 760ms; animation-timing-function: var(--ease-wipe); }
+::view-transition-old(pick), ::view-transition-new(pick) { width: auto; height: auto; }
+::view-transition-old(pick) { animation: mm-out 260ms var(--ease) both; }
+::view-transition-new(pick) { animation: mm-in 300ms 460ms var(--ease) both; }
+/* day / night: a plain cross-fade of the whole page */
+html.vt-scheme::view-transition-old(root) { animation: mm-out 300ms ease both; }
+html.vt-scheme::view-transition-new(root) { animation: mm-in 300ms ease both; }
+html.vt-fade::view-transition-old(root) { animation: mm-out 200ms ease both; }
+html.vt-fade::view-transition-new(root) { animation: mm-in 200ms ease both; }
+@keyframes mm-out { to { opacity: 0; } }
+@keyframes mm-in { from { opacity: 0; } }
+
+/* =====================================================================
+   10. ENTRANCE + SCROLL REVEALS (motion only)
+   ===================================================================== */
+html.intro .name .ln > span { transform: translateY(110%); }
+@supports (animation-timeline: view()) {
+  html:not(.rm) .reveal { animation: mm-rise linear both; animation-timeline: view(); animation-range: entry 0% cover 22%; }
+  @keyframes mm-rise { from { opacity: 0; translate: 0 28px; } }
+}
+html.rm *, html.rm *::before, html.rm *::after { transition-duration: 0s !important; }
+@media print { .reveal { animation: none !important; opacity: 1 !important; translate: none !important; } .light, .grain, .site-header { display: none; } }
+
+/* =====================================================================
+   11. LIGHT SCHEME: "daylight, photo-led"
+   The photograph carries the hero at full strength; the page continues its light. Formal: the blue sky behind the
+   header, then the pale warm light the cyclist rides towards. Casual: the bright sky, then sunlit straw. Text over the
+   photograph sits on bars of that light, like a selection. The dark scheme is untouched (every rule is :not(.dark)).
+   ===================================================================== */
+/* ---------- hero: the photograph whole from the header to below the horizon ---------- */
+html:not(.dark) .hero {
+  --m-hdr: 1; --m-rise: 1; --m-full: .1;
+  --m-b1: .94; --m-b2: .74; --m-b3: .36; --m-b4: .1;
+  /* the page continues the photograph: deep sky behind the header, the warm horizon, then the page */
+  background: linear-gradient(180deg, var(--a-top) 0, var(--a-top) var(--hdr), var(--a-sky) calc(var(--hz) - 200px),
+    var(--a-warm) calc(var(--hz) + 60px), var(--bg) calc(var(--hz) + 320px));
+}
+/* no band of mist: the bars behind the text carry it, so the photograph stays clear */
+html:not(.dark) .band .haze { background: none; }
+/* formal: a thin pool of the pale sky behind the name only (a lamp globe or the railing can pass beneath it at some
+   widths); same geometry as the night pool, far weaker, so the photograph still reads clearly */
+html:not(.dark):not([data-culture="personal"]) .band .haze {
+  background: radial-gradient(min(64vw, 1040px) calc(var(--stage) * .78) at calc(var(--gutter) + min(20vw, 330px)) calc(var(--top) + var(--stage) * .42) in oklab,
+    color-mix(in oklab, var(--a-halo) var(--pool, 62%), transparent) 0%, color-mix(in oklab, var(--a-halo) calc(var(--pool, 62%) * .8), transparent) 45%, transparent 100%); }
+/* formal: the sunset glow at the horizon at full strength, so the warm page band below has something to continue */
+html:not(.dark) .band .leak { opacity: 1; }
+html:not(.dark)[data-culture="personal"] .band .leak { opacity: .6; }
+/* formal: a soft lift of the deepest sky at the name's height only, so the navy letters stay crisp on the blue */
+html:not(.dark):not([data-culture="personal"]) .band .grade {
+  mix-blend-mode: soft-light;
+  background: linear-gradient(180deg, transparent 60px, rgba(255, 255, 255, .22) 120px, rgba(255, 255, 255, .22) 280px, transparent 380px);
+}
+/* casual: a polariser on the upper sky only, so the top is never paper-white; it is gone before the trees */
+html:not(.dark)[data-culture="personal"] .band .grade {
+  mix-blend-mode: multiply;
+  background: linear-gradient(180deg, #cfdeec 0, #dfe8f0 calc(var(--hz) - 420px), transparent calc(var(--hz) - 300px));
+}
+/* text over the photograph sits on bars of the horizon's light, one per line, like a selection made with the cursor:
+   the photograph stays clear around the words instead of being veiled or blurred behind them */
+html:not(.dark)[data-answered="true"] .hero :is(.lede, .now) [lang],
+html:not(.dark)[data-answered="true"] .hero .next a,
+html:not(.dark)[data-answered="true"] .hero .role {
+  background: color-mix(in oklab, var(--a-halo) var(--bar, 86%), transparent);
+  padding: .1em .32em; -webkit-box-decoration-break: clone; box-decoration-break: clone;
+}
+html:not(.dark)[data-answered="true"] .hero .role { width: fit-content; margin-left: -.32em; }
+html:not(.dark)[data-answered="true"] .hero :is(.lede, .now) { margin-left: -.32em; }
+html:not(.dark)[data-answered="true"] .hero .next { margin-left: -.32em; }
+html:not(.dark)[data-answered="true"] .hero .next a { min-height: 0; }
+html:not(.dark) .now { color: var(--ink); }
+/* casual daylight: the credit sits on the busy meadow, so it gets a bar like the hero text (formal's calm sky needs none) */
+html:not(.dark)[data-culture="personal"] .clearing .credit .ct {
+  background: color-mix(in oklab, var(--a-halo) 86%, transparent); padding: .14em .5em; margin-inline: -.5em; }
+/* formal night: the pale words sit on the lit sky between the globes, so they get a bar of the night itself */
+html.dark:not([data-culture="personal"]) .clearing .credit .ct {
+  background: color-mix(in oklab, var(--bg) 72%, transparent); padding: .14em .5em; margin-inline: -.5em; }
+
+/* header: over the deep sky the words are pale, like a caption set into the photograph; once scrolled, ink again.
+   every word is the full pale ink (the current language / culture is marked by its underline, not by a lighter tone) */
+html:not(.dark):not(.scrolled)[data-answered="true"] .site-header { --ink: #f6f9fb; --ink-2: #f6f9fb; }
+html:not(.dark):not(.scrolled)[data-answered="true"][data-culture="personal"] .site-header { --ink: #19260f; --ink-2: #3c4a22; }
+html:not(.dark) .site-header::before { background: none; }
+/* formal: the sky's own navy behind the pale words (never white), held through the whole header row */
+html:not(.dark):not(.scrolled)[data-answered="true"]:not([data-culture="personal"]) .site-header::before {
+  background: linear-gradient(180deg, rgba(8, 45, 80, .46), rgba(8, 45, 80, .36) 50%, rgba(8, 45, 80, .17) 72%, rgba(8, 45, 80, .05) 88%, transparent);
+}
+/* tablets in portrait: the square file puts brighter sky under the controls on the right */
+@media (min-width: 768px) and (max-aspect-ratio: 1/1) {
+  html:not(.dark):not(.scrolled)[data-answered="true"]:not([data-culture="personal"]) .site-header::before {
+    background: linear-gradient(180deg, rgba(8, 45, 80, .54), rgba(8, 45, 80, .43) 50%, rgba(8, 45, 80, .2) 72%, rgba(8, 45, 80, .06) 88%, transparent); }
+}
+
+@media (max-width: 767px) {
+  /* phones: the photograph stays whole through the name, the role and into the lede; no band of mist at all,
+     the bars carry the lede. Formal keeps a deeper sky behind the name. */
+  html:not(.dark) .hero { --m-b1: .92; --m-b2: .62; --m-b3: .26; --m-b4: .06; }
+  html:not(.dark) .band .haze { background: none; }
+  html:not(.dark):not([data-culture="personal"]) { --a-top: #2a6f99; --a-sky: #6f9fbf; }
+}
+
+/* ---------- unanswered: no photograph yet, only its light: the dusk sky over a thin warm horizon ---------- */
+html:not(.dark).js[data-answered="false"] .hero {
+  background: linear-gradient(180deg in oklab, var(--a-n1) 0, var(--bg) calc(var(--hz) - 90px), var(--bg) calc(var(--hz) - 22px),
+    color-mix(in oklab, var(--a-n2) 72%, var(--bg)) calc(var(--hz) + 2px), var(--bg) calc(var(--hz) + 30px), var(--bg) 100%);
+}
+
+/* ---------- the page below ---------- */
+/* the warm second voice: year numerals in burnt sand / terracotta; lit positions and pressed chips in the accent */
+html:not(.dark) .st-years { color: var(--ember); }
+html:not(.dark) .station.lit .st-years { color: var(--accent); }
+html:not(.dark) .st-years .today { color: var(--ember); }
+html:not(.dark) .station::after { background: var(--ember); }
+html:not(.dark) .skill-list .n { color: var(--ember); }
+html:not(.dark) .next a, html:not(.dark) .reach a, html:not(.dark) .reach button.line { color: var(--accent); }
+html:not(.dark) .sec-h { color: var(--ink); }
+/* a lighter pane of sky / sunlight for the technologies aside, so Experience is not one plane
+   (painted with a spread shadow: no layout change) */
+@media (min-width: 1100px) {
+  html:not(.dark) .skills { background: var(--a-panel); box-shadow: 0 0 0 22px var(--a-panel); }
+}
+/* stacked (tablet, phone landscape): the pane takes real space, so it keeps clear of the
+   headline and the first station even when svh is small; the text stays on the grid */
+@media (min-width: 768px) and (max-width: 1099px) {
+  html:not(.dark) .skills { background: var(--a-panel); padding: 6px 22px 2px; margin: 12px -22px 28px; }
+}
+
+/* the clearing: the page takes the photograph's own top colour before the photo fades in, so no seam,
+   and deepens to the field colour at the bottom */
+html:not(.dark) .clearing { background: linear-gradient(180deg in oklab, var(--bg) 0, color-mix(in oklab, var(--bg) 70%, var(--a-seam)) 9%,
+  color-mix(in oklab, var(--bg) 25%, var(--a-seam)) 18%, var(--a-seam) 28%, var(--a-seam) 45%, var(--bg-2) 92%); }
+html:not(.dark) #how, html:not(.dark) #projects, html:not(.dark) #contact { --bg: var(--bg-2); background: var(--bg); }
+/* slot C: the puddle rises out of a mid-tone over a short distance, not out of the pale page */
+html:not(.dark) .ground { background: linear-gradient(180deg, transparent 0, var(--a-pool) 28%); }
+
+/* =====================================================================
+   12. PRODUCTION ADDITIONS
+   ===================================================================== */
+.portrait picture { display: contents; }
+/* without JS: the whole formal page in English, every station open, no controls that need a script */
+html:not(.js) .tools, html:not(.js) .skills, html:not(.js) .st-sign, html:not(.js) #mail-line { display: none; }
+html:not(.js) .st-body { grid-template-rows: 1fr; visibility: visible; }
