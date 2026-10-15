@@ -1,0 +1,14 @@
+# Footer copy. Tones: pro = formal, per = casual. The photo credit is the same in both tones.
+colophon:
+  pro:
+    en: "No cookies. Page views and the choice of tone are counted anonymously with GoatCounter. The landscape photographs are my own; the portraits were taken by someone else."
+    de: "Keine Cookies. Seitenaufrufe und die Wahl des Tons werden mit GoatCounter anonym gezählt. Die Landschaftsfotos habe ich selbst aufgenommen, die Porträts stammen von jemand anderem."
+  per:
+    en: "No cookies, just an anonymous counter (GoatCounter) for page views and which tone you picked. I shot the landscape photos myself; someone else took the portraits."
+    de: "Keine Cookies, nur ein anonymer Zähler (GoatCounter) für Seitenaufrufe und den gewählten Ton. Die Landschaftsfotos sind von mir, die Porträts hat jemand anderes gemacht."
+credit:
+  en: "Photography: Marvin Mai"
+  de: "Fotografie: Marvin Mai"
+source_link:
+  en: "Source on GitHub"
+  de: "Quellcode auf GitHub"

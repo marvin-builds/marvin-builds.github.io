@@ -1,0 +1,36 @@
+# Hero copy. Tones: pro = formal (DE "Sie" where an address is needed), per = casual (DE "du").
+role_line:
+  en: "Software engineer"
+  de: "Softwareentwickler"
+stack: "Kotlin, Java, Spring"
+lede:
+  pro:
+    en: "I build backend systems where many interfaces meet: test-first, with an eye for detail and code that stays easy to read."
+    de: "Ich entwickle Backend-Systeme, an denen viele Schnittstellen zusammenlaufen: testgetrieben, mit Blick fürs Detail und mit Code, der gut lesbar bleibt."
+  per:
+    en: "I like the spots where systems meet, and I care about the small things: test first, and code that still reads well in two years."
+    de: "Ich mag die Stellen, an denen Systeme aufeinandertreffen, und mir sind Kleinigkeiten wichtig: erst der Test, dann Code, der auch in zwei Jahren noch gut lesbar ist."
+now_line:
+  pro:
+    en: "Now software engineer at Element Logic, before that at Dürr Systems, where I also did my work-study degree. Looking for a senior engineer role."
+    de: "Derzeit Softwareentwickler bei Element Logic, davor bei Dürr Systems, wo ich auch dual studiert habe. Ich suche eine Stelle als Senior Engineer."
+  per:
+    en: "Right now at Element Logic, before that at Dürr Systems, where I also did my work-study degree. Next up for me: a senior engineer role."
+    de: "Gerade bei Element Logic, davor bei Dürr Systems, wo ich auch dual studiert habe. Als Nächstes: eine Stelle als Senior Engineer."
+onward:
+  pro:
+    en: "Get in touch"
+    de: "Kontakt aufnehmen"
+  per:
+    en: "Say hi"
+    de: "Schreib mir"
+gate:
+  question:
+    en: "How should I introduce myself?"
+    de: "Wie soll ich mich vorstellen?"
+  formal:
+    en: "Formally"
+    de: "Förmlich"
+  casual:
+    en: "Casually"
+    de: "Locker"

@@ -1,0 +1,37 @@
+# Contact copy. Tones: pro = formal (DE "Sie"), per = casual (DE "du").
+heading:
+  pro:
+    en: "Contact"
+    de: "Kontakt"
+  per:
+    en: "Say hello"
+    de: "Sag hallo"
+lead:
+  pro:
+    en: "Open to senior software engineer roles: backend is my focus, full stack is welcome. E-mail is the fastest way to reach me."
+    de: "Ich freue mich über Angebote für Stellen als Senior Software Engineer, mit Schwerpunkt Backend und gern auch Full-Stack. Am schnellsten erreichen Sie mich per E-Mail."
+  per:
+    en: "Hiring, or building something where lots of systems have to talk to each other? Write me."
+    de: "Du suchst Verstärkung oder baust etwas, bei dem viele Systeme miteinander reden müssen? Schreib mir."
+reveal_label:
+  pro:
+    en: "Show e-mail address"
+    de: "E-Mail-Adresse anzeigen"
+  per:
+    en: "Show my e-mail"
+    de: "Meine Mailadresse zeigen"
+copy_label:
+  en: "copy"
+  de: "kopieren"
+copied_label:
+  en: "copied"
+  de: "kopiert"
+copied_status:
+  en: "E-mail address copied"
+  de: "E-Mail-Adresse kopiert"
+copy_fallback:
+  en: "select and copy"
+  de: "markieren und kopieren"
+new_tab:
+  en: "(opens in a new tab)"
+  de: "(öffnet in neuem Tab)"

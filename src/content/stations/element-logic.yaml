@@ -1,0 +1,62 @@
+id: "element-logic"
+org: "Element Logic"
+from: "2024-03"
+to: null
+role:
+  en: "Software Engineer"
+  de: "Softwareentwickler"
+area:
+  en: "R&D, intralogistics"
+  de: "R&D, Intralogistik"
+gist:
+  en: "Backend development in research and development from day one, in a team that builds standard building blocks for linking external systems and also works on parts of the company's new software platform. Pair programming was a big part of the daily work, and English the working language with the partner teams in Norway."
+  de: "Backend-Entwicklung im Bereich Research & Development von Beginn an, in einem Team, das Standardbausteine baut, über die Fremdsysteme angebunden werden, und außerdem an Teilen der neuen Software-Plattform des Unternehmens arbeitet. Pair Programming gehörte fest zum Arbeitsalltag, und mit den Partnerteams in Norwegen arbeitete ich auf Englisch."
+work:
+  - title:
+      en: "Connecting automated storage systems"
+      de: "Anbindung automatischer Lagersysteme"
+    text:
+      en: "Maintaining and extending the central service between automated storage systems and the warehouse management system, and modernising it while in production."
+      de: "Pflege und Ausbau des zentralen Service zwischen automatischen Lagersystemen und dem Lagerverwaltungssystem sowie seine Modernisierung im laufenden Betrieb."
+  - title:
+      en: "A gateway for the new platform"
+      de: "Ein Gateway für die neue Plattform"
+    text:
+      en: "Design and development of the gateway that connects automated storage systems to the new platform, including a simulation and the link to configuration management, with shared responsibility for its engineering and API. Also new features for the platform services around master data and inventory, agreed with product management and the teams that work with them."
+      de: "Entwurf und Entwicklung des Gateways, über das automatische Lagersysteme an die neue Plattform angeschlossen werden, samt Simulation und Verbindung zur Konfigurationsverwaltung; mitverantwortlich für Engineering und API. Dazu neue Funktionen für die Plattformdienste rund um Stammdaten und Lagerbestände, die ich mit dem Produktmanagement und den Teams abgestimmt habe, die damit arbeiten."
+  - title:
+      en: "Standard components for host systems"
+      de: "Standardkomponenten für Host-Systeme"
+    text:
+      en: "Developing the standard components that connect customers' host systems, including a test-first rewrite of the HTTP connection in Kotlin."
+      de: "Entwicklung der Standardkomponenten, über die Host-Systeme von Kunden angebunden werden, darunter ein testgetriebener Rewrite der HTTP-Anbindung in Kotlin."
+  - title:
+      en: "Customer projects in the early phase"
+      de: "Kundenprojekte in der Anfangszeit"
+    text:
+      en: "Customer-specific solutions and interfaces such as pick-by-light, put-to-light and host connections, database migrations across several major versions, commissioning and go-lives on site, and technical support while a customer moved to a new ERP system."
+      de: "Kundenspezifische Lösungen und Schnittstellen wie Pick-by-Light, Put-to-Light und Host-Anbindungen, Datenbankmigrationen über mehrere Hauptversionen hinweg, Inbetriebnahmen und Go-lives vor Ort sowie technische Unterstützung beim Wechsel eines Kunden auf ein neues ERP-System."
+  - title:
+      en: "Support and operations"
+      de: "Support und Betrieb"
+    text:
+      en: "Finding and fixing bugs in the components our team looked after, for customers as well as during production incidents, plus maintenance and service weeks and on-call duty."
+      de: "Fehlersuche und -behebung in der Software unseres Teams, für Kunden ebenso wie bei Ausfällen im Betrieb; dazu Wartungs- und Servicewochen und Rufbereitschaft."
+tech:
+  - "Kotlin"
+  - "Java"
+  - "Spring Boot"
+  - "Gradle"
+  - "jOOQ"
+  - "Flyway"
+  - "PostgreSQL"
+  - "Oracle"
+  - "C"
+  - "Kotest"
+  - "Testcontainers"
+  - "Guice"
+  - "TeamCity"
+  - "GitHub Actions"
+  - "Linux"
+  - en: "AI-assisted development"
+    de: "KI-gestützte Entwicklung"

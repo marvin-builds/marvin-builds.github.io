@@ -1,0 +1,38 @@
+id: "duerr-dual-study"
+org: "Dürr Systems"
+from: "2015-10"
+to: "2018-09"
+role:
+  en: "Work-study student, Mechatronics"
+  de: "Dualer Student Mechatronik"
+area:
+  en: "Industrial communication"
+  de: "Industrielle Kommunikation"
+edu:
+  en: "B.Eng. Mechatronics, DHBW Stuttgart, 2018"
+  de: "B.Eng. Mechatronik, DHBW Stuttgart, 2018"
+gist:
+  en: "Company phases of the work-study degree programme, after foundation training in the workshop and in control engineering: industrial communication, augmented reality and three months on a plant construction site."
+  de: "Praxisphasen des dualen Studiums nach einer Grundausbildung in Werkstatt und Steuerungstechnik: industrielle Kommunikation, Augmented Reality und drei Monate auf einer Anlagenbaustelle."
+work:
+  - title:
+      en: "Industrial communication"
+      de: "Industrielle Kommunikation"
+    text:
+      en: "Investigating the communication between programmable logic controllers and software, with performance measurements of OPC UA connections."
+      de: "Untersuchung der Kommunikation zwischen speicherprogrammierbaren Steuerungen und Software, mit Performancemessungen von OPC-UA-Verbindungen."
+  - title:
+      en: "Augmented reality"
+      de: "Augmented Reality"
+    text:
+      en: "First steps with augmented reality: a feasibility study for a demonstrator, and building on it my bachelor thesis, in which I wrote software for an AR application."
+      de: "Erste Schritte mit Augmented Reality: eine Machbarkeitsuntersuchung für einen Demonstrator und darauf aufbauend die Bachelorarbeit, in der ich Software für eine AR-Anwendung entwickelt habe."
+  - title:
+      en: "Commissioning in the USA"
+      de: "Inbetriebnahme in den USA"
+    text:
+      en: "Three months at an automotive manufacturer's plant, where Dürr Systems sent me as part of the dual study: hands-on work setting up robot lines and their electrical installation."
+      de: "Drei Monate im Werk eines Automobilherstellers, wohin mich Dürr Systems im Rahmen des dualen Studiums entsandt hat: praktische Mitarbeit beim Aufbau von Roboterlinien und ihrer Elektroinstallation."
+tech:
+  - "OPC UA"
+  - "C#"

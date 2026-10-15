@@ -1,0 +1,51 @@
+id: "duerr-engineer"
+org: "Dürr Systems"
+from: "2018-10"
+to: "2021-04"
+role:
+  en: "Software Engineer"
+  de: "Softwareentwickler"
+official:
+  en: "Development Engineer MES & IIoT"
+  de: "Entwicklungsingenieur MES & IIoT"
+area:
+  en: "Manufacturing IT"
+  de: "Fertigungs-IT"
+gist:
+  en: "Software development for manufacturing IT in a multinational Scrum team, a large part of it based in Eastern Europe: a data warehouse and reporting system for production and plant data, and the web tools around it."
+  de: "Softwareentwicklung für die Fertigungs-IT in einem internationalen Scrum-Team, das zu einem großen Teil in Osteuropa saß: ein Data-Warehouse- und Berichtssystem für Produktions- und Anlagendaten und die Web-Werkzeuge dazu."
+work:
+  - title:
+      en: "Production and plant data"
+      de: "Produktions- und Anlagendaten"
+    text:
+      en: "Designing and building a data warehouse that combines MES and SCADA data from car plants, from the data model to the loading jobs and the reports on top."
+      de: "Entwurf und Aufbau eines Data Warehouse, das MES- und SCADA-Daten aus Automobilwerken zusammenführt, vom Datenmodell über die Ladeprozesse bis zu den Auswertungen."
+  - title:
+      en: "A web application for commissioning"
+      de: "Eine Webanwendung für die Inbetriebnahme"
+    text:
+      en: "Full-stack development of a web application for commissioning the system: the frontend in Vue.js and the REST services behind it in Java."
+      de: "Full-Stack-Entwicklung einer Webanwendung, mit der sich das System in Betrieb nehmen lässt: das Frontend in Vue.js und die REST-Services dahinter in Java."
+  - title:
+      en: "Knowledge transfer"
+      de: "Wissenstransfer"
+    text:
+      en: "Training developers at another company site on the software component I worked on, until they could build their own components."
+      de: "Einarbeitung von Kolleginnen und Kollegen eines anderen Standorts in die Softwarekomponente, an der ich gearbeitet habe, bis sie eigene Komponenten beitragen konnten."
+  - title:
+      en: "Switching the department to IntelliJ IDEA"
+      de: "Umstieg der Abteilung auf IntelliJ IDEA"
+    text:
+      en: "On my own initiative, I evaluated IntelliJ IDEA, convinced management to make it the department's official IDE, prepared the training materials and was the person to ask afterwards. I also set up continuous integration for the builds."
+      de: "Auf eigene Initiative habe ich IntelliJ IDEA evaluiert, das Management von der offiziellen Umstellung der Abteilung überzeugt, die Schulungsunterlagen erstellt und war danach Ansprechpartner bei Fragen. Außerdem habe ich die Continuous Integration für die Builds aufgebaut."
+tech:
+  - "Java"
+  - "Java EE"
+  - "JPA/Hibernate"
+  - "JAX-RS"
+  - "Oracle"
+  - "Vue.js"
+  - "Qlik Sense"
+  - "Maven"
+  - "TeamCity"

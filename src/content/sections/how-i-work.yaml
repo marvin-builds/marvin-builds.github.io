@@ -1,0 +1,41 @@
+# How I work: one formal tone in both cultures; German avoids "Sie" and "du". No technology or product names.
+heading:
+  en: "How I work"
+  de: "Wie ich arbeite"
+items:
+  - claim:
+      en: "An eye for detail."
+      de: "Ein Blick fürs Detail."
+    text:
+      en: "Edge cases, names, error messages: the small things decide whether a system holds up in operation."
+      de: "Grenzfälle, Namen, Fehlermeldungen: An den kleinen Dingen entscheidet sich, ob ein System im Betrieb standhält."
+  - claim:
+      en: "Code that is easy to read."
+      de: "Code, der sich leicht lesen lässt."
+    text:
+      en: "Clear names, small units, nothing clever for its own sake. Code is read far more often than it is written."
+      de: "Klare Namen, kleine Einheiten, keine Kniffe, nur weil sie möglich sind. Code wird viel öfter gelesen als geschrieben."
+  - claim:
+      en: "Test first."
+      de: "Erst der Test."
+    text:
+      en: "A failing test before each change, with integration tests against real databases alongside the mocks. Happy to write them in pair programming."
+      de: "Vor jeder Änderung ein fehlschlagender Test, neben Mocks auch Integrationstests gegen echte Datenbanken. Gern auch im Pair Programming."
+  - claim:
+      en: "Clean where it counts, pragmatic where it doesn't."
+      de: "Sauber, wo es zählt, pragmatisch, wo es reicht."
+    text:
+      en: "Not every corner needs the textbook solution. I weigh what a shortcut saves today against what it costs later, and find the point where the code stays clean without slowing the team down."
+      de: "Nicht jede Ecke braucht die Lehrbuchlösung. Ich wäge ab, was eine Abkürzung heute spart und später kostet, und finde den Punkt, an dem der Code sauber bleibt, ohne das Team auszubremsen."
+  - claim:
+      en: "Reviews for correctness and shared understanding."
+      de: "Reviews für Korrektheit und ein gemeinsames Verständnis."
+    text:
+      en: "After a good review, two people understand the change, and the code stays consistent across the team. Where a regression would be costly, a second person looks at it independently."
+      de: "Nach einem guten Review kennen zwei Leute die Änderung, und der Code bleibt im ganzen Team einheitlich. Wo eine Regression teuer wäre, schaut zusätzlich jemand unabhängig darauf."
+  - claim:
+      en: "AI tools, same standards."
+      de: "KI-Werkzeuge, gleiche Maßstäbe."
+    text:
+      en: "I use AI-assisted development every day and treat its output like a pull request from the team: tested first, then read line by line."
+      de: "Ich entwickle täglich KI-gestützt und behandle das Ergebnis wie einen Pull Request aus dem Team: erst getestet, dann Zeile für Zeile gelesen."
