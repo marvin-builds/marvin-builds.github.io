@@ -18,7 +18,7 @@ test.describe('holding page', () => {
   });
 
   test('links to my GitHub profile', async ({ page }) => {
-    await expect(page.getByRole('link', { name: 'GitHub' })).toHaveAttribute('href', 'https://github.com/marvinmai');
+    await expect(page.getByRole('link', { name: 'GitHub' })).toHaveAttribute('href', 'https://github.com/marvin-builds');
   });
 
   test('keeps search engines away until the real site is live', async ({ page }) => {

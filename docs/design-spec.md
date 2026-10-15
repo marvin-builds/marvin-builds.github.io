@@ -480,7 +480,7 @@ html[data-culture="personal"] .hero { --rh: 640; --cx: 1200; --kx: 1210; --ky: 5
 | Role line | Software engineer · Kotlin, Java, Spring (DE Softwareentwickler · Kotlin, Java, Spring) | same |
 | Lede | I build backend systems where many interfaces meet: test-first, with an eye for detail and code that stays easy to read. | I like the parts where systems meet, and I care about the small things: code should still be easy to read in two years. |
 | Now-line | Now software engineer at Element Logic, before that at Dürr Systems, where I also did my dual studies. Looking for a senior engineer role. | Right now at Element Logic, before that at Dürr Systems, where I also did my dual studies. Next up for me: a senior engineer role. |
-| Onward row (answered) | Get in touch · github.com/marvinmai ↗ | Say hi · github.com/marvinmai ↗ |
+| Onward row (answered) | Get in touch · github.com/marvin-builds ↗ | Say hi · github.com/marvin-builds ↗ |
 
 The unanswered state uses the professional copy. Logistics and manufacturing
 appear only in the experience rows.
@@ -560,7 +560,7 @@ option is hidden, the word simply fades.
 
 **Answered state:** the question's place becomes the **onward row**
 (`.next`, .9375rem): "Get in touch" (underlined, to `#contact`) and
-"github.com/marvinmai ↗" in `--ink-2`. The hero's bottom padding drops to
+"github.com/marvin-builds ↗" in `--ink-2`. The hero's bottom padding drops to
 `clamp(28px, 4.5svh, 48px)` and Experience's top padding to `clamp(24px, 3svh,
 40px)`, so there is no dead quadrant before Experience.
 
@@ -872,7 +872,7 @@ pattern: bold title, one-line outcome, a plain tech line, a repo link (↗).
     "copy" button. "copy" reads "copied" for 1.8s (plus an `aria-live` status);
     no toast. **Placeholder `hello@example.com`; the owner supplies the real
     address.**
-  - `github.com/marvinmai ↗`, `rel="me noopener"`, new tab with an sr-only note.
+  - `github.com/marvin-builds ↗`, `rel="me noopener"`, new tab with an sr-only note.
     The underline is on an inner `span.u`; the arrow is a separate
     `inline-block` with `text-decoration: none`, so it never gets its own broken
     underline.
