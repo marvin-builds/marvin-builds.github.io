@@ -45,6 +45,7 @@ export const contactSchema = z
   .object({
     heading: toned,
     lead: toned,
+    facts: localized,
     reveal_label: toned,
     copy_label: localized,
     copied_label: localized,

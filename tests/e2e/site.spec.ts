@@ -244,6 +244,12 @@ test.describe('answered, formal', () => {
     await expect(opener).toBeFocused();
   });
 
+  test('says where I am based and which languages I speak', async ({ page }) => {
+    await expect(page.locator('#contact .contact-facts')).toHaveText('Stuttgart, Germany · German (native), English (fluent)', { useInnerText: true });
+    await page.getByRole('button', { name: 'Deutsch' }).click();
+    await expect(page.locator('#contact .contact-facts')).toHaveText('Stuttgart · Deutsch (Muttersprache), Englisch (fließend)', { useInnerText: true });
+  });
+
   test('contact links and header controls are easy to hit', async ({ page }) => {
     for (const el of await page.locator('.reach a, .reach button').all()) expect((await el.boundingBox())!.height).toBeGreaterThanOrEqual(44);
     for (const el of await page.locator('.site-header button, .site-header .nav a').all()) expect((await el.boundingBox())!.height).toBeGreaterThanOrEqual(24);
