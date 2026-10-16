@@ -1,5 +1,5 @@
 // schema.org Person for search engines (JSON-LD in the page head), built from the station files so it stays in sync.
-import { buildSkillIndex, type StationLike } from './experience';
+import { buildSkillIndex, labelOf, type StationLike } from './experience';
 
 interface PersonInput {
   url: string;
@@ -17,7 +17,7 @@ export function personJsonLd(stations: StationLike[], { url, description, sameAs
     url,
     description,
     sameAs,
-    ...(current && { worksFor: { '@type': 'Organization', name: current.org } }),
+    ...(current && { worksFor: { '@type': 'Organization', name: labelOf(current.org).en } }),
     homeLocation: { '@type': 'Place', address: { '@type': 'PostalAddress', addressLocality: 'Stuttgart', addressCountry: 'DE' } },
     knowsLanguage: ['de', 'en'],
     knowsAbout: buildSkillIndex(stations).map((s) => s.label.en),

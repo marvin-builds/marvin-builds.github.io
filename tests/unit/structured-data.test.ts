@@ -25,6 +25,11 @@ describe('structured data for search engines', () => {
     expect(ld.worksFor).toEqual({ '@type': 'Organization', name: 'Element Logic' });
   });
 
+  it('names an employer with a name per language in English', () => {
+    const uni = { id: 'uni', org: { en: 'University of Stuttgart', de: 'Universität Stuttgart' }, from: '2022-04', to: null, tech: [] };
+    expect(personJsonLd([uni], { url: '', description: '', sameAs: [] }).worksFor).toEqual({ '@type': 'Organization', name: 'University of Stuttgart' });
+  });
+
   it('lists every technology once, in English', () => {
     expect(ld.knowsAbout).toEqual(['Java', 'AI-assisted development', 'Kotlin', 'Vue.js']);
   });
