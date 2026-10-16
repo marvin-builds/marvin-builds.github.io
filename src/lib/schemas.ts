@@ -16,6 +16,8 @@ export const stationSchema = z
     to: month.nullable(),
     role: localized,
     official: localized.optional(),
+    // the employer's earlier company name, as it appears in older documents
+    former: text.optional(),
     area: localized.optional(),
     edu: localized.optional(),
     gist: localized,

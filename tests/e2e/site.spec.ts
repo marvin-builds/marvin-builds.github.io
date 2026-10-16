@@ -139,6 +139,7 @@ test.describe('answered, formal', () => {
     await expect(stations).toHaveCount(4);
     await expect(stations.nth(0)).toContainText('Element Logic');
     await expect(stations.nth(0).locator('.st-years')).toContainText('2024–today');
+    await expect(stations.nth(0).locator('.st-former')).toHaveText('Formerly S&P Computersysteme GmbH', { useInnerText: true });
     await expect(stations.nth(1)).toContainText('University of Stuttgart');
     await expect(stations.nth(1).locator('.st-years')).toContainText('2022–2024');
     await expect(stations.nth(1).locator('.st-org')).toHaveText('University of Stuttgart', { useInnerText: true });

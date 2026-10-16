@@ -50,6 +50,7 @@ const skills = buildSkillIndex(stations);
                     <span class="st-role"><T t={s.role} /></span>
                     <span class="st-org"><T t={labelOf(s.org)} />{s.area && <> · <T t={s.area} /></>}</span>
                     {s.official && <span class="st-official"><T t={{ en: UI.experience.official.en + s.official.en, de: UI.experience.official.de + s.official.de }} /></span>}
+                    {s.former && <span class="st-official st-former"><T t={{ en: UI.experience.former.en + s.former, de: UI.experience.former.de + s.former }} /></span>}
                     {s.edu && <span class="st-edu"><T t={s.edu} /></span>}
                   </span>
                   <span class="st-sign" aria-hidden="true"></span>
