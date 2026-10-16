@@ -37,8 +37,8 @@ work:
       en: "Switching the department to IntelliJ IDEA"
       de: "Umstieg der Abteilung auf IntelliJ IDEA"
     text:
-      en: "On my own initiative, I evaluated IntelliJ IDEA, convinced management to make it the department's official IDE, prepared the training materials and was the person to ask afterwards. I also set up continuous integration for the builds."
-      de: "Auf eigene Initiative habe ich IntelliJ IDEA evaluiert, das Management von der offiziellen Umstellung der Abteilung überzeugt, die Schulungsunterlagen erstellt und war danach Ansprechpartner bei Fragen. Außerdem habe ich die Continuous Integration für die Builds aufgebaut."
+      en: "On my own initiative, I evaluated IntelliJ IDEA and convinced management to make it the official IDE of the software department, more than 100 developers who had worked with Eclipse until then. I prepared the training materials and was the person to ask afterwards. I also set up continuous integration for the builds."
+      de: "Auf eigene Initiative habe ich IntelliJ IDEA evaluiert und das Management überzeugt, es zur offiziellen IDE der Softwareabteilung mit über 100 Entwicklerinnen und Entwicklern zu machen, die bis dahin mit Eclipse gearbeitet hatten. Ich habe die Schulungsunterlagen erstellt und war danach Ansprechpartner bei Fragen. Außerdem habe ich die Continuous Integration für die Builds aufgebaut."
 tech:
   - "Java"
   - "Java EE"
