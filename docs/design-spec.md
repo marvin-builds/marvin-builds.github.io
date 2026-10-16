@@ -480,7 +480,7 @@ html[data-culture="personal"] .hero { --rh: 640; --cx: 1200; --kx: 1210; --ky: 5
 | Role line | Software engineer · Kotlin, Java, Spring (DE Softwareentwickler · Kotlin, Java, Spring) | same |
 | Lede | I build backend systems where many interfaces meet: test-first, with an eye for detail and code that stays easy to read. | I like the parts where systems meet, and I care about the small things: code should still be easy to read in two years. |
 | Now-line | Now software engineer at Element Logic, before that at Dürr Systems, where I also did my dual studies. Looking for a senior engineer role. | Right now at Element Logic, before that at Dürr Systems, where I also did my dual studies. Next up for me: a senior engineer role. |
-| Onward row (answered) | Get in touch · github.com/marvin-builds ↗ | Say hi · github.com/marvin-builds ↗ |
+| Onward row (answered) | Get in touch | Say hi |
 
 The unanswered state uses the professional copy. Logistics and manufacturing
 appear only in the experience rows.
@@ -559,8 +559,9 @@ Focus moves to the pressed header option. On phones, where the pressed header
 option is hidden, the word simply fades.
 
 **Answered state:** the question's place becomes the **onward row**
-(`.next`, .9375rem): "Get in touch" (underlined, to `#contact`) and
-"github.com/marvin-builds ↗" in `--ink-2`. The hero's bottom padding drops to
+(`.next`, .9375rem): "Get in touch" (underlined, to `#contact`). GitHub is
+linked only at the bottom, in contact and the footer (owner, 2026-10-16: less
+present in the hero). The hero's bottom padding drops to
 `clamp(28px, 4.5svh, 48px)` and Experience's top padding to `clamp(24px, 3svh,
 40px)`, so there is no dead quadrant before Experience.
 
@@ -1172,7 +1173,7 @@ The mock was verified with Playwright scripts (session scratchpad,
    name and drifts home on leave / 2s idle.
 10. ~~One shared spotlight layer behind the stations~~: removed, round 3 (it
    made the lamp stronger over the stations than over the filter).
-11. Answered state: an onward row (Get in touch · GitHub) replaces the question;
+11. Answered state: an onward row (Get in touch) replaces the question;
    hero and Experience paddings reduced.
 12. Filter: resting underlines, counts (×2), top aligned with the first station,
    accent rule on lit stations, real dimming. **Deviation:** dim opacity is

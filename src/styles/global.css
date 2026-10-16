@@ -338,8 +338,6 @@ html[data-answered="true"] .next { display: flex; }
 .next a { display: inline-flex; align-items: center; min-height: 32px; text-decoration: none; }
 .next a .u { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: .28em; text-decoration-color: color-mix(in oklab, currentColor 45%, transparent); }
 .next a:hover .u { text-decoration-color: currentColor; }
-.next .gh { color: var(--ink-2); }
-.next .gh:hover { color: var(--ink); }
 
 @media (min-width: 768px) and (max-width: 1099px) {
   .lede { font-size: 1.125rem; }

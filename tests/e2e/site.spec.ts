@@ -48,6 +48,8 @@ test.describe('first visit', () => {
     await expect(page.getByText('How should I introduce myself?')).toBeHidden();
     await expect(page.locator('#culture-ctl [data-set-culture="personal"]')).toBeFocused();
     await expect(page.locator('.hero .next')).toContainText('Say hi');
+    await expect(page.locator('.hero a[href*="github.com"]')).toHaveCount(0); // GitHub sits only in contact and footer
+    await expect(page.locator('#contact a[href*="github.com"]')).toHaveCount(2);
     expect(await page.evaluate(() => localStorage.getItem('mm-culture'))).toBe('personal');
     await page.reload();
     await expect(page.locator('html')).toHaveAttribute('data-culture', 'personal');
