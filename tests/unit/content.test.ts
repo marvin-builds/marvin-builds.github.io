@@ -18,7 +18,7 @@ describe('site copy', () => {
 
   it('has every station complete in both languages', () => {
     const files = readdirSync(new URL('../../src/content/stations/', import.meta.url));
-    expect(files.length).toBe(3);
+    expect(files.length).toBe(4);
     for (const f of files) {
       const r = stationSchema.safeParse(read(`stations/${f}`));
       expect(r.error?.message ?? 'ok', f).toBe('ok');
