@@ -40,6 +40,40 @@ test.describe('first visit', () => {
     await expect(page.getByRole('group', { name: 'Language' })).toBeVisible();
   });
 
+  test('centres the question in the first screen, but never above the horizon', async ({ page }) => {
+    const place = async (width: number, height: number) => {
+      await page.setViewportSize({ width, height });
+      await page.emulateMedia({ reducedMotion: 'reduce' }); // measure the words where they rest, not mid-entrance
+      await page.goto('/');
+      await page.evaluate(() => document.fonts.ready);
+      await expect(page.locator('#gate')).toBeVisible();
+      return page.evaluate(() => {
+        const glyphs = (el: Node) => { const r = document.createRange(); r.selectNodeContents(el); return r.getBoundingClientRect(); };
+        const probe = document.createElement('div');
+        probe.style.cssText = 'position:absolute;top:var(--hz)';
+        document.querySelector('.hero')!.append(probe);
+        const g = document.querySelector('#gate')!.getBoundingClientRect();
+        const words = [...document.querySelectorAll('.name .ln > span'), document.querySelector('.role')!].map(glyphs);
+        // the smallest distance from the question to any word of the name or role line, along whichever axis separates them
+        const gap = Math.min(...words.map((w) => Math.max(w.left - g.right, g.left - w.right, w.top - g.bottom, g.top - w.bottom)));
+        return { mid: (g.top + g.bottom) / 2, top: g.top, hz: probe.getBoundingClientRect().top, gap };
+      });
+    };
+    // the centre lies below the horizon (phones, tall windows): the true centre of the screen
+    for (const [w, h] of [[2560, 1440], [390, 844], [768, 1024]]) {
+      const p = await place(w, h);
+      expect(Math.abs(p.mid - h / 2), `${w}×${h} centred`).toBeLessThan(2);
+      expect(p.gap, `${w}×${h} clear`).toBeGreaterThanOrEqual(24);
+    }
+    // the centre is level with the horizon (desktops, short phones): as close to it as it can be, just under the horizon
+    for (const [w, h] of [[1024, 768], [1280, 720], [1280, 800], [1440, 900], [1920, 1080], [360, 640]]) {
+      const p = await place(w, h);
+      expect(p.top - p.hz, `${w}×${h} under the horizon`).toBeGreaterThanOrEqual(8);
+      expect(p.top - p.hz, `${w}×${h} close to it`).toBeLessThanOrEqual(28);
+      expect(p.gap, `${w}×${h} clear`).toBeGreaterThanOrEqual(24);
+    }
+  });
+
   test('answering casually reveals the page in that tone and remembers it', async ({ page }) => {
     await page.goto('/');
     await page.getByRole('button', { name: 'Casually' }).click();

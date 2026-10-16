@@ -533,13 +533,16 @@ hero, the stations or anywhere else except How I work** (§12).
   position (same padding, stage and horizon; verified identical before and
   after answering at 360–1920 px, EN and DE). The hero is at least `100svh`.
 - **The question is centred** in the first screen, horizontally and
-  vertically (`.side` absolutely positioned with `grid-area: auto`, so it
-  resolves against the hero, not its grid cell; `left: 50%; top: 50svh;
-  translate: -50% -50%`; text and answers centred). `placeGate()` (on start,
-  resize, language change, reset) checks whether it would come within 24px of
-  the name or role line glyphs; if so (`html.gate-low`, e.g. 1024–1440 px wide,
-  where the role line reaches past the centre) it sits centred horizontally
-  just below the horizon (`top: --hz + clamp(24px, 6svh, 64px)`).
+  vertically, but never higher than just under the horizon (`--hz +
+  clamp(12px, 2svh, 24px)`), so it never meets the name or role line. On
+  desktops the centre of the screen is level with the horizon, so there it sits
+  just under it, as close to the centre as it can be; on phones and tall
+  windows it sits in the true centre (owner, 2026-10-16: it should catch the
+  first glance). `.side` is absolutely positioned with `grid-area: auto` (so it
+  resolves against the hero, not its grid cell), spans the hero's height and
+  centres the question between two flexible spacers; the upper spacer's
+  minimum height is the horizon limit. Text and answers are centred. No
+  measuring in JS (replaces the earlier `placeGate()` collision check).
 - **Lamp tint on hover**: pointer-entering an answer (mouse only) sets
   `html[data-hover="professional|personal"]`; the lamp's colour `--glow`
   (a registered `<color>`, transition 600ms) eases to a light tint of that

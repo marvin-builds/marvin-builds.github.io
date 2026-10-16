@@ -3,7 +3,6 @@
 import { COMMANDS, UI } from '../i18n/ui';
 import { assembleAddress } from '../lib/email';
 import { readout, type Lang, type StationLike } from '../lib/experience';
-import { touches } from '../lib/geometry';
 import { filterCommands, groupCommands } from '../lib/palette';
 import { shortcutLabel } from '../lib/shortcut';
 import { motion, motionOff, motionOn } from './motion';
@@ -165,26 +164,8 @@ function setLang(l: Lang) {
   html.lang = l;
   store.set('mm-lang', l);
   sync();
-  placeGate();
 }
 $$('[data-set-lang]').forEach((b) => b.addEventListener('click', () => setLang(b.dataset.setLang as Lang)));
-
-/* unanswered: the question sits in the centre of the first screen unless it would touch the name or role line */
-function placeGate() {
-  if (html.dataset.answered === 'true') return;
-  html.classList.remove('gate-low');
-  const g = $('.side').getBoundingClientRect();
-  // text extent: left/right from the glyphs, top/bottom from the line box (the entrance moves the glyphs vertically)
-  const hit = [...$$('.name .ln'), $('.role')].some((el) => {
-    const r = document.createRange();
-    r.selectNodeContents(el);
-    const x = r.getBoundingClientRect(), y = el.getBoundingClientRect();
-    return touches({ left: x.left, right: x.right, top: y.top, bottom: y.bottom }, g, 24);
-  });
-  html.classList.toggle('gate-low', hit);
-}
-let tGate = 0;
-addEventListener('resize', () => { clearTimeout(tGate); tGate = window.setTimeout(placeGate, 80); });
 
 /* day / night: 'light' | 'dark' stores the choice; null follows the system again */
 function setScheme(s: Scheme | null) {
@@ -408,5 +389,5 @@ sync();
 measureBrand();
 onScroll();
 applyMotion(true);
-(document.fonts?.ready ?? Promise.resolve()).then(() => { measureYears(); measureBrand(); placeGate(); });
+(document.fonts?.ready ?? Promise.resolve()).then(() => { measureYears(); measureBrand(); });
 setTimeout(() => html.classList.remove('intro'), 2500); // safety: never leave the name hidden
