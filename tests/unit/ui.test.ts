@@ -2,7 +2,6 @@ import { describe, expect, it } from 'vitest';
 import { assembleAddress, encodeAddress } from '../../src/lib/email';
 import { filterCommands, groupCommands, type Command } from '../../src/lib/palette';
 import { shortcutLabel } from '../../src/lib/shortcut';
-import { touches } from '../../src/lib/geometry';
 
 describe('e-mail address', () => {
   it('is stored as reversed parts that never contain the address', () => {
@@ -54,15 +53,3 @@ describe('shortcutLabel', () => {
   });
 });
 
-describe('touches', () => {
-  const box = { left: 100, right: 200, top: 100, bottom: 150 };
-
-  it('is true when two boxes come within the padding', () => {
-    expect(touches(box, { left: 210, right: 300, top: 100, bottom: 150 }, 24)).toBe(true);
-  });
-
-  it('is false when they keep further apart', () => {
-    expect(touches(box, { left: 230, right: 300, top: 100, bottom: 150 }, 24)).toBe(false);
-    expect(touches(box, { left: 100, right: 200, top: 180, bottom: 220 }, 24)).toBe(false);
-  });
-});

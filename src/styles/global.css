@@ -368,14 +368,19 @@ html.js[data-answered="false"] .hero .lede,
 html.js[data-answered="false"] .hero .now,
 html.js[data-answered="false"] .hero .portrait { display: none; }
 /* the name and role keep exactly the place they have after answering (same padding, stage and horizon); only the
-   question leaves the grid: centred in the first screen, or, where that would touch the name or role line
-   (narrow windows, long German role line; measured by placeGate()), centred below the horizon instead */
+   question leaves the grid: centred in the first screen, but never higher than just under the horizon, so it never
+   meets the name or role line. .side spans the hero; two flexible spacers centre the question, and the upper one's
+   minimum height keeps it below the horizon (on desktops, where the centre is level with the horizon). */
 html.js[data-answered="false"] .hero { min-height: max(100svh, calc(var(--hz) + 220px)); background: var(--bg); }
 html.js[data-answered="false"] .side {
-  position: absolute; grid-area: auto; left: 50%; top: 50svh; translate: -50% -50%; margin: 0; padding: 0;
+  position: absolute; grid-area: auto; inset: 0 auto 0 50%; translate: -50% 0; margin: 0; padding: 0;
+  display: flex; flex-direction: column; pointer-events: none;
   width: max-content; max-width: calc(100vw - 2 * var(--gutter)); text-align: center;
 }
-html.js[data-answered="false"].gate-low .side { top: calc(var(--hz) + clamp(24px, 6svh, 64px)); translate: -50% 0; }
+html.js[data-answered="false"] .side::before,
+html.js[data-answered="false"] .side::after { content: ''; flex: 1 1 0; }
+html.js[data-answered="false"] .side::before { min-height: calc(var(--hz) + clamp(12px, 2svh, 24px)); }
+html.js[data-answered="false"] .side > * { pointer-events: auto; }
 html.js[data-answered="false"] .gate { margin-top: 0; }
 html.js[data-answered="false"] .site-header::before { display: none; }   /* no band over the plain page */
 html.js[data-answered="false"] .gate-opts { justify-content: center; }
