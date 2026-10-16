@@ -345,11 +345,14 @@ No horizontal overflow at 360 in German in any culture (tested).
   Nacht ☾". Each word is followed by its sign, an inline SVG of 14px
   (sun: circle and eight rays; moon: crescent), stroke 1.4px `currentColor`,
   `aria-hidden`; the underline runs under the word only. Until it is used the
-  page follows the system and the switch marks the scheme in effect; a click
-  stores `mm-scheme` and sets `html[data-scheme]` (the boot script restores it
-  and sets `html.dark` before first paint, so no flash). The palette gets an
+  page shows night, whatever the system prefers (owner, 2026-10-16); the switch
+  marks the scheme in effect. A click stores `mm-scheme` and sets
+  `html[data-scheme]` (the boot script restores it, sets `data-scheme="dark"`
+  when nothing is stored, and sets `html.dark` before first paint, so no
+  flash; without JS the page follows the system). The palette gets an
   "Appearance / Darstellung" group: "Day (light)", "Night (dark)" and "Follow
-  system setting", the last one clears the choice. A change cross-fades the
+  system setting"; the last one stores `auto`, which follows the system and
+  its changes. A change cross-fades the
   root with a View Transition (300ms; instant under reduced motion).
 - Every control is text (the day/night signs only accompany their words). Active state: underline 1.5px, offset .4em. Targets
   ≥ 24px tall (the palette button 44px).

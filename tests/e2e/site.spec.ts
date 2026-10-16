@@ -183,11 +183,34 @@ test.describe('answered, formal', () => {
   });
 
   test('switches between day and night', async ({ page }) => {
+    await page.getByRole('button', { name: 'Day', exact: true }).click();
+    await expect(page.locator('html')).not.toHaveClass(/\bdark\b/);
+    expect(await page.evaluate(() => localStorage.getItem('mm-scheme'))).toBe('light');
     await page.getByRole('button', { name: 'Night', exact: true }).click();
     await expect(page.locator('html')).toHaveClass(/\bdark\b/);
     expect(await page.evaluate(() => localStorage.getItem('mm-scheme'))).toBe('dark');
-    await page.getByRole('button', { name: 'Day', exact: true }).click();
+  });
+
+  test('starts at night, even on a light system, until a choice is made', async ({ page }) => {
+    await page.emulateMedia({ colorScheme: 'light' });
+    await page.reload();
+    await expect(page.locator('html')).toHaveClass(/\bdark\b/);
+    await expect(page.getByRole('button', { name: 'Night', exact: true })).toHaveAttribute('aria-pressed', 'true');
+    expect(await page.evaluate(() => getComputedStyle(document.documentElement).colorScheme)).toBe('dark');
+    expect(await page.evaluate(() => localStorage.getItem('mm-scheme'))).toBeNull();
+  });
+
+  test('the palette can follow the system setting instead', async ({ page }) => {
+    await page.emulateMedia({ colorScheme: 'light' });
+    await page.locator('#open-palette').click();
+    await page.getByRole('combobox').fill('system');
+    await page.keyboard.press('Enter');
     await expect(page.locator('html')).not.toHaveClass(/\bdark\b/);
+    expect(await page.evaluate(() => localStorage.getItem('mm-scheme'))).toBe('auto');
+    await page.reload();
+    await expect(page.locator('html')).not.toHaveClass(/\bdark\b/);
+    await page.emulateMedia({ colorScheme: 'dark' });
+    await expect(page.locator('html')).toHaveClass(/\bdark\b/);
   });
 
   test('reveals the e-mail address only on demand', async ({ page }) => {

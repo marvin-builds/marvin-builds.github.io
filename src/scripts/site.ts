@@ -8,7 +8,7 @@ import { shortcutLabel } from '../lib/shortcut';
 import { motion, motionOff, motionOn } from './motion';
 
 type Culture = 'professional' | 'personal';
-type Scheme = 'light' | 'dark';
+type Scheme = 'light' | 'dark' | 'auto';
 
 const html = document.documentElement;
 const $ = <T extends Element = HTMLElement>(s: string, r: ParentNode = document) => r.querySelector<T>(s)!;
@@ -94,7 +94,7 @@ function sync() {
   q.placeholder = UI.palette.placeholder[l];
   q.setAttribute('aria-label', UI.palette.search[l]);
   html.classList.toggle('dark', html.dataset.scheme === 'dark' || (html.dataset.scheme !== 'light' && mqDark.matches));
-  // until a choice is stored the page follows the system, and the switch shows the scheme in effect
+  // night until a choice is stored; 'auto' follows the system, and the switch shows the scheme in effect
   const dark = html.classList.contains('dark');
   $$('[data-set-scheme]').forEach((b) => b.setAttribute('aria-pressed', String((b.dataset.setScheme === 'dark') === dark)));
   if (active) setSkill(active);
@@ -167,10 +167,10 @@ function setLang(l: Lang) {
 }
 $$('[data-set-lang]').forEach((b) => b.addEventListener('click', () => setLang(b.dataset.setLang as Lang)));
 
-/* day / night: 'light' | 'dark' stores the choice; null follows the system again */
-function setScheme(s: Scheme | null) {
-  const change = () => { store.set('mm-scheme', s); if (s) html.dataset.scheme = s; else delete html.dataset.scheme; sync(); };
-  const before = html.classList.contains('dark'), after = s ? s === 'dark' : mqDark.matches;
+/* day / night: 'light' | 'dark' stores the choice; 'auto' follows the system */
+function setScheme(s: Scheme) {
+  const change = () => { store.set('mm-scheme', s); if (s !== 'auto') html.dataset.scheme = s; else delete html.dataset.scheme; sync(); };
+  const before = html.classList.contains('dark'), after = s === 'auto' ? mqDark.matches : s === 'dark';
   if (before === after || !document.startViewTransition || rm()) { change(); return; }
   html.classList.add('vt-scheme');
   document.startViewTransition(change).finished.finally(() => html.classList.remove('vt-scheme'));
@@ -302,7 +302,7 @@ const go = (id: string) => () => scrollToEl(document.getElementById(id)!);
 const ACTIONS: Record<(typeof COMMANDS)[number]['id'], () => void> = {
   'go-top': go('top'), 'go-experience': go('experience'), 'go-how': go('how'), 'go-contact': go('contact'),
   'tone-pro': () => themeTo('professional'), 'tone-per': () => themeTo('personal'),
-  'scheme-light': () => setScheme('light'), 'scheme-dark': () => setScheme('dark'), 'scheme-auto': () => setScheme(null),
+  'scheme-light': () => setScheme('light'), 'scheme-dark': () => setScheme('dark'), 'scheme-auto': () => setScheme('auto'),
   'lang-de': () => setLang('de'), 'lang-en': () => setLang('en'),
   'copy-mail': () => { go('contact')(); void copyMail(); },
   'open-github': () => window.open($<HTMLAnchorElement>('.reach a[href^="https://github.com"]').href, '_blank', 'noopener'),
