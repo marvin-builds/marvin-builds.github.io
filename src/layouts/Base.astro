@@ -35,8 +35,9 @@ const fontFace = `@font-face { font-family: 'Mona Sans'; font-style: normal; fon
         else { h.dataset.culture = 'neutral'; h.dataset.answered = 'false'; }
         var l = g('mm-lang'); if (l !== 'de' && l !== 'en') l = (navigator.language || '').toLowerCase().indexOf('de') === 0 ? 'de' : 'en';
         h.lang = l;
-        var s = g('mm-scheme'); if (s === 'light' || s === 'dark') h.dataset.scheme = s;
-        if (s === 'dark' || (s !== 'light' && matchMedia('(prefers-color-scheme: dark)').matches)) h.classList.add('dark');
+        var s = g('mm-scheme'); if (s !== 'light' && s !== 'auto') s = 'dark'; /* night until a choice is stored */
+        if (s !== 'auto') h.dataset.scheme = s;
+        if (s === 'dark' || (s === 'auto' && matchMedia('(prefers-color-scheme: dark)').matches)) h.classList.add('dark');
         if (matchMedia('(prefers-reduced-motion: reduce)').matches) h.classList.add('rm'); else h.classList.add('intro');
       })();
     </script>
