@@ -2,14 +2,16 @@
 // Page shell: the boot script runs before first paint (spec §18), the font is self-hosted and preloaded (spec §3).
 import monaSans from '@fontsource-variable/mona-sans/files/mona-sans-latin-wdth-normal.woff2?url';
 import '../styles/global.css';
+import type { Localized } from '../lib/schemas';
 import { SITE } from '../site';
 import { paletteCss } from '../styles/tokens';
 
 interface Props {
-  title: string;
+  title: Localized;
   description: string;
+  jsonLd: object;
 }
-const { title, description } = Astro.props;
+const { title, description, jsonLd } = Astro.props;
 const fontFace = `@font-face { font-family: 'Mona Sans'; font-style: normal; font-display: swap; font-weight: 200 900;
   font-stretch: 75% 125%; src: url(${monaSans}) format('woff2-variations'); }`;
 ---
@@ -19,9 +21,17 @@ const fontFace = `@font-face { font-family: 'Mona Sans'; font-style: normal; fon
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>{title}</title>
+    <title data-en={title.en} data-de={title.de}>{title.en}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={Astro.site} />
+    <meta property="og:type" content="profile" />
+    <meta property="og:url" content={Astro.site} />
+    <meta property="og:title" content={title.en} />
+    <meta property="og:description" content={description} />
+    <meta property="og:locale" content="en_GB" />
+    <meta property="og:locale:alternate" content="de_DE" />
+    <meta name="twitter:card" content="summary" />
+    <script type="application/ld+json" is:inline set:html={JSON.stringify(jsonLd)} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="icon" href="/favicon.ico" />
     <link rel="preload" href={monaSans} as="font" type="font/woff2" crossorigin />
@@ -35,6 +45,7 @@ const fontFace = `@font-face { font-family: 'Mona Sans'; font-style: normal; fon
         else { h.dataset.culture = 'neutral'; h.dataset.answered = 'false'; }
         var l = g('mm-lang'); if (l !== 'de' && l !== 'en') l = (navigator.language || '').toLowerCase().indexOf('de') === 0 ? 'de' : 'en';
         h.lang = l;
+        if (l === 'de') document.title = document.querySelector('title').dataset.de;
         var s = g('mm-scheme'); if (s !== 'light' && s !== 'auto') s = 'dark'; /* night until a choice is stored */
         if (s !== 'auto') h.dataset.scheme = s;
         if (s === 'dark' || (s === 'auto' && matchMedia('(prefers-color-scheme: dark)').matches)) h.classList.add('dark');

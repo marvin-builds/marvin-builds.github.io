@@ -30,7 +30,7 @@ test.describe('first visit', () => {
   test('shows only the name, role line and the question', async ({ page }) => {
     await page.goto('/');
     await expect(page.locator('html')).toHaveAttribute('data-culture', 'neutral');
-    await expect(page).toHaveTitle('Marvin Mai');
+    await expect(page).toHaveTitle('Marvin Mai – Backend software engineer');
     await expect(page.getByRole('heading', { level: 1 })).toHaveText(/Marvin\s*Mai/);
     await expect(page.locator('.role')).toHaveText('Backend software engineer', { useInnerText: true });
     await expect(page.locator('meta[name="description"]')).toHaveAttribute('content', /^Marvin Mai, backend software engineer\. /);
@@ -261,8 +261,35 @@ test.describe('answered, formal', () => {
     for (const el of await page.locator('.site-header button, .site-header .nav a').all()) expect((await el.boundingBox())!.height).toBeGreaterThanOrEqual(24);
   });
 
-  test('can be found by search engines', async ({ page }) => {
+  test('can be found by search engines', async ({ page, request }) => {
     await expect(page.locator('meta[name="robots"]')).toHaveCount(0);
+    await expect(page).toHaveTitle('Marvin Mai – Backend software engineer');
+    const robots = await request.get('/robots.txt');
+    expect(robots.ok()).toBe(true);
+    expect(await robots.text()).toContain('Sitemap: https://marvin-builds.github.io/sitemap.xml');
+    const sitemap = await request.get('/sitemap.xml');
+    expect(sitemap.ok()).toBe(true);
+    expect(await sitemap.text()).toContain('<loc>https://marvin-builds.github.io/</loc>');
+    const ld = JSON.parse((await page.locator('script[type="application/ld+json"]').textContent())!);
+    expect(ld).toMatchObject({ '@type': 'Person', name: 'Marvin Mai', worksFor: { name: 'Element Logic' } });
+  });
+
+  test('gives shared links a preview', async ({ page }) => {
+    const meta = (p: string) => page.locator(`meta[property="${p}"]`);
+    await expect(meta('og:title')).toHaveAttribute('content', 'Marvin Mai – Backend software engineer');
+    await expect(meta('og:description')).toHaveAttribute('content', /^Marvin Mai, backend software engineer\./);
+    await expect(meta('og:type')).toHaveAttribute('content', 'profile');
+    await expect(meta('og:url')).toHaveAttribute('content', 'https://marvin-builds.github.io/');
+    await expect(meta('og:locale')).toHaveAttribute('content', 'en_GB');
+    await expect(meta('og:locale:alternate')).toHaveAttribute('content', 'de_DE');
+    await expect(page.locator('meta[name="twitter:card"]')).toHaveAttribute('content', 'summary');
+  });
+
+  test('names the page in the chosen language', async ({ page }) => {
+    await page.getByRole('button', { name: 'Deutsch' }).click();
+    await expect(page).toHaveTitle('Marvin Mai – Backend-Softwareentwickler');
+    await page.reload();
+    await expect(page).toHaveTitle('Marvin Mai – Backend-Softwareentwickler');
   });
 
   test('loads the GoatCounter script for the site', async ({ page }) => {
