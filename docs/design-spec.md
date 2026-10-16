@@ -20,9 +20,10 @@ fixes. See §19 for every decision and where it came from.
 **A programmer's page that happens to stand inside his own photograph.**
 
 - The type leads: a very large name, directly under it a role line in the
-  display family ("Software engineer · Kotlin, Java, Spring"), a one-sentence
-  lede, the current role, then experience. A recruiter reads who, what level, which stack and the
-  proof in the first viewport.
+  display family ("Backend software engineer", no stack, so the page does not narrow
+  Marvin to one language), a one-sentence lede, the current role, then
+  experience. A recruiter reads who, what level, which field and the proof in
+  the first viewport.
 - Atmosphere comes from one of Marvin's own landscape photographs per culture,
   split into **three slots read from sky to ground**, each showing its own part
   of the picture: a full-bleed plane of sky and horizon behind the whole hero
@@ -398,7 +399,7 @@ vertical fades only.
 html[data-culture="personal"] .hero { --rh: 640; --cx: 1200; --kx: 1210; --ky: 540; --kxa: 1998; --kya: 630; }
 @media (max-aspect-ratio: 1/1) { html:not([data-culture="personal"]) .hero { --rh: 880; --cx: 1185; --kx: 1502; --ky: 682; --kxa: 1185; --kya: 790; } }
 @media (max-width: 767px) {
-  .hero { --top: 84px; --stage: calc(var(--dP) * 1.68 + var(--r-size) * 2.4 + 12px); row-gap: 64px; }
+  .hero { --top: 84px; --stage: calc(var(--dP) * 1.68 + var(--r-size) * 1.2 + 12px); row-gap: 64px; }
   html[data-culture="personal"] .hero { --cx: 1850; }
 }
 @media (max-width: 767px) and (max-aspect-ratio: 1/1) { html:not([data-culture="personal"]) .hero { --rh: 820; } }
@@ -458,9 +459,9 @@ html[data-culture="personal"] .hero { --rh: 640; --cx: 1200; --kx: 1210; --ky: 5
 2. **Identity** (`.ident`, cols 1–9, row 1, `align-self: end`):
    - **Name** (`h1`): two lines, "Mai" indented `.52em` on ≥ 768.
    - **Role line** (`p.role`), the culture's heading width and weight at
-     `--r-size`: "Software engineer · Kotlin, Java, Spring" (DE
-     "Softwareentwickler · Kotlin, Java, Spring"); the stack in `--ink-2` on ≥ 768. Phones: two
-     lines, stack in `--ink` (contrast over the photograph).
+     `--r-size`: "Backend software engineer" (DE
+     "Backend-Softwareentwickler"), one line at every width. The stack stays
+     in the experience entries, not in the headline.
 3. ~~Credit~~: moved to slot B (§8).
 4. Row 2, **below the horizon** (`hz + 48px`), on the plane's faint tail:
    - **Lede** (cols 1–5, lede size, max 34ch): one plain sentence, no bold.
@@ -480,7 +481,7 @@ html[data-culture="personal"] .hero { --rh: 640; --cx: 1200; --kx: 1210; --ky: 5
 
 | | professional | personal |
 |---|---|---|
-| Role line | Software engineer · Kotlin, Java, Spring (DE Softwareentwickler · Kotlin, Java, Spring) | same |
+| Role line | Backend software engineer (DE Backend-Softwareentwickler) | same |
 | Lede | I build backend systems where many interfaces meet: test-first, with an eye for detail and code that stays easy to read. | I like the parts where systems meet, and I care about the small things: code should still be easy to read in two years. |
 | Now-line | Now software engineer at Element Logic, before that at Dürr Systems, where I also did my dual studies. Looking for a senior engineer role. | Right now at Element Logic, before that at Dürr Systems, where I also did my dual studies. Next up for me: a senior engineer role. |
 | Onward row (answered) | Get in touch | Say hi |
@@ -1103,8 +1104,8 @@ The mock was verified with Playwright scripts (session scratchpad,
 6. **One light, one strength everywhere;** it fades out in place after 2.8s
    still or on leaving the window and fades back in at the pointer; no resting
    spot; none on touch or with reduced motion (§10).
-7. **Role line** "Software engineer · Kotlin, Java, Spring" (DE
-   "Softwareentwickler · Kotlin, Java, Spring") in both cultures.
+7. **Role line** "Backend software engineer" (DE
+   "Backend-Softwareentwickler") in both cultures.
 8. **Palette button** keeps the shortcut label: ⌘K on macOS, otherwise "Ctrl K"
    (EN) / "Strg K" (DE); on phones the search glyph (unchanged).
 9. **How I work** loses its 01–04 numbering (grid and hairlines stay). The "×2"

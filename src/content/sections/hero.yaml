@@ -1,8 +1,7 @@
 # Hero copy. Tones: pro = formal (DE "Sie" where an address is needed), per = casual (DE "du").
 role_line:
-  en: "Software engineer"
-  de: "Softwareentwickler"
-stack: "Kotlin, Java, Spring"
+  en: "Backend software engineer"
+  de: "Backend-Softwareentwickler"
 lede:
   pro:
     en: "I build backend systems where many interfaces meet: test-first, with an eye for detail and code that stays easy to read."

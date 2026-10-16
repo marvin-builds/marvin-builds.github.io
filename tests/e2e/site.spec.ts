@@ -32,7 +32,8 @@ test.describe('first visit', () => {
     await expect(page.locator('html')).toHaveAttribute('data-culture', 'neutral');
     await expect(page).toHaveTitle('Marvin Mai');
     await expect(page.getByRole('heading', { level: 1 })).toHaveText(/Marvin\s*Mai/);
-    await expect(page.locator('.role')).toContainText('Software engineer · Kotlin, Java, Spring', { useInnerText: true });
+    await expect(page.locator('.role')).toHaveText('Backend software engineer', { useInnerText: true });
+    await expect(page.locator('meta[name="description"]')).toHaveAttribute('content', /^Marvin Mai, backend software engineer\. /);
     await expect(page.getByText('How should I introduce myself?')).toBeVisible();
     await expect(page.getByRole('navigation')).toBeHidden();
     await expect(page.locator('#experience')).toBeHidden();
@@ -95,6 +96,7 @@ test.describe('first visit', () => {
     await p.goto('/');
     await expect(p.locator('html')).toHaveAttribute('lang', 'de');
     await expect(p.getByText('Wie soll ich mich vorstellen?')).toBeVisible();
+    await expect(p.locator('.role')).toHaveText('Backend-Softwareentwickler', { useInnerText: true });
     await ctx.close();
   });
 });

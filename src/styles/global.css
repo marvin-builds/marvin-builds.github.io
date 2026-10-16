@@ -254,7 +254,6 @@ html[data-culture="personal"] .hero { --rh: 640; --cx: 1200; }
   margin: 14px 0 0; font-size: var(--r-size); line-height: 1.2; letter-spacing: -.012em;
   font-stretch: var(--h-wdth); font-weight: var(--h-wght); color: var(--ink); white-space: nowrap;
 }
-.role .stack { color: var(--ink-2); }
 
 /* the photographer's mark lives in the middle photograph (slot B), pinned to one feature of it through the same crop
    maths, a few px clear of that feature, with a short hairline leading to it; never mid-scene. It sits outside the
@@ -343,14 +342,12 @@ html[data-answered="true"] .next { display: flex; }
   .lede { font-size: 1.125rem; }
 }
 @media (max-width: 767px) {
-  .hero { --top: 84px; --stage: calc(var(--dP) * 1.68 + var(--r-size) * 2.4 + 12px); padding-bottom: 56px;
+  .hero { --top: 84px; --stage: calc(var(--dP) * 1.68 + var(--r-size) * 1.2 + 12px); padding-bottom: 56px;
     grid-template-columns: minmax(0, 1fr) auto; column-gap: 16px; row-gap: 64px; }
   html[data-answered="true"] .hero { padding-bottom: 32px; }
   .ident { grid-column: 1 / -1; }
   .name .ln + .ln { padding-left: 0; }
   .role { margin-top: 10px; }
-  .role .stack { display: block; color: var(--ink); }
-  .role .dot { display: none; }
   .lede { grid-column: 1; max-width: none; font-size: 1.125rem; }
   .portrait { grid-column: 2; --pw: 92px; }
   .side { grid-column: 1 / -1; grid-row: 3; margin-top: -40px; }
