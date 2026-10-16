@@ -5,7 +5,6 @@ import { getEntry } from 'astro:content';
 import personal from '../assets/photos/personal.jpg';
 import professional from '../assets/photos/professional.jpg';
 import { UI } from '../i18n/ui';
-import { SITE } from '../site';
 import Plane from './Plane.astro';
 import T from './T.astro';
 
@@ -38,11 +37,6 @@ const portraitSizes = '(max-width: 767px) 92px, clamp(104px, min(15vw, 26vh), 23
     </div>
     <p class="next">
       <a href="#contact"><span class="u"><T t={hero.onward} /></span></a>
-      <a class="gh" href={SITE.github} rel="me noopener" target="_blank"
-        ><span class="u">github.com/marvin-builds</span><span class="ext" aria-hidden="true">&nbsp;↗</span><span class="sr-only"
-          ><span lang="en"> (opens in a new tab)</span><span lang="de"> (öffnet in neuem Tab)</span></span
-        ></a
-      >
     </p>
   </div>
 
