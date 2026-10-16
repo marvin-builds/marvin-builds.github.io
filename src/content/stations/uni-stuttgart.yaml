@@ -1,0 +1,26 @@
+id: "uni-stuttgart"
+org:
+  en: "University of Stuttgart"
+  de: "Universität Stuttgart"
+from: "2022-04"
+to: "2024-02"
+role:
+  en: "Master's student, technical education"
+  de: "Masterstudent Technikpädagogik"
+gist:
+  en: "Master's studies in technical education with the aim of becoming a teacher, with lectures and seminars in education and computer science as the second teaching subject. Along the way I decided that teaching was not my path, left without a degree and returned to software engineering."
+  de: "Masterstudium der Technikpädagogik mit dem Ziel Lehramt, mit pädagogischen Vorlesungen und Seminaren und Informatik als zweitem Fach. Unterwegs habe ich gemerkt, dass das Unterrichten nicht mein Weg ist, das Studium ohne Abschluss beendet und bin in die Softwareentwicklung zurückgekehrt."
+work:
+  - title:
+      en: "Education"
+      de: "Pädagogik"
+    text:
+      en: "Lectures and seminars in education and teaching."
+      de: "Vorlesungen und Seminare in Pädagogik und Didaktik."
+  - title:
+      en: "Computer science"
+      de: "Informatik"
+    text:
+      en: "Computer science courses for the second teaching subject, among them a programming project in 2022: shortest-path routing on the road network of Germany."
+      de: "Informatik-Lehrveranstaltungen für das zweite Fach, darunter 2022 ein Programmierprojekt: Kürzeste-Wege-Routing auf dem Straßennetz Deutschlands."
+tech: []

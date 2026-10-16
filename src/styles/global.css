@@ -503,7 +503,8 @@ html[data-culture="personal"] .clearing { --rb: 1104; --bx: 1104; --kx: 1500; --
 
 /* ---------- Contact: modest, in proportion ---------- */
 #contact { padding: clamp(32px, 6svh, 72px) var(--gutter) 0; }
-.contact-lead { margin: 20px 0 22px; max-width: 42ch; font-size: clamp(1.1875rem, 1rem + .5vw, 1.4375rem); line-height: 1.42; text-wrap: pretty; }
+.contact-lead { margin: 20px 0 10px; max-width: 42ch; font-size: clamp(1.1875rem, 1rem + .5vw, 1.4375rem); line-height: 1.42; text-wrap: pretty; }
+.contact-facts { margin: 0 0 22px; color: var(--ink-2); font-size: clamp(1rem, .95rem + .2vw, 1.125rem); }
 .reach { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; align-items: center; gap: 4px 36px; font-size: clamp(1.0625rem, 1rem + .25vw, 1.25rem); }
 .reach li { display: flex; align-items: center; gap: 14px; min-height: 44px; }
 .reach a, .reach button.line { display: inline-flex; align-items: center; min-height: 44px; font-weight: 540; text-decoration: none; }

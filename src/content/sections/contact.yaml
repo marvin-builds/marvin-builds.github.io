@@ -13,6 +13,10 @@ lead:
   per:
     en: "Hiring, or building something where lots of systems have to talk to each other? Write me."
     de: "Du suchst Verstärkung oder baust etwas, bei dem viele Systeme miteinander reden müssen? Schreib mir."
+# where I am based and my languages: facts, so one tone
+facts:
+  en: "Stuttgart, Germany · German (native), English (fluent)"
+  de: "Stuttgart · Deutsch (Muttersprache), Englisch (fließend)"
 reveal_label:
   pro:
     en: "Show e-mail address"

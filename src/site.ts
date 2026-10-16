@@ -7,5 +7,5 @@ export const SITE = {
   // anonymous page views and the chosen tone (footer colophon)
   goatcounter: 'https://marvin-builds.goatcounter.com/count',
   // the order of the stations on the page, newest first
-  stations: ['element-logic', 'duerr-engineer', 'duerr-dual-study'],
+  stations: ['element-logic', 'uni-stuttgart', 'duerr-engineer', 'duerr-dual-study'],
 };

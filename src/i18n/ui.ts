@@ -27,6 +27,7 @@ export const UI = {
     heading: t('Experience', 'Berufserfahrung'),
     today: t('today', 'heute'),
     official: t('Official title: ', 'Offizielle Bezeichnung: '),
+    former: t('Formerly ', 'Früher '),
     filter: t('Filter by technology', 'Nach Technologie filtern'),
     technologies: t('Technologies', 'Technologien'),
     lead: t('Select one to light up the positions that used it.', 'Eine auswählen, um die Stationen hervorzuheben, in denen sie genutzt wurde.'),

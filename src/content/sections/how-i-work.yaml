@@ -37,5 +37,5 @@ items:
       en: "AI tools, same standards."
       de: "KI-Werkzeuge, gleiche Maßstäbe."
     text:
-      en: "I use AI-assisted development every day and treat its output like a pull request from the team: tested first, then read line by line."
-      de: "Ich entwickle täglich KI-gestützt und behandle das Ergebnis wie einen Pull Request aus dem Team: erst getestet, dann Zeile für Zeile gelesen."
+      en: "At work I use AI-assisted development every day and treat its output like a pull request from the team: tested first, then read line by line. In side projects I test how far agents get on their own."
+      de: "Beruflich entwickle ich täglich KI-gestützt und behandle das Ergebnis wie einen Pull Request aus dem Team: erst getestet, dann Zeile für Zeile gelesen. In Nebenprojekten teste ich, wie weit Agenten allein kommen."

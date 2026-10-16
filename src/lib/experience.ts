@@ -5,7 +5,7 @@ export type Lang = 'en' | 'de';
 export type Tech = string | Localized;
 export interface StationLike {
   id: string;
-  org: string;
+  org: string | Localized;
   from: string;
   to: string | null;
   tech: Tech[];
@@ -18,7 +18,7 @@ export interface Skill {
 
 export const yearSpan = (s: Pick<StationLike, 'from' | 'to'>) => ({ from: s.from.slice(0, 4), to: s.to ? s.to.slice(0, 4) : null });
 
-const labelOf = (t: Tech): Localized => (typeof t === 'string' ? { en: t, de: t } : t);
+export const labelOf = (t: Tech): Localized => (typeof t === 'string' ? { en: t, de: t } : t);
 
 export function skillKey(t: Tech): string {
   return labelOf(t)
@@ -55,7 +55,7 @@ export function spanText(s: Pick<StationLike, 'from' | 'to'>, lang: Lang): strin
 /** "Java: used at Element Logic (2024–today) and Dürr Systems (2018–2021)." */
 export function readout(label: string, hits: StationLike[], lang: Lang): string {
   const w = words[lang];
-  const parts = hits.map((s) => `${s.org} (${spanText(s, lang)})`);
+  const parts = hits.map((s) => `${labelOf(s.org)[lang]} (${spanText(s, lang)})`);
   const list = parts.length > 1 ? `${parts.slice(0, -1).join(', ')} ${w.and} ${parts.at(-1)}` : (parts[0] ?? '');
   return `${label}: ${w.used} ${list}.`;
 }

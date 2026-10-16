@@ -136,11 +136,16 @@ test.describe('answered, formal', () => {
 
   test('renders the stations from the content files', async ({ page }) => {
     const stations = page.locator('.station');
-    await expect(stations).toHaveCount(3);
+    await expect(stations).toHaveCount(4);
     await expect(stations.nth(0)).toContainText('Element Logic');
     await expect(stations.nth(0).locator('.st-years')).toContainText('2024–today');
-    await expect(stations.nth(1)).toContainText('Official title: Development Engineer MES & IIoT');
-    await expect(stations.nth(2)).toContainText('B.Eng. Mechatronics, DHBW Stuttgart, 2018');
+    await expect(stations.nth(0).locator('.st-former')).toHaveText('Formerly S&P Computersysteme GmbH', { useInnerText: true });
+    await expect(stations.nth(1)).toContainText('University of Stuttgart');
+    await expect(stations.nth(1).locator('.st-years')).toContainText('2022–2024');
+    await expect(stations.nth(1).locator('.st-org')).toHaveText('University of Stuttgart', { useInnerText: true });
+    await expect(stations.nth(1).locator('.st-tech')).toHaveCount(0);
+    await expect(stations.nth(2)).toContainText('Official title: Development Engineer MES & IIoT');
+    await expect(stations.nth(3)).toContainText('B.Eng. Mechatronics, DHBW Stuttgart, 2018');
   });
 
   test('expands and collapses a station', async ({ page }) => {
@@ -150,7 +155,7 @@ test.describe('answered, formal', () => {
     await expect(page.getByText('Connecting automated storage systems')).toBeVisible();
     await second.click();
     await expect(second).toHaveAttribute('aria-expanded', 'true');
-    await expect(page.getByText('Knowledge transfer')).toBeVisible();
+    await expect(page.getByText('Lectures and seminars in education and teaching.')).toBeVisible();
     await first.click();
     await expect(first).toHaveAttribute('aria-expanded', 'false');
     await expect(page.getByText('Connecting automated storage systems')).toBeHidden();
@@ -159,7 +164,7 @@ test.describe('answered, formal', () => {
   test('the technology filter lights the stations that used it', async ({ page }) => {
     await page.locator('#skill-list [data-skill="java"]').click();
     await expect(page.locator('.station.lit')).toHaveCount(2);
-    await expect(page.locator('.station.dim')).toHaveCount(1);
+    await expect(page.locator('.station.dim')).toHaveCount(2);
     await expect(page.locator('#skill-out')).toContainText('Java: used at Element Logic (2024–today) and Dürr Systems (2018–2021).');
     await page.keyboard.press('Escape');
     await expect(page.locator('.station.lit')).toHaveCount(0);
@@ -180,6 +185,7 @@ test.describe('answered, formal', () => {
     await page.getByRole('button', { name: 'Deutsch' }).click();
     await expect(page.locator('html')).toHaveAttribute('lang', 'de');
     await expect(page.locator('#h-exp')).toHaveText('Berufserfahrung', { useInnerText: true });
+    await expect(page.locator('.station').nth(1)).toContainText('Universität Stuttgart');
     await expect(page.locator('.portrait img.pp')).toHaveAttribute('alt', /Porträt von Marvin Mai/);
     expect(await page.evaluate(() => localStorage.getItem('mm-lang'))).toBe('de');
   });
@@ -242,6 +248,12 @@ test.describe('answered, formal', () => {
     await opener.click();
     await page.keyboard.press('Escape');
     await expect(opener).toBeFocused();
+  });
+
+  test('says where I am based and which languages I speak', async ({ page }) => {
+    await expect(page.locator('#contact .contact-facts')).toHaveText('Stuttgart, Germany · German (native), English (fluent)', { useInnerText: true });
+    await page.getByRole('button', { name: 'Deutsch' }).click();
+    await expect(page.locator('#contact .contact-facts')).toHaveText('Stuttgart · Deutsch (Muttersprache), Englisch (fließend)', { useInnerText: true });
   });
 
   test('contact links and header controls are easy to hit', async ({ page }) => {

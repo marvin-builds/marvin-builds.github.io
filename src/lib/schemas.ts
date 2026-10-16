@@ -10,17 +10,20 @@ const month = z.string().regex(/^\d{4}-(0[1-9]|1[0-2])$/, 'expected YYYY-MM');
 export const stationSchema = z
   .object({
     id: text,
-    org: text,
+    // a name, or a name that differs by language
+    org: z.union([text, localized]),
     from: month,
     to: month.nullable(),
     role: localized,
     official: localized.optional(),
-    area: localized,
+    // the employer's earlier company name, as it appears in older documents
+    former: text.optional(),
+    area: localized.optional(),
     edu: localized.optional(),
     gist: localized,
     work: z.array(z.object({ title: localized, text: localized }).strict()).min(1),
-    // a product name, or a phrase that is translated
-    tech: z.array(z.union([text, localized])).min(1),
+    // a product name, or a phrase that is translated; empty for a station without a technology stack
+    tech: z.array(z.union([text, localized])),
   })
   .strict();
 
@@ -45,6 +48,7 @@ export const contactSchema = z
   .object({
     heading: toned,
     lead: toned,
+    facts: localized,
     reveal_label: toned,
     copy_label: localized,
     copied_label: localized,
