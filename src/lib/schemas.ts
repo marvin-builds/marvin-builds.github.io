@@ -27,7 +27,6 @@ export const stationSchema = z
 export const heroSchema = z
   .object({
     role_line: localized,
-    stack: text,
     lede: toned,
     now_line: toned,
     onward: toned,
