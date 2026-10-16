@@ -9,11 +9,22 @@ import Palette from '../components/Palette.astro';
 import { UI } from '../i18n/ui';
 import Base from '../layouts/Base.astro';
 import T from '../components/T.astro';
+import { getCollection, getEntry } from 'astro:content';
+import { personJsonLd } from '../lib/structured-data';
+import { SITE } from '../site';
+
+const hero = (await getEntry('hero', 'hero'))!.data;
+const description =
+  'Marvin Mai, backend software engineer. Backend systems with many interfaces, built test-first, with an eye for detail and code that is easy to read.';
+const stations = (await getCollection('stations')).map((e) => e.data);
+const ordered = SITE.stations.map((id) => stations.find((s) => s.id === id)!);
+const jsonLd = personJsonLd(ordered, { url: Astro.site!.href, description, sameAs: [SITE.github] });
 ---
 
 <Base
-  title="Marvin Mai"
-  description="Marvin Mai, backend software engineer. Backend systems with many interfaces, built test-first, with an eye for detail and code that is easy to read."
+  title={{ en: `Marvin Mai – ${hero.role_line.en}`, de: `Marvin Mai – ${hero.role_line.de}` }}
+  description={description}
+  jsonLd={jsonLd}
 >
   <a class="skip" href="#main"><T t={UI.skip} /></a>
   <div class="light" aria-hidden="true"></div>

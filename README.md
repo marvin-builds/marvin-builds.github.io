@@ -1,14 +1,12 @@
 # personal-site
 
-The personal website of **Marvin Mai**, software engineer (Kotlin, Java,
-Spring). It introduces me to future employers and colleagues: where I have
-worked, what I built there and how I like to work.
+The personal website of **Marvin Mai**, backend software engineer. It
+introduces me to future employers and colleagues: where I have worked, what I
+built there and how I like to work.
 
-> **Status:** in development. The design is settled and lives as a clickable
-> mock in [`docs/design/mock.html`](docs/design/mock.html); the Astro
-> implementation follows the [design spec](docs/design-spec.md). Until it is
-> done, [marvin-builds.github.io](https://marvin-builds.github.io) shows a short
-> holding page.
+Live at **[marvin-builds.github.io](https://marvin-builds.github.io)**. The
+design is written down in the [design spec](docs/design-spec.md), with a
+clickable mock in [`docs/design/mock.html`](docs/design/mock.html).
 
 ## The idea
 
@@ -22,17 +20,21 @@ myself? Formally or casually?"**
 
 The choice changes colours, photographs, typography **and** the wording of
 every text. It can be changed at any time; the page then re-renders through a
-diagonal wipe. Light and dark follow the system setting until a day/night
-switch in the header overrides it, so there are four palettes in total. All atmosphere photographs are my own.
+diagonal wipe. The page starts at night; a day/night switch in the header
+changes it, and the command palette can make it follow the system setting, so
+there are four palettes in total. All atmosphere photographs are my own.
 
 ## Features
 
 - **Two tones, two languages:** every text exists in German and English, each
   in a formal and a casual version. Both tones ship in the HTML, so switching
   is instant and works without JavaScript.
-- **Experience timeline:** one card per position that expands in place, with
-  work areas, one-line outcomes and the technologies used.
-- **Skill map:** pick a technology to highlight every position that used it.
+- **Experience:** one entry per position that expands in place, with work
+  areas, one-line outcomes and the technologies used.
+- **Technology filter:** pick a technology to highlight every position that
+  used it.
+- **Findable:** a descriptive title in both languages, link previews, a
+  sitemap and schema.org data for search engines.
 - **Command palette:** <kbd>⌘K</kbd> / <kbd>Ctrl K</kbd> to jump to a
   section, switch tone or language, or copy the e-mail address.
 - **Light as interaction:** the cursor is a soft lamp over the page; on the
@@ -104,7 +106,7 @@ The denylist itself never enters the repository.
 ├── docs/
 │   ├── design-spec.md      the binding design: tokens, layout, motion, copy rules
 │   └── design/mock.html    clickable reference mock
-├── public/                 static files served as-is (favicon)
+├── public/                 static files served as-is (favicon, robots.txt, sitemap)
 ├── scripts/
 │   └── check-privacy.mjs   denylist scanner used by the pre-push hook
 ├── src/

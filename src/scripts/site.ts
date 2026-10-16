@@ -162,6 +162,7 @@ $$('[data-set-culture]').forEach((b) => b.addEventListener('click', () => themeT
 
 function setLang(l: Lang) {
   html.lang = l;
+  document.title = document.querySelector('title')!.dataset[l]!;
   store.set('mm-lang', l);
   sync();
 }
