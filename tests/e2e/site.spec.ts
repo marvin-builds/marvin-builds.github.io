@@ -325,3 +325,31 @@ test.describe('reduced motion', () => {
     await expect(page.locator('.light')).toBeHidden();
   });
 });
+
+test.describe('portraits', () => {
+  // the frame crops with object-fit: cover, so a photo wider than 4:5 paints wider than the frame
+  for (const dpr of [1, 2]) {
+    test.describe(`at ${dpr}x`, () => {
+      test.use({ viewport: { width: 1920, height: 1080 }, deviceScaleFactor: dpr });
+
+      for (const [culture, cls] of [['professional', 'pp'], ['personal', 'pe']] as const) {
+        test(`loads the ${culture} portrait at least as large as it is painted`, async ({ page }) => {
+          await answered(page, culture);
+          await page.goto('/');
+          const img = page.locator(`.portrait img.${cls}`);
+          await expect(img).toBeVisible();
+          await expect.poll(() => img.evaluate((i: HTMLImageElement) => i.complete && i.naturalWidth)).toBeTruthy();
+          // naturalWidth is divided by the srcset density, so measure the chosen file on its own
+          const { natural, painted } = await img.evaluate(async (i: HTMLImageElement) => {
+            const file = new Image();
+            file.src = i.currentSrc;
+            await file.decode();
+            const scale = Math.max(i.clientWidth / file.naturalWidth, i.clientHeight / file.naturalHeight);
+            return { natural: file.naturalWidth, painted: file.naturalWidth * scale * devicePixelRatio };
+          });
+          expect(natural).toBeGreaterThanOrEqual(Math.floor(painted));
+        });
+      }
+    });
+  }
+});

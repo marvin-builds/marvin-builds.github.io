@@ -9,7 +9,14 @@ import Plane from './Plane.astro';
 import T from './T.astro';
 
 const hero = (await getEntry('hero', 'hero'))!.data;
-const portraitSizes = '(max-width: 767px) 92px, clamp(104px, min(15vw, 26vh), 232px)';
+// the 4:5 frame crops with object-fit: cover, so a photo wider than 4:5 paints k times the frame's width
+const portrait = (src: ImageMetadata) => {
+  const k = Math.max(1, (src.width / src.height) * (5 / 4));
+  return {
+    sizes: `(max-width: 767px) ${Math.round(92 * k)}px, calc(clamp(104px, min(15vw, 26vh), 232px) * ${k.toFixed(3)})`,
+    widths: [184, 232, 464].map((w) => Math.min(Math.round(w * k), src.width)),
+  };
+};
 ---
 
 <section class="hero" aria-labelledby="hero-name">
@@ -41,9 +48,9 @@ const portraitSizes = '(max-width: 767px) 92px, clamp(104px, min(15vw, 26vh), 23
   </div>
 
   <figure class="portrait">
-    <Picture class="pp t-pro" src={professional} formats={['avif', 'webp']} widths={[184, 232, 464]} sizes={portraitSizes}
+    <Picture class="pp t-pro" src={professional} formats={['avif', 'webp']} {...portrait(professional)}
       alt={UI.portrait.pro.en} data-alt-en={UI.portrait.pro.en} data-alt-de={UI.portrait.pro.de} loading="eager" />
-    <Picture class="pe t-per" src={personal} formats={['avif', 'webp']} widths={[184, 232, 464]} sizes={portraitSizes}
+    <Picture class="pe t-per" src={personal} formats={['avif', 'webp']} {...portrait(personal)}
       alt={UI.portrait.per.en} data-alt-en={UI.portrait.per.en} data-alt-de={UI.portrait.per.de} loading="lazy" />
   </figure>
 </section>
