@@ -25,8 +25,8 @@ work:
       en: "Augmented reality"
       de: "Augmented Reality"
     text:
-      en: "First steps with augmented reality: a feasibility study for a demonstrator, and building on it my bachelor thesis, in which I wrote software for an AR application."
-      de: "Erste Schritte mit Augmented Reality: eine Machbarkeitsuntersuchung für einen Demonstrator und darauf aufbauend die Bachelorarbeit, in der ich Software für eine AR-Anwendung entwickelt habe."
+      en: "First steps with augmented reality: a feasibility study for a demonstrator, and building on it my bachelor thesis. On my own, I developed a HoloLens mixed reality application in C# with Unity that places CAD models from the design department true to scale and positioned as exactly as possible in the real plant, so that dimensioning errors show up before a part is installed. For this, I worked out toolsets to use the various CAD file formats that design produces anyway."
+      de: "Erste Schritte mit Augmented Reality: eine Machbarkeitsuntersuchung für einen Demonstrator und darauf aufbauend meine Bachelorarbeit. Darin habe ich eigenständig eine HoloLens-Mixed-Reality-Anwendung in C# mit Unity entwickelt, die CAD-Modelle aus der Konstruktion maßstabsgetreu und möglichst exakt positioniert in der realen Anlage einblendet, damit Dimensionierungsfehler auffallen, bevor ein Teil eingebaut wird. Dafür habe ich Toolsets erarbeitet, um die verschiedenen CAD-Dateiformate zu nutzen, die in der Konstruktion ohnehin anfallen."
   - title:
       en: "Commissioning in the USA"
       de: "Inbetriebnahme in den USA"
@@ -36,3 +36,5 @@ work:
 tech:
   - "OPC UA"
   - "C#"
+  - "Unity"
+  - "HoloLens"
