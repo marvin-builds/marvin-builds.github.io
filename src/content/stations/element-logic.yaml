@@ -53,5 +53,7 @@ tech:
   - "TeamCity"
   - "GitHub Actions"
   - "Linux"
+  - "Claude Code"
+  - "GitHub Copilot"
   - en: "AI-assisted development"
     de: "KI-gestützte Entwicklung"
