@@ -35,6 +35,9 @@ work:
       de: "Drei Monate im Werk eines Automobilherstellers, wohin mich Dürr Systems im Rahmen des dualen Studiums entsandt hat: praktische Mitarbeit beim Aufbau von Roboterlinien und ihrer Elektroinstallation."
 tech:
   - "OPC UA"
+  - en: "PLC"
+    de: "SPS"
+  - "Siemens S7-1500"
   - "C#"
   - "Unity"
   - "HoloLens"
