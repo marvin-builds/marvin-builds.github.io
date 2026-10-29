@@ -39,13 +39,22 @@ work:
     text:
       en: "On my own initiative, I evaluated IntelliJ IDEA and convinced management to make it the official IDE of the software department, more than 100 developers who had worked with Eclipse until then. I prepared the training materials and was the person to ask afterwards. I also set up continuous integration for the builds."
       de: "Auf eigene Initiative habe ich IntelliJ IDEA evaluiert und das Management überzeugt, es zur offiziellen IDE der Softwareabteilung mit über 100 Entwicklerinnen und Entwicklern zu machen, die bis dahin mit Eclipse gearbeitet hatten. Ich habe die Schulungsunterlagen erstellt und war danach Ansprechpartner bei Fragen. Außerdem habe ich die Continuous Integration für die Builds aufgebaut."
+  - title:
+      en: "Gas turbine control"
+      de: "Steuerung einer Gasturbine"
+    text:
+      en: "My first month, in the turbomachinery department: after a CODESYS training, I worked on the PLC control of a gas turbine for power generation, object-oriented in Structured Text and tested on the hardware on site. When the department was closed, I moved to manufacturing IT."
+      de: "Mein erster Monat, in der Abteilung für Turbomaschinen: Nach einer CODESYS-Schulung habe ich an der SPS-Steuerung einer Gasturbine zur Stromerzeugung mitgearbeitet, objektorientiert in Strukturiertem Text und getestet an der Hardware vor Ort. Als die Abteilung geschlossen wurde, bin ich in die Fertigungs-IT gewechselt."
 tech:
   - "Java"
   - "Java EE"
   - "JPA/Hibernate"
   - "JAX-RS"
   - "Oracle"
+  - "MSSQL"
   - "Vue.js"
   - "Qlik Sense"
   - "Maven"
   - "TeamCity"
+  - "CODESYS"
+  - "Structured Text"
