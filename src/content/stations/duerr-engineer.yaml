@@ -51,6 +51,7 @@ tech:
   - "JPA/Hibernate"
   - "JAX-RS"
   - "Oracle"
+  - "MSSQL"
   - "Vue.js"
   - "Qlik Sense"
   - "Maven"
